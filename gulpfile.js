@@ -8,6 +8,8 @@ var csslint = require('gulp-csslint');
 var rename = require("gulp-rename");
 var browserSync = require('browser-sync').create();
 var sass = require('gulp-sass');
+const cssnano = require('gulp-cssnano');
+const plumber = require( 'gulp-plumber' );
 
 
 var paths = {
@@ -40,7 +42,7 @@ gulp.task('images', ['clean'], function () {
     return gulp.src(paths.images)
     // Pass in options to the task
         .pipe(imagemin({optimizationLevel: 5}))
-        .pipe(gulp.dest('assets/images/'));
+        .pipe(gulp.dest('build/img'));
 });
 
 // Rerun the task when a file changes
@@ -59,17 +61,13 @@ gulp.task('css', function () {
  *
  * https://www.npmjs.com/package/gulp-uglify
  */
-gulp.task('min', function () {
+gulp.task('compress', function () {
 
     gulp.src('assets/js/*.js')
         .pipe(uglify())
         .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest('assets/js/'))
+        .pipe(gulp.dest('assets/js/'));
 
-    gulp.src('assets/css/*.css')
-        .pipe(uglify())
-        .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest('assets/css/'))
 });
 
 // Static server
@@ -101,7 +99,17 @@ gulp.task('sass', function () {
         .pipe(browserSync.stream());
 });
 
-gulp.task('min', ['min']);
+gulp.task('cssnano', function ()
+{
+    gulp.src('assets/css/*.css')
+       // .pipe(plumber({'errorHandler': handleErrors}))
+        .pipe(cssnano({
+            'safe': true // Use safe optimizations.
+        }))
+        // .pipe( rename( 'style.min.css' ) )
+        .pipe(gulp.dest('includes'))
+    //.pipe( browserSync.stream() )
+});
 
 
 gulp.task('default', ['serve']);
