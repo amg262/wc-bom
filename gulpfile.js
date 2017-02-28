@@ -59,7 +59,7 @@ gulp.task('css', function () {
  *
  * https://www.npmjs.com/package/gulp-uglify
  */
-gulp.task('compress', function (cb) {
+gulp.task('min', function () {
 
     gulp.src('assets/js/*.js')
         .pipe(uglify())
@@ -101,8 +101,7 @@ gulp.task('sass', function () {
         .pipe(browserSync.stream());
 });
 
-gulp.task('css', ['css']);
-
+gulp.task('min', ['min']);
 
 
 gulp.task('default', ['serve']);
