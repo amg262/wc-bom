@@ -77,17 +77,27 @@ class WC_Bom {
 	 */
 	public function check_requirements() {
 
-		if ( ! function_exists( 'is_woocommerce_activated' ) ) {
-			function is_woocommerce_activated() {
 
-				if ( class_exists( 'woocommerce' ) ) {
-					return true;
-				} else {
-					return false;
-				}
-			}
-		}
+		//if ( is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
+			//plugin is activated
+			add_action('admin_notices', [$this, 'requirements_error']);
+
+
+		//}
+
 	}
+
+	// display custom admin notice
+	public function requirements_error() { ?>
+
+
+
+		<div class="notice error is-dismissible">
+			<p><?php echo plugin_dir_url('woocommerce/woocommerce.php'); _e('<strong>WooCommerce</strong> must be installed and activated.', 'wc-bom'); ?></p>
+		</div>
+
+	<?php }
+
 	/**
 	 * @return mixed|void
 	 */

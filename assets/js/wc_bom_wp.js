@@ -12,7 +12,7 @@
 var WPAPI = require( 'wpapi' );
 var WPAPI = require( 'wpapi' );
 var wp = new WPAPI({ endpoint: 'http://src.wordpress-develop.dev/wp-json' });
-var apiPromise = WPAPI.discover( 'http://my-site.com' );
+var apiPromise = WPAPI.discover( host.url );
 
 var wordpress = require( "wordpress" );
 var client = wordpress.createClient({
