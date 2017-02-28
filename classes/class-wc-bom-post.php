@@ -253,6 +253,34 @@ class WC_Bom_Post {
 
 		register_post_type( 'change_notice', $args );
 
+		/**
+		 * Taxonomy: Inventory Types.
+		 */
+
+		$labels = array(
+			'name' => __( 'Inventory Types', 'wc-bom' ),
+			'singular_name' => __( 'Inventory Type', 'wc-bom' ),
+			'menu_name' => __( 'Inventory Type', 'wc-bom' ),
+		);
+
+		$args = array(
+			'label' => __( 'Inventory Types', 'wc-bom' ),
+			'labels' => $labels,
+			'public' => true,
+			'hierarchical' => true,
+			//'label' => 'Inventory Types',
+			'show_ui' => true,
+			'show_in_menu' => true,
+			'show_in_nav_menus' => true,
+			'query_var' => true,
+			'rewrite' => array( 'slug' => 'Inventory_type', 'with_front' => true,  'hierarchical' => true, ),
+			'show_admin_column' => true,
+			'show_in_rest' => true,
+			'rest_base' => 'Inventory-type',
+			'show_in_quick_edit' => true,
+		);
+		register_taxonomy( 'inventory_type', array( 'inventory_records' ), $args );
+
 	}
 }
 
