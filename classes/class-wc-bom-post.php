@@ -195,49 +195,13 @@ class WC_Bom_Post {
 		register_post_type( 'assembly', $args );
 
 		/**
-		 * Post Type: Inventory Records.
-		 */
-
-		$labels = [
-			'name'          => __( 'Inventory Records', 'wc-bom' ),
-			'singular_name' => __( 'Inventory Record', 'wc-bom' ),
-			'menu_name'     => __( 'Inventory', 'wc-bom' ),
-			'archives'      => __( 'Inventory Directory', 'wc-bom' ),
-		];
-
-		$args = [
-			'label'               => __( 'Inventory Records', 'wc-bom' ),
-			'labels'              => $labels,
-			'description'         => '',
-			'public'              => true,
-			'publicly_queryable'  => true,
-			'show_ui'             => true,
-			'show_in_rest'        => false,
-			'rest_base'           => 'inventory',
-			'has_archive'         => 'inventory-records',
-			'show_in_menu'        => true,
-			'show_in_menu_string' => 'wc-bom-admin',
-			'exclude_from_search' => false,
-			'capability_type'     => 'product',
-			'map_meta_cap'        => true,
-			'hierarchical'        => true,
-			'rewrite'             => [ 'slug' => 'inventory_records', 'with_front' => true ],
-			'query_var'           => true,
-			'menu_icon'           => 'dashicons-networking',
-			'supports'            => [ 'title', 'editor', 'thumbnail', 'revisions', 'author', 'page-attributes' ],
-		];
-
-		register_post_type( 'inventory_records', $args );
-
-		/**
 		 * Post Type: Change Notices.
 		 */
 
 		$labels = [
 			'name'          => __( 'Change Notices', 'wc-bom' ),
 			'singular_name' => __( 'Change Notice', 'wc-bom' ),
-			'menu_name'     => __( 'Change Notice', 'wc-bom' ),
-			'archives'      => __( 'Change Notice Directory', 'wc-bom' ),
+			'menu_name'     => __( 'Change Notices', 'wc-bom' ),
 		];
 
 		$args = [
@@ -248,21 +212,26 @@ class WC_Bom_Post {
 			'publicly_queryable'  => true,
 			'show_ui'             => true,
 			'show_in_rest'        => true,
-			'rest_base'           => 'ecn',
-			'has_archive'         => 'ecn-directory',
+			'rest_base'           => 'change-notice',
+			'has_archive'         => 'change-notices',
 			'show_in_menu'        => true,
-			'show_in_menu_string' => 'wc-bom-admin',
+			//'show_in_menu_string' => 'wc-bom-admin',
 			'exclude_from_search' => false,
 			'capability_type'     => 'product',
 			'map_meta_cap'        => true,
 			'hierarchical'        => true,
-			'rewrite'             => [ 'slug' => 'change_notice', 'with_front' => true ],
+			'rewrite'             => [ 'slug' => 'change-notice', 'with_front' => true ],
 			'query_var'           => true,
 			'menu_icon'           => 'dashicons-warning',
-			'supports'            => [ 'title', 'editor', 'thumbnail', 'revisions', 'author', 'page-attributes' ],
+			'supports'            => [ 'title',
+			                         //  'editor',
+			                           'thumbnail',
+			                           'revisions',
+			                           'author',
+			                           'page-attributes' ],
 		];
 
-		//register_post_type( 'change_notice', $args );
+		register_post_type( 'change_notice', $args );
 
 
 		/* Post Type: Purchases.
@@ -283,10 +252,10 @@ class WC_Bom_Post {
 			'publicly_queryable'  => true,
 			'show_ui'             => true,
 			'show_in_rest'        => true,
-			'rest_base'           => 'purchase-orders',
+			'rest_base'           => 'purchase-order',
 			'has_archive'         => 'purchase-orders',
 			'show_in_menu'        => true,
-			'show_in_menu_string' => 'wc-bom-admin',
+			//'show_in_menu_string' => 'wc-bom-admin',
 			'exclude_from_search' => false,
 			'capability_type'     => 'product',
 			'map_meta_cap'        => true,
@@ -294,38 +263,296 @@ class WC_Bom_Post {
 			'rewrite'             => [ 'slug' => 'purchase-order', 'with_front' => true ],
 			'query_var'           => true,
 			//'menu_icon'           => 'dashicons-warning',
-			'supports'            => [ 'title', 'editor', 'thumbnail', 'revisions', 'author', 'page-attributes' ],
+			'supports'            => [ 'title',
+			                           //'editor',
+			                           'thumbnail',
+			                           'revisions',
+			                           'author',
+			                           'page-attributes' ],
 		];
 
-		//register_post_type( 'purchase', $args );
-		/**
-		 * Taxonomy: Inventory Types.
+		register_post_type( 'purchase', $args );
+
+
+		/* Post Type: Purchases.
 		 */
 
-		$labels = array(
-			'name' => __( 'Vendors', 'wc-bom' ),
+		$labels = [
+			'name'          => __( 'Vendors', 'wc-bom' ),
 			'singular_name' => __( 'Vendor', 'wc-bom' ),
-			'menu_name' => __( 'Vendor', 'wc-bom' ),
-		);
+			'menu_name'     => __( 'Vendors', 'wc-bom' ),
+			//'archives'      => __( 'Purchase Directory', 'wc-bom' ),
+		];
 
-		$args = array(
-			'label' => __( 'Vendors', 'wc-bom' ),
-			'labels' => $labels,
-			'public' => true,
-			'hierarchical' => true,
-			//'label' => 'Inventory Types',
-			'show_ui' => true,
-			'show_in_menu' => true,
-			'show_in_nav_menus' => true,
-			'query_var' => true,
-			'rewrite' => array( 'slug' => 'vendor', 'with_front' => true,  'hierarchical' => true, ),
-			'show_admin_column' => true,
-			'show_in_rest' => true,
-			'rest_base' => 'action',
-			'show_in_quick_edit' => true,
-		);
-		//register_taxonomy( 'inventory_group', array( 'inventory_records' ), $args );
+		$args = [
+			'label'               => __( 'Vendors', 'wc-bom' ),
+			'labels'              => $labels,
+			'description'         => '',
+			'public'              => true,
+			'publicly_queryable'  => true,
+			'show_ui'             => true,
+			'show_in_rest'        => true,
+			'rest_base'           => 'vendor',
+			'has_archive'         => 'vendors',
+			'show_in_menu'        => true,
+			//'show_in_menu_string' => 'wc-bom-admin',
+			'exclude_from_search' => false,
+			'capability_type'     => 'product',
+			'map_meta_cap'        => true,
+			'hierarchical'        => true,
+			'rewrite'             => [ 'slug' => 'vendor', 'with_front' => true ],
+			'query_var'           => true,
+			//'menu_icon'           => 'dashicons-warning',
+			'supports'            => [ 'title',
+			                           //'editor',
+			                           'thumbnail',
+			                           'revisions',
+			                           'author',
+			                           'page-attributes' ],
+		];
 
+		register_post_type( 'vendor', $args );
+
+
+		/* Post Type: Purchases.
+		 */
+
+		$labels = [
+			'name'          => __( 'Requisitions', 'wc-bom' ),
+			'singular_name' => __( 'Requisition', 'wc-bom' ),
+			'menu_name'     => __( 'Requisitions', 'wc-bom' ),
+			//'archives'      => __( 'Purchase Directory', 'wc-bom' ),
+		];
+
+		$args = [
+			'label'               => __( 'Requisitions', 'wc-bom' ),
+			'labels'              => $labels,
+			'description'         => '',
+			'public'              => true,
+			'publicly_queryable'  => true,
+			'show_ui'             => true,
+			'show_in_rest'        => true,
+			'rest_base'           => 'requisitions',
+			'has_archive'         => 'requisitions',
+			'show_in_menu'        => true,
+			//'show_in_menu_string' => 'wc-bom-admin',
+			'exclude_from_search' => false,
+			'capability_type'     => 'product',
+			'map_meta_cap'        => true,
+			'hierarchical'        => true,
+			'rewrite'             => [ 'slug' => 'requisitions', 'with_front' => true ],
+			'query_var'           => true,
+			//'menu_icon'           => 'dashicons-warning',
+			'supports'            => [ 'title',
+			                           //'editor',
+			                           'thumbnail',
+			                           'revisions',
+			                           'author',
+			                           'page-attributes' ],
+		];
+
+		register_post_type( 'requisitions', $args );
+
+
+		/* Post Type: Purchases.
+		 */
+
+		$labels = [
+			'name'          => __( 'Shipments', 'wc-bom' ),
+			'singular_name' => __( 'Shipment', 'wc-bom' ),
+			'menu_name'     => __( 'Shipments', 'wc-bom' ),
+			//'archives'      => __( 'Purchase Directory', 'wc-bom' ),
+		];
+
+		$args = [
+			'label'               => __( 'Shipments', 'wc-bom' ),
+			'labels'              => $labels,
+			'description'         => '',
+			'public'              => true,
+			'publicly_queryable'  => true,
+			'show_ui'             => true,
+			'show_in_rest'        => true,
+			'rest_base'           => 'shipment',
+			'has_archive'         => 'shipments',
+			'show_in_menu'        => true,
+			//'show_in_menu_string' => 'wc-bom-admin',
+			'exclude_from_search' => false,
+			'capability_type'     => 'product',
+			'map_meta_cap'        => true,
+			'hierarchical'        => true,
+			'rewrite'             => [ 'slug' => 'shipment', 'with_front' => true ],
+			'query_var'           => true,
+			//'menu_icon'           => 'dashicons-warning',
+			'supports'            => [ 'title',
+			                           //'editor',
+			                           'thumbnail',
+			                           'revisions',
+			                           'author',
+			                           'page-attributes' ],
+		];
+
+		register_post_type( 'shipment', $args );
+
+
+		/* Post Type: Purchases.
+		 */
+
+		$labels = [
+			'name'          => __( 'Purchase Orders', 'wc-bom' ),
+			'singular_name' => __( 'Purchase Order', 'wc-bom' ),
+			'menu_name'     => __( 'Purchases', 'wc-bom' ),
+			//'archives'      => __( 'Purchase Directory', 'wc-bom' ),
+		];
+
+		$args = [
+			'label'               => __( 'Purchase Orders', 'wc-bom' ),
+			'labels'              => $labels,
+			'description'         => '',
+			'public'              => true,
+			'publicly_queryable'  => true,
+			'show_ui'             => true,
+			'show_in_rest'        => true,
+			'rest_base'           => 'purchase-order',
+			'has_archive'         => 'purchase-orders',
+			'show_in_menu'        => true,
+			//'show_in_menu_string' => 'wc-bom-admin',
+			'exclude_from_search' => false,
+			'capability_type'     => 'product',
+			'map_meta_cap'        => true,
+			'hierarchical'        => true,
+			'rewrite'             => [ 'slug' => 'purchase-order', 'with_front' => true ],
+			'query_var'           => true,
+			//'menu_icon'           => 'dashicons-warning',
+			'supports'            => [ 'title',
+			                           //'editor',
+			                           'thumbnail',
+			                           'revisions',
+			                           'author',
+			                           'page-attributes' ],
+		];
+
+		register_post_type( 'purchase', $args );
+
+
+		/* Post Type: Purchases.
+		 */
+
+		$labels = [
+			'name'          => __( 'Purchase Orders', 'wc-bom' ),
+			'singular_name' => __( 'Purchase Order', 'wc-bom' ),
+			'menu_name'     => __( 'Purchases', 'wc-bom' ),
+			//'archives'      => __( 'Purchase Directory', 'wc-bom' ),
+		];
+
+		$args = [
+			'label'               => __( 'Purchase Orders', 'wc-bom' ),
+			'labels'              => $labels,
+			'description'         => '',
+			'public'              => true,
+			'publicly_queryable'  => true,
+			'show_ui'             => true,
+			'show_in_rest'        => true,
+			'rest_base'           => 'purchase-order',
+			'has_archive'         => 'purchase-orders',
+			'show_in_menu'        => true,
+			//'show_in_menu_string' => 'wc-bom-admin',
+			'exclude_from_search' => false,
+			'capability_type'     => 'product',
+			'map_meta_cap'        => true,
+			'hierarchical'        => true,
+			'rewrite'             => [ 'slug' => 'purchase-order', 'with_front' => true ],
+			'query_var'           => true,
+			//'menu_icon'           => 'dashicons-warning',
+			'supports'            => [ 'title',
+			                           //'editor',
+			                           'thumbnail',
+			                           'revisions',
+			                           'author',
+			                           'page-attributes' ],
+		];
+
+		register_post_type( 'purchase', $args );
+
+	}
+
+	public function register_secondary() {
+		/* Post Type: Purchases.
+		 */
+
+		$labels = [
+			'name'          => __( 'Vendors', 'wc-bom' ),
+			'singular_name' => __( 'Vendor', 'wc-bom' ),
+			'menu_name'     => __( 'Vendors', 'wc-bom' ),
+			//'archives'      => __( 'Purchase Directory', 'wc-bom' ),
+		];
+
+		$args = [
+			'label'               => __( 'Vendors', 'wc-bom' ),
+			'labels'              => $labels,
+			'description'         => '',
+			'public'              => true,
+			'publicly_queryable'  => true,
+			'show_ui'             => true,
+			'show_in_rest'        => true,
+			'rest_base'           => 'vendor',
+			'has_archive'         => 'vendors',
+			'show_in_menu'        => true,
+			//'show_in_menu_string' => 'wc-bom-admin',
+			'exclude_from_search' => false,
+			'capability_type'     => 'vendor',
+			'map_meta_cap'        => true,
+			'hierarchical'        => true,
+			'rewrite'             => [ 'slug' => 'vendor', 'with_front' => true ],
+			'query_var'           => true,
+			//'menu_icon'           => 'dashicons-warning',
+			'supports'            => [ 'title',
+			                           //'editor',
+			                           'thumbnail',
+			                           'revisions',
+			                           'author',
+			                           'page-attributes' ],
+		];
+
+		register_post_type( 'vendors', $args );
+
+		/* Post Type: Purchases.
+		 */
+
+		$labels = [
+			'name'          => __( 'Requisitions', 'wc-bom' ),
+			'singular_name' => __( 'Requisition', 'wc-bom' ),
+			'menu_name'     => __( 'Requisition', 'wc-bom' ),
+			//'archives'      => __( 'Purchase Directory', 'wc-bom' ),
+		];
+
+		$args = [
+			'label'               => __( 'Requisitions', 'wc-bom' ),
+			'labels'              => $labels,
+			'description'         => '',
+			'public'              => true,
+			'publicly_queryable'  => true,
+			'show_ui'             => true,
+			'show_in_rest'        => true,
+			'rest_base'           => 'requisition',
+			'has_archive'         => 'requisitions',
+			'show_in_menu'        => true,
+			//'show_in_menu_string' => 'wc-bom-admin',
+			'exclude_from_search' => false,
+			'capability_type'     => 'requisition',
+			'map_meta_cap'        => true,
+			'hierarchical'        => true,
+			'rewrite'             => [ 'slug' => 'requisition', 'with_front' => true ],
+			'query_var'           => true,
+			//'menu_icon'           => 'dashicons-warning',
+			'supports'            => [ 'title',
+			                           //'editor',
+			                           'thumbnail',
+			                           'revisions',
+			                           'author',
+			                           'page-attributes' ],
+		];
+
+		register_post_type( 'requisition', $args );
 	}
 }
 
