@@ -7,7 +7,7 @@
  * https://andrewgunn.org
  */
 /*
-* Plugin Name: LogicBOM
+* Plugin Name: WooBOM
 * Plugin URI: https/nextraa.us
 * Description: Bill of Materials add-on for WooCommerce for raw material tracking, inventory, and production metrics.
 * Version: 1.0
@@ -16,6 +16,7 @@
 * Text Domain: logicbom
 * License: GPL2
 */
+namespace WooBom;
 
 /**
  * Class WC_Bom
@@ -59,6 +60,17 @@ class WC_Bom {
 	public function activate() {
 
 		flush_rewrite_rules();
+	}
+	public function localize_host_info() {
+
+		$host = [
+			'url' => bloginfo( 'url' ),
+			'wpurl' => bloginfo( 'wpurl' ),
+			'name' => bloginfo( 'name' ),
+			'admin' => bloginfo( 'admin_email' ),
+		];
+
+		wp_localize_script( 'host_info','host', $host );
 	}
 	/**
 	 *

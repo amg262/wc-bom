@@ -15,5 +15,6 @@
  * Time: 6:44 PM
  */
 class WC_Bom_Setup {
+	private $goon;
 
 }

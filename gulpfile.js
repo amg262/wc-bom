@@ -1,10 +1,13 @@
 var gulp = require('gulp');
+var pump = require('pump');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var imagemin = require('gulp-imagemin');
-var sourcemaps = require('gulp-sourcemaps');
 var del = require('del');
 var csslint = require('gulp-csslint');
+var rename = require("gulp-rename");
+var browserSync = require('browser-sync').create();
+var sass = require('gulp-sass');
 
 
 var paths = {
@@ -19,6 +22,7 @@ gulp.task('clean', function () {
     // You can use multiple globbing patterns as you would with `gulp.src`
     return del(['build']);
 });
+
 
 gulp.task('scripts', ['clean'], function () {
     // Minify and copy all JavaScript (except vendor scripts)
@@ -46,7 +50,7 @@ gulp.task('watch', function () {
 });
 
 gulp.task('css', function () {
-    gulp.src('assets/css/*.css')c
+    gulp.src('assets/css/*.css')
         .pipe(csslint())
         .pipe(csslint.formatter());
 });
@@ -55,16 +59,50 @@ gulp.task('css', function () {
  *
  * https://www.npmjs.com/package/gulp-uglify
  */
-gulp.task('uglify', function () {
-    gulp.src(paths.js)
-        .pipe(rename({'suffix': '.min'}))
-        .pipe(uglify({
-            'mangle': false
-        }))
-        .pipe(gulp.dest('assets/js'));
+gulp.task('compress', function (cb) {
+
+    gulp.src('assets/js/*.js')
+        .pipe(uglify())
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest('assets/js/'))
+
+    gulp.src('assets/css/*.css')
+        .pipe(uglify())
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest('assets/css/'))
+});
+
+// Static server
+gulp.task('browser-sync', function () {
+    browserSync.init({
+        server: {
+            baseDir: "./"
+        }
+    });
 });
 
 
+// Static Server + watching scss/html files
+gulp.task('serve', ['sass'], function () {
+
+    browserSync.init({
+        proxy: "http://www.devnet.dev"
+    });
+
+    //gulp.watch("assets/scss/*.scss", ['sass']);
+    gulp.watch("classes/*.php").on('change', browserSync.reload);
+});
+
+// Compile sass into CSS & auto-inject into browsers
+gulp.task('sass', function () {
+    return gulp.src("app/scss/*.scss")
+        .pipe(sass())
+        .pipe(gulp.dest("app/css"))
+        .pipe(browserSync.stream());
+});
+
+
+gulp.task('default', ['serve']);
 // The default task (called when you run `gulp` from cli)
 //gulp.task('default', ['watch', 'scripts', 'images']);
 gulp.task('default', ['watch', 'images']);
