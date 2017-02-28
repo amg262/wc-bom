@@ -27,7 +27,9 @@ class WC_Bom_Settings {
 
 		add_action( 'admin_menu', [ $this, 'wc_bom_menu' ] );
 		add_action( 'admin_init', [ $this, 'page_init' ] );
-
+		add_action( 'admin_enqueue_scripts', [ $this,'wco_admin'] );
+		add_action( 'wp_ajax_wco_ajax',[ $this,'wco_admin'] );
+		//add_action( 'wp_ajax_nopriv_wco_ajax', [ $this,'wco_admin'] );
 		//add_filter('custom_menu_order', [$this,'custom_menu_order']); // Activate custom_menu_order
 		//add_filter('menu_order', [$this,'custom_menu_order']);
 	}
@@ -62,7 +64,7 @@ class WC_Bom_Settings {
 			'settings_callback',
 		] );*/
 
-		add_submenu_page( 'wc-bom', 'BOM Admin', 'BOM Settings', 'manage_options', 'bom-admin', [
+		add_submenu_page( 'wc-bom-options', 'BOM Admin', 'BOM Settings', 'manage_options', 'bom-admin', [
 			$this,
 			'settings_page',
 		] );
@@ -152,19 +154,17 @@ class WC_Bom_Settings {
             <form method="post" action="options.php">
 
 				<?php if ( $active_tab === 'display_options' ) {
-					settings_fields( 'sandbox_theme_display_options' );
-					do_settings_sections( 'sandbox_theme_display_options' );
+					// This prints out all hidden setting fields
+					settings_fields( 'wc_bom_options' );
+					do_settings_sections( 'wc-bom-options' );
 				} else {
+					echo 'hi';
 					settings_fields( 'sandbox_theme_social_options' );
 					do_settings_sections( 'sandbox_theme_social_options' );
-				} // end if/else
+				} // end if/else//wc_bom_options_group2
 
-
-					// This prints out all hidden setting fields
-					settings_fields( 'wc_bom_options_group' );
-					do_settings_sections( 'wc-bom-options-admin' );
-					submit_button( 'Save Options' );
-					?>
+				submit_button( 'Save Options' );
+				?>
 
                 submit_button(); ?>
 
@@ -186,20 +186,26 @@ class WC_Bom_Settings {
 			[ $this, 'sanitize' ] // Sanitize
 		);
 
-		add_settings_section(
-			'wc_bom_options_section', // ID
-			'Title', // Title
-			[ $this, 'print_option_info' ], // Callback
-			'wc-bom-options-admin' // Page
+		register_setting(
+			'wc_bom_options_group2', // Option group
+			'wc_bom_options_2', // Option name
+			[ $this, 'sanitize' ] // Sanitize
 		);
 
 		add_settings_section(
-			'wc_bom_option', // ID
+			'wc_bom_options_info', // ID
+			'Title', // Title
+			[ $this, 'print_option_info' ], // Callback
+			'wc-bom-options' // Page
+		);
+
+		add_settings_section(
+			'wc_bom_options_main', // ID
 			'Title', // Title
 			[ $this, 'settings_callback' ], // Callback
-			'wc-bom-options-admin', // Page
-			'wc_bom_options_section' // Section
+			'wc-bom-options' // Page
 		);
+
 	}
 
 
@@ -233,6 +239,43 @@ class WC_Bom_Settings {
 	<?php }
 
 
+	public static function wco_admin() {
+		$nonce = wp_create_nonce( 'wco-nonce' );
+		//wp_register_script( 'wc_bom_admin_js', plugins_url( 'assets/js/wc_bom_admin.js', __FILE__ ), [ 'jquery' ] );
+
+		$file = plugins_url( 'assets/js/wc_bom_admin.js', __DIR__ );
+
+		if ( ! empty( $file ) ) {
+			wp_register_script( 'wco_admin_js', $file, [ 'jquery' ] );
+			wp_enqueue_script( 'wco_admin_js' );
+
+			$ajax_object = [
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
+				'nonce'    => $nonce,
+				'whatever' => 'product',
+			];
+			wp_localize_script( 'wco_admin_js', 'ajax_object', $ajax_object );
+		}
+	}
+
+
+	public static function wco_ajax() {
+		//global $wpdb;
+
+		check_ajax_referer( 'wco-nonce', 'security' );
+
+
+		$whatever = $_POST[ 'whatever' ];
+		$posts    = get_posts( [ 'post_type' => $whatever ] );
+
+		foreach ( $posts as $p ) {
+			echo $p->post_title . '<br>';
+		}
+		//$whatever = intval( $_POST['whatever'] );
+		//$whatever += 10;
+		//echo $whatever;
+		wp_die();
+	}
 	/**
 	 * Get the settings option array and print one of its values
 	 */
@@ -249,7 +292,15 @@ class WC_Bom_Settings {
 
 		//var_dump($wc_bom_options);?>
         <div id="">
+            <fieldset>
+		        <?php $key = 'purchase_orders';
+		        //var_dump($trail_story_options[$key]);?>
+                <input id='wc_bom_options[<?php echo $key; ?>]'
+                       name="wc_bom_options[<?php echo $key; ?>]" type="checkbox"
+                       value="1" <?php checked( 1, $wc_bom_options[ $key ], true ); ?> />
 
+                <p class="description"></p>
+            </fieldset>
         </div>
 
 	<?php }

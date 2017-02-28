@@ -56,8 +56,7 @@ class WC_Bom {
 		//register_activation_hook( __FILE__, [ $this, 'activate' ] );
 		$this->plugin_options();
 		$this->load_assets();
-		add_action( 'wp_enqueue_scripts', [ $this, 'load_assets' ] );
-		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_assets' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'load_assets' ] );
 		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
 		include_once __DIR__ . '/classes/class-wc-bom-post.php';
 		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
@@ -77,6 +76,29 @@ class WC_Bom {
 		flush_rewrite_rules();
 	}
 
+	/**
+	 * @return mixed|void
+	 */
+	public function plugin_options() {
+
+		$this->options = get_option( 'wc_bom_options' );
+		if ( ! $this->options ) {
+			$args = [ 'init' => true, 'config' => false ];
+			add_option( 'wc_bom_options', $args );
+		}
+		if ( function_exists( 'acf_add_options_page' ) ) {
+			$option_page =
+				acf_add_options_page( [
+					                      'page_title' => 'Theme General Settings',
+					                      'menu_title' => 'Theme Settings',
+					                      'menu_slug'  => 'theme-general-settings',
+					                      'capability' => 'edit_posts',
+					                      'redirect'   => false,
+				                      ] );
+		}
+
+
+	}
 
 	/**
 	 *
@@ -134,27 +156,6 @@ class WC_Bom {
 	<?php }
 
 
-	/**
-	 * @return mixed|void
-	 */
-	public function plugin_options() {
-
-		$this->options = get_option( 'wc_bom_options' );
-		if ( ! $this->options ) {
-			$args = [ 'init' => true, 'upgrade' => false ];
-			add_option( 'wc_bom_options', $args );
-		}
-		if ( function_exists( 'acf_add_options_page' ) ) {
-			$option_page =
-				acf_add_options_page( [
-					                      'page_title' => 'Theme General Settings',
-					                      'menu_title' => 'Theme Settings',
-					                      'menu_slug'  => 'theme-general-settings',
-					                      'capability' => 'edit_posts',
-					                      'redirect'   => false,
-				                      ] );
-		}
-	}
 
 
 	/**
@@ -178,8 +179,13 @@ class WC_Bom {
 	 */
 	public function load_assets() {
 
-		wp_register_script( 'wc_bom_js', plugins_url( 'assets/js/wc_bom.js', __FILE__ ), [ 'jquery' ] );
-		wp_register_script( 'wc_bom_min_js', plugins_url( 'assets/js/wc_bom.min.js', __FILE__ ), [ 'jquery' ] );
+		wp_enqueue_script( 'jquery-ui' );
+		wp_enqueue_style( 'sweet',
+		                  'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css' );
+		wp_enqueue_script( 'sweet',
+		                   'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js' );
+
+		wp_register_style( 'font_css', plugins_url( 'assets/css/font-awesome.min.css', __FILE__ ) );
 		wp_register_script( 'wc_bom_wp_js', plugins_url( 'assets/js/wc_bom_wp.js', __FILE__ ), [ 'jquery' ] );
 		wp_register_script( 'wc_bom_wp_min_js', plugins_url( 'assets/js/wc_bom_wp.min.js', __FILE__ ), [ 'jquery' ] );
 		wp_register_style( 'wc_bom_css', plugins_url( 'assets/css/wc_bom.css', __FILE__ ), [ 'jquery' ] );
@@ -190,30 +196,8 @@ class WC_Bom {
 		wp_enqueue_script( 'wc_bom_wp_js' );
 		//wp_enqueue_script( 'wc_bom_wp_min_js' );
 		wp_enqueue_style( 'wc_bom_css' );
-		//wp_enqueue_style( 'wc_bom_min_css' );//wp_enqueue_script( 'wc_bom_wp_min_js' );
-
-		//wp_enqueue_style( 'wc_bom_min_css' );
-	}
-
-
-	/**
-	 *
-	 */
-	public function load_admin_assets() {
-
-		wp_register_script( 'wc_bom_admin_js', plugins_url( 'assets/js/wc_bom_admin.js', __FILE__ ), [ 'jquery' ] );
-		wp_register_script( 'wc_bom_admin_min_js', plugins_url( 'assets/js/wc_bom_admin.min.js', __FILE__ ),
-		                    [ 'jquery' ] );
-
-        wp_register_script( 'select_2_js', plugins_url( 'assets/js/select2.full.min.js', __FILE__ ), [ 'jquery' ] );
-		wp_register_style( 'select2_css', plugins_url( 'assets/css/select2.min.css', __FILE__ ));
-		wp_register_style( 'font_css', plugins_url( 'assets/css/font-awesome.min.css', __FILE__ ));
-
-		wp_enqueue_script( 'wc_bom_admin_js' );
-		wp_enqueue_script( 'wc_bom_admin_min_js' );
-		wp_enqueue_script( 'select_2_js' );
-		wp_enqueue_style( 'select2_css' );
 		wp_enqueue_style( 'fontawesome_css' );
+
 	}
 
 
