@@ -215,44 +215,12 @@ class WC_Bom_Settings {
 		//Get plugin options
 		global $wc_bom_options;
 		// Enqueue Media Library Use
-		wp_enqueue_media(); ?>
+		wp_enqueue_media();
 
-        <ul class="tabs" data-tabs id="example-tabs">
-            <li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Tab 1</a></li>
-            <li class="tabs-title"><a href="#panel2">Tab 2</a></li>
-            <li class="tabs-title"><a href="#panel3">Tab 3</a></li>
-            <li class="tabs-title"><a href="#panel4">Tab 4</a></li>
-            <li class="tabs-title"><a href="#panel5">Tab 5</a></li>
-            <li class="tabs-title"><a href="#panel6">Tab 6</a></li>
-        </ul>
 
-        <div class="tabs-content" data-tabs-content="example-tabs">
-            <div class="tabs-panel is-active" id="panel1">
-                <p>one</p>
-                <p>Check me out! I'm a super cool Tab panel with text content!</p>
-            </div>
-            <div class="tabs-panel" id="panel2">
-                <p>two</p>
-                <img class="thumbnail" src="assets/img/generic/rectangle-7.jpg">
-            </div>
-            <div class="tabs-panel" id="panel3">
-                <p>three</p>
-                <p>Check me out! I'm a super cool Tab panel with text content!</p>
-            </div>
-            <div class="tabs-panel" id="panel4">
-                <p>four</p>
-                <img class="thumbnail" src="assets/img/generic/rectangle-2.jpg">
-            </div>
-            <div class="tabs-panel" id="panel5">
-                <p>five</p>
-                <p>Check me out! I'm a super cool Tab panel with text content!</p>
-            </div>
-            <div class="tabs-panel" id="panel6">
-                <p>six</p>
-                <img class="thumbnail" src="assets/img/generic/rectangle-8.jpg">
-            </div>
-        </div><?php
 		$wc_bom_options = (array) get_option( 'wc_bom_options' );
+
+
 
 		//var_dump($wc_bom_options);?>
         <div id="">

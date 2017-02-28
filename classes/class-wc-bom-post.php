@@ -95,10 +95,10 @@ class WC_Bom_Post {
 			'menu_icon'           => 'dashicons-hammer',
 			'supports'            => [
 				'title',
-				'editor',
+				//'editor',
 				'thumbnail',
-				'excerpt',
-				'comments',
+				//'excerpt',
+				//'comments',
 				'revisions',
 				'author',
 				'page-attributes',
@@ -142,10 +142,16 @@ class WC_Bom_Post {
 			'rewrite'             => [ 'slug' => 'material', 'with_front' => true ],
 			'query_var'           => true,
 			'menu_icon'           => 'dashicons-clipboard',
-			'supports'            => [ 'title', 'editor', 'thumbnail', 'revisions', 'author', 'page-attributes' ],
+			'supports'            => [
+				'title',
+				//'editor',
+				'thumbnail',
+				'revisions',
+				'author',
+				'page-attributes' ],
 		];
 
-		register_post_type( 'material', $args );
+		//register_post_type( 'material', $args );
 
 		/**
 		 * Post Type: Assemblies.
@@ -178,7 +184,12 @@ class WC_Bom_Post {
 			'rewrite'             => [ 'slug' => 'assembly', 'with_front' => true ],
 			'query_var'           => true,
 			'menu_icon'           => 'dashicons-nametag',
-			'supports'            => [ 'title', 'editor', 'thumbnail', 'revisions', 'author', 'page-attributes' ],
+			'supports'            => [ 'title',
+			                           //'editor',
+			                           'thumbnail',
+			                           'revisions',
+			                           'author',
+			                           'page-attributes' ],
 		];
 
 		register_post_type( 'assembly', $args );
@@ -251,20 +262,54 @@ class WC_Bom_Post {
 			'supports'            => [ 'title', 'editor', 'thumbnail', 'revisions', 'author', 'page-attributes' ],
 		];
 
-		register_post_type( 'change_notice', $args );
+		//register_post_type( 'change_notice', $args );
 
+
+		/* Post Type: Purchases.
+		 */
+
+		$labels = [
+			'name'          => __( 'Purchase Orders', 'wc-bom' ),
+			'singular_name' => __( 'Purchase Order', 'wc-bom' ),
+			'menu_name'     => __( 'Purchases', 'wc-bom' ),
+			//'archives'      => __( 'Purchase Directory', 'wc-bom' ),
+		];
+
+		$args = [
+			'label'               => __( 'Purchase Orders', 'wc-bom' ),
+			'labels'              => $labels,
+			'description'         => '',
+			'public'              => true,
+			'publicly_queryable'  => true,
+			'show_ui'             => true,
+			'show_in_rest'        => true,
+			'rest_base'           => 'purchase-orders',
+			'has_archive'         => 'purchase-orders',
+			'show_in_menu'        => true,
+			'show_in_menu_string' => 'wc-bom-admin',
+			'exclude_from_search' => false,
+			'capability_type'     => 'product',
+			'map_meta_cap'        => true,
+			'hierarchical'        => true,
+			'rewrite'             => [ 'slug' => 'purchase-order', 'with_front' => true ],
+			'query_var'           => true,
+			//'menu_icon'           => 'dashicons-warning',
+			'supports'            => [ 'title', 'editor', 'thumbnail', 'revisions', 'author', 'page-attributes' ],
+		];
+
+		//register_post_type( 'purchase', $args );
 		/**
 		 * Taxonomy: Inventory Types.
 		 */
 
 		$labels = array(
-			'name' => __( 'Inventory Types', 'wc-bom' ),
-			'singular_name' => __( 'Inventory Type', 'wc-bom' ),
-			'menu_name' => __( 'Inventory Type', 'wc-bom' ),
+			'name' => __( 'Vendors', 'wc-bom' ),
+			'singular_name' => __( 'Vendor', 'wc-bom' ),
+			'menu_name' => __( 'Vendor', 'wc-bom' ),
 		);
 
 		$args = array(
-			'label' => __( 'Inventory Types', 'wc-bom' ),
+			'label' => __( 'Vendors', 'wc-bom' ),
 			'labels' => $labels,
 			'public' => true,
 			'hierarchical' => true,
@@ -273,13 +318,13 @@ class WC_Bom_Post {
 			'show_in_menu' => true,
 			'show_in_nav_menus' => true,
 			'query_var' => true,
-			'rewrite' => array( 'slug' => 'Inventory_type', 'with_front' => true,  'hierarchical' => true, ),
+			'rewrite' => array( 'slug' => 'vendor', 'with_front' => true,  'hierarchical' => true, ),
 			'show_admin_column' => true,
 			'show_in_rest' => true,
-			'rest_base' => 'Inventory-type',
+			'rest_base' => 'action',
 			'show_in_quick_edit' => true,
 		);
-		register_taxonomy( 'inventory_type', array( 'inventory_records' ), $args );
+		//register_taxonomy( 'inventory_group', array( 'inventory_records' ), $args );
 
 	}
 }
