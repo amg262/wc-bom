@@ -40,7 +40,7 @@ gulp.task('images', ['clean'], function () {
     return gulp.src(paths.images)
     // Pass in options to the task
         .pipe(imagemin({optimizationLevel: 5}))
-        .pipe(gulp.dest('build/img'));
+        .pipe(gulp.dest('assets/images/'));
 });
 
 // Rerun the task when a file changes
@@ -100,6 +100,9 @@ gulp.task('sass', function () {
         .pipe(gulp.dest("app/css"))
         .pipe(browserSync.stream());
 });
+
+gulp.task('css', ['css']);
+
 
 
 gulp.task('default', ['serve']);
