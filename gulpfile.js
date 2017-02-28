@@ -106,7 +106,7 @@ gulp.task('cssnano', function ()
         .pipe(cssnano({
             'safe': true // Use safe optimizations.
         }))
-        // .pipe( rename( 'style.min.css' ) )
+        .pipe( rename( {suffix: '.min'} ) )
         .pipe(gulp.dest('includes'))
     //.pipe( browserSync.stream() )
 });
