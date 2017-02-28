@@ -43,6 +43,7 @@ class WC_Bom {
 	public function init() {
 
 		$this->check_requirements();
+		//register_activation_hook( __FILE__, [ $this, 'activate' ] );
 		$this->plugin_options();
 		$this->load_assets();
 		add_action( 'wp_enqueue_scripts', [ $this, 'load_assets' ] );
@@ -51,7 +52,6 @@ class WC_Bom {
 		/**
 		 * Including files in other directories
 		 */
-		register_activation_hook( __FILE__, [ $this, 'activate' ] );
 		//register_deactivation_hook( __FILE__, [ $this, 'deactivate' ] );
 	}
 	/**
@@ -64,40 +64,57 @@ class WC_Bom {
 	public function localize_host_info() {
 
 		$host = [
-			'url' => bloginfo( 'url' ),
+			'url'   => bloginfo( 'url' ),
 			'wpurl' => bloginfo( 'wpurl' ),
-			'name' => bloginfo( 'name' ),
+			'name'  => bloginfo( 'name' ),
 			'admin' => bloginfo( 'admin_email' ),
 		];
-
-		wp_localize_script( 'host_info','host', $host );
+		wp_localize_script( 'host_info', 'host', $host );
 	}
 	/**
 	 *
 	 */
 	public function check_requirements() {
 
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+		$woo       = 'woocommerce';
+		$woo_url   = $woo . '/' . $woo . '.php';
+		$is_active = in_array( $woo_url, apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) );
 
-		//if ( is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
-			//plugin is activated
-			add_action('admin_notices', [$this, 'requirements_error']);
+		if ( ! $is_active ) {
+			if ( plugin_dir_url( $woo_url ) ) {
+				//activate_plugins($woo_url);
+				$error = '<span>WooCommerce must be installed and activated to use this plugin!</span>';
+			} else {
+				$error = '<h5>WooCommerce must be installed and activated to use this plugin!</h5>';
+			}
+			deactivate_plugins( __FILE__ );
+			add_action( 'admin_notices', [ $this, 'requirements_error' ] );
 
+			return false;
+		}
 
+		return true;
 		//}
-
 	}
-
 	// display custom admin notice
 	public function requirements_error() { ?>
 
-
-
-		<div class="notice error is-dismissible">
-			<p><?php echo plugin_dir_url('woocommerce/woocommerce.php'); _e('<strong>WooCommerce</strong> must be installed and activated.', 'wc-bom'); ?></p>
-		</div>
+        <div class="notice error is-dismissible">
+            <p><?php _e( '<span>WooCommerce must be installed and activated to use this plugin!</span>', 'wc-bom' ); ?></p>
+        </div>
 
 	<?php }
+	// display custom admin notice
+	public function requirements_noterror() { ?>
 
+
+        <div class="updated success is-dismissible">
+            <p><?php echo plugin_dir_url( 'woocommerce/woocommerce.php' );
+				_e( '<strong>WooCommerce</strong> must be installed and activated.', 'wc-bom' ); ?></p>
+        </div>
+
+	<?php }
 	/**
 	 * @return mixed|void
 	 */
