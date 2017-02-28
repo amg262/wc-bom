@@ -49,6 +49,9 @@ class WC_Bom {
 		add_action( 'wp_enqueue_scripts', [ $this, 'load_assets' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_assets' ] );
 		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
+
+		include_once __DIR__.'/classes/class-wc-bom-post.php';
+		include_once __DIR__. '/assets/vendor/advanced-custom-fields-pro/acf.php';
 		/**
 		 * Including files in other directories
 		 */
@@ -80,7 +83,6 @@ class WC_Bom {
 		$woo       = 'woocommerce';
 		$woo_url   = $woo . '/' . $woo . '.php';
 		$is_active = in_array( $woo_url, apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) );
-
 		if ( ! $is_active ) {
 			if ( plugin_dir_url( $woo_url ) ) {
 				//activate_plugins($woo_url);
@@ -155,14 +157,18 @@ class WC_Bom {
 	 */
 	public function load_assets() {
 
-		wp_register_script( 'wc_bom_js', plugins_url( 'assets/js/wc_bom.js' ), [ 'jquery' ] );
-		wp_register_script( 'wc_bom_min_js', plugins_url( 'assets/js/wc_bom.min.js' ), [ 'jquery' ] );
-		wp_register_style( 'wc_bom_css', plugins_url( 'assets/css/wc_bom.css' ), [ 'jquery' ] );
-		wp_register_style( 'wc_bom_min_css', plugins_url( 'assets/css/wc_bom.min.css' ), [ 'jquery' ] );
+		wp_register_script( 'wc_bom_js', plugins_url( 'assets/js/wc_bom.js', __FILE__ ), [ 'jquery' ] );
+		wp_register_script( 'wc_bom_min_js', plugins_url( 'assets/js/wc_bom.min.js', __FILE__ ), [ 'jquery' ] );
+        wp_register_script( 'wc_bom_wp_js', plugins_url( 'assets/js/wc_bom_wp.js', __FILE__ ), [ 'jquery' ] );
+		wp_register_script( 'wc_bom_wp_min_js', plugins_url( 'assets/js/wc_bom_wp.min.js', __FILE__ ), [ 'jquery' ] );
+		wp_register_style( 'wc_bom_css', plugins_url( 'assets/css/wc_bom.css', __FILE__ ), [ 'jquery' ] );
+		wp_register_style( 'wc_bom_min_css', plugins_url( 'assets/css/wc_bom.min.css', __FILE__ ), [ 'jquery' ] );
 		wp_enqueue_script( 'wc_bom_js' );
-		wp_enqueue_script( 'wc_bom_min_js' );
+		//wp_enqueue_script( 'wc_bom_min_js' );
+		wp_enqueue_script( 'wc_bom_wp_js' );
+		//wp_enqueue_script( 'wc_bom_wp_min_js' );
 		wp_enqueue_style( 'wc_bom_css' );
-		wp_enqueue_style( 'wc_bom_min_css' );
+		//wp_enqueue_style( 'wc_bom_min_css' );
 	}
 	/**
 	 *
@@ -171,12 +177,8 @@ class WC_Bom {
 
 		wp_register_script( 'wc_bom_admin_js', plugins_url( 'assets/js/wc_bom_admin.js' ), [ 'jquery' ] );
 		wp_register_script( 'wc_bom_admin_min_js', plugins_url( 'assets/js/wc_bom_admin.min.js' ), [ 'jquery' ] );
-		wp_register_style( 'wc_bom_admin_css', plugins_url( 'assets/css/wc_bom_admin.css' ), [ 'jquery' ] );
-		wp_register_style( 'wc_bom_admin_min_css', plugins_url( 'assets/css/wc_bom_admin.min.css' ), [ 'jquery' ] );
 		wp_enqueue_script( 'wc_bom_admin_js' );
 		wp_enqueue_script( 'wc_bom_admin_min_js' );
-		wp_enqueue_style( 'wc_bom_admin_css' );
-		wp_enqueue_style( 'wc_bom_admin_min_css' );
 	}
 	/**
 	 * @param $actions
@@ -206,4 +208,3 @@ class WC_Bom {
 
 $cl = new WC_Bom();
 //add_filter('acf/settings/show_admin', '__return_false');
-include __DIR__ . '/assets/vendor/advanced-custom-fields-pro/acf.php';
