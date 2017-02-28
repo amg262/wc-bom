@@ -21,7 +21,13 @@ namespace WooBom;
 /**
  * Class WC_Bom
  */
+/**
+ * Class WC_Bom
+ *
+ * @package WooBom
+ */
 class WC_Bom {
+
 	/**
 	 * @var
 	 */
@@ -30,6 +36,8 @@ class WC_Bom {
 	 * @var
 	 */
 	private $posts;
+
+
 	/**
 	 * Plugin constructor.
 	 */
@@ -37,6 +45,8 @@ class WC_Bom {
 
 		$this->init();
 	}
+
+
 	/**
 	 *
 	 */
@@ -49,14 +59,15 @@ class WC_Bom {
 		add_action( 'wp_enqueue_scripts', [ $this, 'load_assets' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_assets' ] );
 		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
-
-		include_once __DIR__.'/classes/class-wc-bom-post.php';
-		include_once __DIR__. '/assets/vendor/advanced-custom-fields-pro/acf.php';
+		include_once __DIR__ . '/classes/class-wc-bom-post.php';
+		include_once __DIR__ . '/assets/vendor/advanced-custom-fields-pro/acf.php';
 		/**
 		 * Including files in other directories
 		 */
 		//register_deactivation_hook( __FILE__, [ $this, 'deactivate' ] );
 	}
+
+
 	/**
 	 *
 	 */
@@ -64,6 +75,11 @@ class WC_Bom {
 
 		flush_rewrite_rules();
 	}
+
+
+	/**
+	 *
+	 */
 	public function localize_host_info() {
 
 		$host = [
@@ -74,6 +90,8 @@ class WC_Bom {
 		];
 		wp_localize_script( 'host_info', 'host', $host );
 	}
+
+
 	/**
 	 *
 	 */
@@ -99,24 +117,22 @@ class WC_Bom {
 		return true;
 		//}
 	}
+
+
 	// display custom admin notice
+	/**
+	 *
+	 */
 	public function requirements_error() { ?>
 
         <div class="notice error is-dismissible">
-            <p><?php _e( '<span>WooCommerce must be installed and activated to use this plugin!</span>', 'wc-bom' ); ?></p>
+            <p><?php _e( '<span>WooCommerce must be installed and activated to use this plugin!</span>',
+			             'wc-bom' ); ?></p>
         </div>
 
 	<?php }
-	// display custom admin notice
-	public function requirements_noterror() { ?>
 
 
-        <div class="updated success is-dismissible">
-            <p><?php echo plugin_dir_url( 'woocommerce/woocommerce.php' );
-				_e( '<strong>WooCommerce</strong> must be installed and activated.', 'wc-bom' ); ?></p>
-        </div>
-
-	<?php }
 	/**
 	 * @return mixed|void
 	 */
@@ -138,6 +154,8 @@ class WC_Bom {
 				                      ] );
 		}
 	}
+
+
 	/**
 	 *
 	 */
@@ -152,6 +170,8 @@ class WC_Bom {
 		wp_enqueue_style( 'wc_bom_css' );
 		wp_enqueue_style( 'wc_bom_min_css' );*/
 	}
+
+
 	/**
 	 *
 	 */
@@ -159,7 +179,7 @@ class WC_Bom {
 
 		wp_register_script( 'wc_bom_js', plugins_url( 'assets/js/wc_bom.js', __FILE__ ), [ 'jquery' ] );
 		wp_register_script( 'wc_bom_min_js', plugins_url( 'assets/js/wc_bom.min.js', __FILE__ ), [ 'jquery' ] );
-        wp_register_script( 'wc_bom_wp_js', plugins_url( 'assets/js/wc_bom_wp.js', __FILE__ ), [ 'jquery' ] );
+		wp_register_script( 'wc_bom_wp_js', plugins_url( 'assets/js/wc_bom_wp.js', __FILE__ ), [ 'jquery' ] );
 		wp_register_script( 'wc_bom_wp_min_js', plugins_url( 'assets/js/wc_bom_wp.min.js', __FILE__ ), [ 'jquery' ] );
 		wp_register_style( 'wc_bom_css', plugins_url( 'assets/css/wc_bom.css', __FILE__ ), [ 'jquery' ] );
 		wp_register_style( 'wc_bom_min_css', plugins_url( 'assets/css/wc_bom.min.css', __FILE__ ), [ 'jquery' ] );
@@ -170,6 +190,8 @@ class WC_Bom {
 		wp_enqueue_style( 'wc_bom_css' );
 		//wp_enqueue_style( 'wc_bom_min_css' );
 	}
+
+
 	/**
 	 *
 	 */
@@ -180,6 +202,8 @@ class WC_Bom {
 		wp_enqueue_script( 'wc_bom_admin_js' );
 		wp_enqueue_script( 'wc_bom_admin_min_js' );
 	}
+
+
 	/**
 	 * @param $actions
 	 * @param $plugin_file
@@ -194,8 +218,10 @@ class WC_Bom {
 		}
 		if ( $plugin == $plugin_file ) {
 			$settings = [
-				'settings' => '<a href="admin.php?page=wc-settings&tab=settings_tab_wco">' . __( 'Settings', 'General' ) . '</a>',
-				'support'  => '<a href="http://andrewgunn.org/support" target="_blank">' . __( 'Support', 'General' ) . '</a>'
+				'settings' => '<a href="admin.php?page=wc-settings&tab=settings_tab_wco">' . __( 'Settings',
+				                                                                                 'General' ) . '</a>',
+				'support'  => '<a href="http://andrewgunn.org/support" target="_blank">' . __( 'Support',
+				                                                                               'General' ) . '</a>'
 				//,
 				//'pro' => '<a href="http://andrewgunn.xyz/woocommerce-custom-overlays-pro" target="_blank">' . __('Pro', 'General') . '</a>'
 			];
@@ -205,6 +231,7 @@ class WC_Bom {
 		return $actions;
 	}
 }
+
 
 $cl = new WC_Bom();
 //add_filter('acf/settings/show_admin', '__return_false');
