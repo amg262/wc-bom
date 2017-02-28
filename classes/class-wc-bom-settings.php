@@ -9,7 +9,6 @@
  */
 //namespace WooBom;
 
-
 /**
  * PLUGIN SETTINGS PAGE
  */
@@ -25,6 +24,7 @@ class WC_Bom_Settings {
 	 * Start up
 	 */
 	public function __construct() {
+
 		add_action( 'admin_menu', [ $this, 'wc_bom_menu' ] );
 		add_action( 'admin_init', [ $this, 'page_init' ] );
 
@@ -37,40 +37,40 @@ class WC_Bom_Settings {
 	 * Add options page
 	 */
 	public function wc_bom_menu() {
+
 		$count         = wp_count_posts( 'part' );
 		$pending_count = $count->pending;
 		// This page will be under "Settings"add_submenu_page( 'tools.php', 'SEO Image Tags', 'SEO Image Tags', 'manage_options', 'seo_image_tags', 'seo_image_tags_options_page' );
 
 		// add_submenu_page()
 
-
 		add_menu_page(
 			__( 'WooCommerce BOM', 'wc_bom' ),
 			'Woo BOM',
 			'manage_options',
-			'wc-bom-admin',
-			[ $this, 'settings_callback' ],
+			'wc-bom',
+			[ $this, 'settings_page' ],
 			'dashicons-clipboard',//plugins_url( 'myplugin/images/icon.png' ),
 			57
 		);
 
-		add_submenu_page( 'wc-bom-admin', 'Parts', 'Parts', 'manage_options', 'edit.php?post_type=part' );
+		//add_submenu_page( 'wc-bom', 'Parts', 'Parts', 'manage_options', 'edit.php?post_type=part' );
 		//add_menu_page('separator2','','','','','',61);
 
-		add_submenu_page( 'woocommerce', 'Bill of Materials', 'Bill of Materials', 'manage_options', 'wc-bom-admin', [
+		/*add_submenu_page( 'woocommerce', 'Bill of Materials', 'Bill of Materials', 'manage_options', 'wc-bom-admin', [
 			$this,
 			'settings_callback',
+		] );*/
+
+		add_submenu_page( 'wc-bom', 'BOM Admin', 'BOM Settings', 'manage_options', 'bom-admin', [
+			$this,
+			'settings_page',
 		] );
 
-		add_submenu_page( 'wc-bom-admin', 'BOM Admin', 'BOM Settings', 'manage_options', 'bom-admin', [
+		/*add_options_page( 'Bom Options', 'WooCommerce BOM', 'manage_options', 'bom-admin', [
 			$this,
 			'settings_callback',
-		] );
-
-		add_options_page( 'Bom Options', 'WooCommerce BOM', 'manage_options', 'bom-admin', [
-			$this,
-			'settings_callback',
-		] );
+		] );*/
 
 		add_filter( 'add_menu_classes', [ $this, 'pending' ] );
 	}
@@ -127,16 +127,37 @@ class WC_Bom_Settings {
 	 * Options page callback
 	 */
 	public function settings_page() {
+
 		// Set class property
 		$this->wc_bom_options = get_option( 'wc_bom_option' );
 		?>
-        <div class="wrap">
-            <h1>WooCommerce Bill of Materials</h1>
-            <div>
-                <p>
-                <form method="post" action="options.php">
 
-					<?php
+        <div class="wrap wc-bom-settings">
+
+            <div id="icon-themes" class="icon32"></div>
+            <h2>Sandbox Theme Options</h2>
+			<?php settings_errors(); ?>
+
+			<?php if ( isset( $_GET[ 'tab' ] ) ) {
+				$active_tab = $_GET[ 'tab' ];
+			} // end if
+
+			$active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'display_options';
+			?>
+
+            <h2 class="nav-tab-wrapper">
+                <a href="?page=wc-bom&tab=display_options" class="nav-tab">Display Options</a>
+                <a href="?page=wc-bom&tab=social_options" class="nav-tab">Social Options</a>
+            </h2>
+            <form method="post" action="options.php">
+
+				<?php if ( $active_tab === 'display_options' ) {
+					settings_fields( 'sandbox_theme_display_options' );
+					do_settings_sections( 'sandbox_theme_display_options' );
+				} else {
+					settings_fields( 'sandbox_theme_social_options' );
+					do_settings_sections( 'sandbox_theme_social_options' );
+				} // end if/else
 
 
 					// This prints out all hidden setting fields
@@ -144,9 +165,11 @@ class WC_Bom_Settings {
 					do_settings_sections( 'wc-bom-options-admin' );
 					submit_button( 'Save Options' );
 					?>
-                </form>
-                </p>
-            </div>
+
+                submit_button(); ?>
+
+            </form>
+
         </div>
 		<?php
 	}
@@ -156,6 +179,7 @@ class WC_Bom_Settings {
 	 * Register and add settings
 	 */
 	public function page_init() {
+
 		register_setting(
 			'wc_bom_options_group', // Option group
 			'wc_bom_options', // Option name
@@ -187,6 +211,7 @@ class WC_Bom_Settings {
 	 * @return array
 	 */
 	public function sanitize( $input ) {
+
 		$new_input = [];
 
 		return $input;
@@ -212,15 +237,15 @@ class WC_Bom_Settings {
 	 * Get the settings option array and print one of its values
 	 */
 	public function settings_callback() {
+
 		//Get plugin options
 		global $wc_bom_options;
 		// Enqueue Media Library Use
 		wp_enqueue_media();
 
+		$wc_bom_options = (array) get_option( 'wc_bom_options' ); ?>
 
-		$wc_bom_options = (array) get_option( 'wc_bom_options' );
-
-
+		<?php
 
 		//var_dump($wc_bom_options);?>
         <div id="">

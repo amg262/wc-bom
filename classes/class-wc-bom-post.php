@@ -48,7 +48,38 @@ class WC_Bom_Post {
 	public function __construct() {
 
 		add_action( 'init', [ $this, 'register_posts' ] );
+		add_action( 'init', [ $this, 'register_tax' ] );
 
+	}
+
+	public function register_tax() {
+		/**
+		 * Taxonomy: Inventory Types.
+		 */
+
+		$labels = array(
+			'name' => __( 'Procurement Types', 'wc-bom' ),
+			'singular_name' => __( 'Procurement Type', 'wc-bom' ),
+			'menu_name' => __( 'Procurement Types', 'wc-bom' ),
+		);
+
+		$args = array(
+			'label' => __( 'Procurement Types', 'wc-bom' ),
+			'labels' => $labels,
+			'public' => true,
+			'hierarchical' => true,
+			//'label' => 'Inventory Types',
+			'show_ui' => true,
+			'show_in_menu' => true,
+			'show_in_nav_menus' => true,
+			'query_var' => true,
+			'rewrite' => array( 'slug' => 'procurement-type', 'with_front' => true,  'hierarchical' => true, ),
+			'show_admin_column' => true,
+			'show_in_rest' => true,
+			'rest_base' => 'procurement-type',
+			'show_in_quick_edit' => true,
+		);
+		register_taxonomy( 'procurement_type', array( 'part','post','page' ), $args );
 	}
 
 	/**
@@ -64,28 +95,21 @@ class WC_Bom_Post {
 			'name'          => __( 'Parts', 'wc-bom' ),
 			'singular_name' => __( 'Part', 'wc-bom' ),
 			'menu_name'     => __( 'Part', 'wc-bom' ),
-			'all_items'     => __( 'All Parts', 'wc-bom' ),
-			'add_new'       => __( 'Add New', 'wc-bom' ),
-			'add_new_item'  => __( 'Add New Part', 'wc-bom' ),
-			'edit_item'     => __( 'Edit Part', 'wc-bom' ),
-			'new_item'      => __( 'New Part', 'wc-bom' ),
-			'view_item'     => __( 'View Part', 'wc-bom' ),
-			'view_items'    => __( 'View Parts', 'wc-bom' ),
-			'archives'      => __( 'Part Directory', 'wc-bom' ),
+
 		];
 
 		$args = [
 			'label'               => __( 'Parts', 'wc-bom' ),
 			'labels'              => $labels,
-			'description'         => 'Parts post type that will be combined to make subassemblies and assemblies portion of BOM.',
+			//'description'         => 'Parts post type that will be combined to make subassemblies and assemblies portion of BOM.',
 			'public'              => true,
 			'publicly_queryable'  => true,
 			'show_ui'             => true,
 			'show_in_rest'        => true,
 			'rest_base'           => 'part',
-			'has_archive'         => 'part-directory',
+			'has_archive'         => 'parts',
 			'show_in_menu'        => true,
-			'show_in_menu_string' => 'wc-bom-admin',
+			//'show_in_menu_string' => 'wc-bom-admin',
 			'exclude_from_search' => false,
 			'capability_type'     => 'product',
 			'map_meta_cap'        => true,
@@ -114,27 +138,21 @@ class WC_Bom_Post {
 		$labels = [
 			'name'          => __( 'Materials', 'wc-bom' ),
 			'singular_name' => __( 'Material', 'wc-bom' ),
-			'menu_name'     => __( 'Material', 'wc-bom' ),
-			'all_items'     => __( 'All Materials', 'wc-bom' ),
-			'add_new'       => __( 'Add New', 'wc-bom' ),
-			'add_new_item'  => __( 'Add New Material', 'wc-bom' ),
-			'edit_item'     => __( 'Edit Material', 'wc-bom' ),
-			'new_item'      => __( 'New Material', 'wc-bom' ),
-			'archives'      => __( 'Material Directory', 'wc-bom' ),
+			'menu_name'     => __( 'Materials', 'wc-bom' ),
 		];
 
 		$args = [
 			'label'               => __( 'Materials', 'wc-bom' ),
 			'labels'              => $labels,
-			'description'         => 'Materials post type for the low level raw materials received by a company that are the lowest level of the Bill of Materials.',
+			//'description'         => 'Materials post type for the low level raw materials received by a company that are the lowest level of the Bill of Materials.',
 			'public'              => true,
 			'publicly_queryable'  => true,
 			'show_ui'             => true,
 			'show_in_rest'        => true,
-			'rest_base'           => 'materials',
-			'has_archive'         => 'material-directory',
+			'rest_base'           => 'material',
+			'has_archive'         => 'materials',
 			'show_in_menu'        => true,
-			'show_in_menu_string' => 'wc-bom-admin',
+			//'show_in_menu_string' => 'wc-bom-admin',
 			'exclude_from_search' => false,
 			'capability_type'     => 'product',
 			'map_meta_cap'        => true,
@@ -161,22 +179,21 @@ class WC_Bom_Post {
 			'name'          => __( 'Assemblies', 'wc-bom' ),
 			'singular_name' => __( 'Assembly', 'wc-bom' ),
 			'menu_name'     => __( 'Assembly', 'wc-bom' ),
-			'all_items'     => __( 'All Assemblies', 'wc-bom' ),
-			'archives'      => __( 'Assembly Directory', 'wc-bom' ),
+
 		];
 
 		$args = [
 			'label'               => __( 'Assemblies', 'wc-bom' ),
 			'labels'              => $labels,
-			'description'         => 'Post type for assemblies build by combining materials with parts.',
+			//'description'         => 'Post type for assemblies build by combining materials with parts.',
 			'public'              => true,
 			'publicly_queryable'  => true,
 			'show_ui'             => true,
 			'show_in_rest'        => true,
 			'rest_base'           => 'assembly',
-			'has_archive'         => 'product-directory',
+			'has_archive'         => 'assemblies',
 			'show_in_menu'        => true,
-			'show_in_menu_string' => 'wc-bom-admin',
+			//'show_in_menu_string' => 'wc-bom-admin',
 			'exclude_from_search' => false,
 			'capability_type'     => 'product',
 			'map_meta_cap'        => true,
@@ -398,29 +415,29 @@ class WC_Bom_Post {
 		 */
 
 		$labels = [
-			'name'          => __( 'Purchase Orders', 'wc-bom' ),
-			'singular_name' => __( 'Purchase Order', 'wc-bom' ),
-			'menu_name'     => __( 'Purchases', 'wc-bom' ),
+			'name'          => __( 'Production Order', 'wc-bom' ),
+			'singular_name' => __( 'Production', 'wc-bom' ),
+			'menu_name'     => __( 'Production', 'wc-bom' ),
 			//'archives'      => __( 'Purchase Directory', 'wc-bom' ),
 		];
 
 		$args = [
-			'label'               => __( 'Purchase Orders', 'wc-bom' ),
+			'label'               => __( 'Production Orders', 'wc-bom' ),
 			'labels'              => $labels,
 			'description'         => '',
 			'public'              => true,
 			'publicly_queryable'  => true,
 			'show_ui'             => true,
 			'show_in_rest'        => true,
-			'rest_base'           => 'purchase-order',
-			'has_archive'         => 'purchase-orders',
+			'rest_base'           => 'production-order',
+			'has_archive'         => 'production-orders',
 			'show_in_menu'        => true,
 			//'show_in_menu_string' => 'wc-bom-admin',
 			'exclude_from_search' => false,
 			'capability_type'     => 'product',
 			'map_meta_cap'        => true,
 			'hierarchical'        => true,
-			'rewrite'             => [ 'slug' => 'purchase-order', 'with_front' => true ],
+			'rewrite'             => [ 'slug' => 'production-order', 'with_front' => true ],
 			'query_var'           => true,
 			//'menu_icon'           => 'dashicons-warning',
 			'supports'            => [ 'title',
@@ -431,7 +448,7 @@ class WC_Bom_Post {
 			                           'page-attributes' ],
 		];
 
-		register_post_type( 'purchase', $args );
+		register_post_type( 'production', $args );
 
 
 		/* Post Type: Purchases.
@@ -553,6 +570,7 @@ class WC_Bom_Post {
 		];
 
 		register_post_type( 'requisition', $args );
+
 	}
 }
 
