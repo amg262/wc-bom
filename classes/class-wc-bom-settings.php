@@ -249,9 +249,12 @@ class WC_Bom_Settings {
 			wp_enqueue_script( 'wco_admin_js' );
 
 			$ajax_object = [
-				'ajax_url' => admin_url( 'admin-ajax.php' )
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
+                'nonce'=> wp_create_nonce('ajax_nonce')
 			];
 			wp_localize_script( 'wco_admin_js', 'ajax_object', $ajax_object );
+
+			/* Output empty div. */
 		}
 	}
 

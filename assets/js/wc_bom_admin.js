@@ -19,6 +19,7 @@ jQuery(document).ready(function ($) {
   var data = {
     'url':ajax_object.ajax_url,
     'action':'wco_ajax',
+    'security':ajax_object.nonce,
     //'whatever':ajax_object.whatever,
     'data':ajax_object     // We pass php values differently!
     //'security':ajax_object.nonce
