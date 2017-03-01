@@ -131,7 +131,7 @@ class WC_Bom_Settings {
 	public function settings_page() {
 
 		// Set class property
-		$this->wc_bom_options = get_option( 'wc_bom_options' );
+		$this->wc_bom_options = get_option( 'wc_bom_option' );
 		?>
 
         <div class="wrap wc-bom-settings">
@@ -283,16 +283,17 @@ class WC_Bom_Settings {
 		// Enqueue Media Library Use
 		wp_enqueue_media();
 
-		$wc_bom_options = (array) get_option( 'wc_bom_options' ); ?>
+		$wc_bom_options = (array) get_option( 'wc_bom_option' ); ?>
 
-		<?php
+
+		<?php var_dump($wc_bom_options);
 
 		//var_dump($wc_bom_options);?>
         <div id="">
             <fieldset><?php $key = 'opt'; ?>
-                <label for="wc_bom_options[opt]">Opt</label>
-                <input type="text" id="wc_bom_options[opt]"
-                       name="wc_bom_options[opt]"/>
+                <label for="woo_bom_options[<?php echo $key; ?>">Opt</label>
+                <input type="text" id="woo_bom_options[<?php echo $key; ?>"
+                       name="woo_bom_options[<?php echo $key; ?>" value="<?php echo $wc_bom_options[$key]; ?>"/>
             </fieldset>
             <fieldset>
                 <button id="yeah" name="yeah"><a href="#">Yeah</a></button>
