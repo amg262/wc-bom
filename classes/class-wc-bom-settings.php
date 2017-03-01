@@ -250,7 +250,8 @@ class WC_Bom_Settings {
 
 			$ajax_object = [
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
-                'nonce'=> wp_create_nonce('ajax_nonce')
+                'nonce'=> wp_create_nonce('ajax_nonce'),
+                'whatever'=>'product',
 			];
 			wp_localize_script( 'wco_admin_js', 'ajax_object', $ajax_object );
 
