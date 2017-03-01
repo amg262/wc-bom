@@ -27,8 +27,8 @@ class WC_Bom_Settings {
 
 		add_action( 'admin_menu', [ $this, 'wc_bom_menu' ] );
 		add_action( 'admin_init', [ $this, 'page_init' ] );
-		add_action( 'admin_enqueue_scripts', [ $this,'wco_admin'] );
-		add_action( 'wp_ajax_wco_ajax',[ $this,'wco_ajax'] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'wco_admin' ] );
+		add_action( 'wp_ajax_wco_ajax', [ $this, 'wco_ajax' ] );
 		//add_action( 'wp_ajax_nopriv_wco_ajax', [ $this,'wco_admin'] );
 		//add_filter('custom_menu_order', [$this,'custom_menu_order']); // Activate custom_menu_order
 		//add_filter('menu_order', [$this,'custom_menu_order']);
@@ -131,7 +131,7 @@ class WC_Bom_Settings {
 	public function settings_page() {
 
 		// Set class property
-		$this->wc_bom_options = get_option( 'wc_bom_option' );
+		$this->wc_bom_options = get_option( 'wc_bom_options' );
 		?>
 
         <div class="wrap wc-bom-settings">
@@ -155,8 +155,8 @@ class WC_Bom_Settings {
 
 				<?php if ( $active_tab === 'display_options' ) {
 					// This prints out all hidden setting fields
-					settings_fields( 'wc_bom_options' );
-					do_settings_sections( 'wc-bom-options' );
+					settings_fields( 'wc_bom_options_group' );
+					do_settings_sections( 'wc-bom-option-admin' );
 				} else {
 					echo 'hi';
 					settings_fields( 'sandbox_theme_social_options' );
@@ -186,24 +186,13 @@ class WC_Bom_Settings {
 			[ $this, 'sanitize' ] // Sanitize
 		);
 
-		register_setting(
-			'wc_bom_options_group2', // Option group
-			'wc_bom_options_2', // Option name
-			[ $this, 'sanitize' ] // Sanitize
-		);
-
 		add_settings_section(
-			'wc_bom_options_info', // ID
-			'Title', // Title
-			[ $this, 'print_option_info' ], // Callback
-			'wc-bom-options' // Page
-		);
-
-		add_settings_section(
-			'wc_bom_options_main', // ID
+			'wc_bom_option', // ID
 			'Title', // Title
 			[ $this, 'settings_callback' ], // Callback
-			'wc-bom-options' // Page
+			'wc-bom-option-admin',
+			'wc_bom_option_section'
+
 		);
 
 	}
@@ -240,6 +229,7 @@ class WC_Bom_Settings {
 
 
 	public static function wco_admin() {
+
 		//wp_register_script( 'wc_bom_admin_js', plugins_url( 'assets/js/wc_bom_admin.js', __FILE__ ), [ 'jquery' ] );
 
 		$file = plugins_url( 'assets/js/wc_bom_admin.js', __DIR__ );
@@ -250,8 +240,9 @@ class WC_Bom_Settings {
 
 			$ajax_object = [
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
-                'nonce'=> wp_create_nonce('ajax_nonce'),
-                'whatever'=>'product',
+				'nonce'    => wp_create_nonce( 'ajax_nonce' ),
+				'whatever' => 'product',
+				'options'  => 'wc_bom_option[opt]',
 			];
 			wp_localize_script( 'wco_admin_js', 'ajax_object', $ajax_object );
 
@@ -261,11 +252,14 @@ class WC_Bom_Settings {
 
 
 	public static function wco_ajax() {
+
 		//global $wpdb;
 
+		check_ajax_referer( 'ajax_nonce', 'security' );
 
-        var_dump( check_ajax_referer('ajax_nonce', 'security'));
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 
+		}
 		$whatever = $_POST[ 'whatever' ];
 		$posts    = get_posts( [ 'post_type' => $whatever ] );
 
@@ -277,6 +271,8 @@ class WC_Bom_Settings {
 		//echo $whatever;
 		wp_die();
 	}
+
+
 	/**
 	 * Get the settings option array and print one of its values
 	 */
@@ -293,8 +289,13 @@ class WC_Bom_Settings {
 
 		//var_dump($wc_bom_options);?>
         <div id="">
+            <fieldset><?php $key = 'opt'; ?>
+                <label for="wc_bom_options[opt]">Opt</label>
+                <input type="text" id="wc_bom_options[opt]"
+                       name="wc_bom_options[opt]"/>
+            </fieldset>
             <fieldset>
-		       <button id="yeah" name="yeah"><a href="#" >Yeah</a></button>
+                <button id="yeah" name="yeah"><a href="#">Yeah</a></button>
             </fieldset>
         </div>
         <div>
