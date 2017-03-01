@@ -263,6 +263,8 @@ class WC_Bom_Settings {
 		//global $wpdb;
 
 
+        var_dump( check_ajax_referer('ajax_nonce', 'security'));
+
 		$whatever = $_POST[ 'whatever' ];
 		$posts    = get_posts( [ 'post_type' => $whatever ] );
 
