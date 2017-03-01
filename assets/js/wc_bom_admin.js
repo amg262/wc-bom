@@ -14,31 +14,21 @@
  */
 jQuery(document).ready(function ($) {
 
-  swal({
-    title: "Error!",
-    text: "Here's my error message!",
-    type: "error",
-    confirmButtonText: "Cool"
-  });
+
   //$('select').select2();
   var data = {
+    'url':ajax_object.ajax_url,
     'action':'wco_ajax',
-    'whatever':ajax_object.whatever,
-    'data':ajax_object,      // We pass php values differently!
-    'security':ajax_object.nonce,
+    //'whatever':ajax_object.whatever,
+    'data':ajax_object     // We pass php values differently!
+    //'security':ajax_object.nonce
   };
 
   console.log(data);
-  $('select').select2().on("change", function (e) {
-    // mostly used event, fired to the original element when the value changes
-    //log("change val=" + e.val);
-    // alert(ajax_object.nonce);
-  });
-
 
   // We can also pass the url value separately from ajaxurl for front end AJAX implementations
   jQuery.post(ajax_object.ajax_url, data, function (response) {
-    //alert('seRespon ' + response);
+    alert('seRespon ' + response);
   });
 
 

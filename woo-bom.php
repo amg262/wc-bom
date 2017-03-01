@@ -55,8 +55,8 @@ class WC_Bom {
 		$this->check_requirements();
 		//register_activation_hook( __FILE__, [ $this, 'activate' ] );
 		$this->plugin_options();
-		$this->load_assets();
-		add_action( 'admin_enqueue_scripts', [ $this, 'load_assets' ] );
+		//$this->load_assets();
+		//add_action( 'admin_enqueue_scripts', [ $this, 'load_assets' ] );
 		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
 		include_once __DIR__ . '/classes/class-wc-bom-post.php';
 		include_once __DIR__ . '/classes/class-wc-bom-settings.php';

@@ -28,7 +28,7 @@ class WC_Bom_Settings {
 		add_action( 'admin_menu', [ $this, 'wc_bom_menu' ] );
 		add_action( 'admin_init', [ $this, 'page_init' ] );
 		add_action( 'admin_enqueue_scripts', [ $this,'wco_admin'] );
-		add_action( 'wp_ajax_wco_ajax',[ $this,'wco_admin'] );
+		add_action( 'wp_ajax_wco_ajax',[ $this,'wco_ajax'] );
 		//add_action( 'wp_ajax_nopriv_wco_ajax', [ $this,'wco_admin'] );
 		//add_filter('custom_menu_order', [$this,'custom_menu_order']); // Activate custom_menu_order
 		//add_filter('menu_order', [$this,'custom_menu_order']);
@@ -240,7 +240,6 @@ class WC_Bom_Settings {
 
 
 	public static function wco_admin() {
-		$nonce = wp_create_nonce( 'wco-nonce' );
 		//wp_register_script( 'wc_bom_admin_js', plugins_url( 'assets/js/wc_bom_admin.js', __FILE__ ), [ 'jquery' ] );
 
 		$file = plugins_url( 'assets/js/wc_bom_admin.js', __DIR__ );
@@ -250,9 +249,7 @@ class WC_Bom_Settings {
 			wp_enqueue_script( 'wco_admin_js' );
 
 			$ajax_object = [
-				'ajax_url' => admin_url( 'admin-ajax.php' ),
-				'nonce'    => $nonce,
-				'whatever' => 'product',
+				'ajax_url' => admin_url( 'admin-ajax.php' )
 			];
 			wp_localize_script( 'wco_admin_js', 'ajax_object', $ajax_object );
 		}
@@ -261,8 +258,6 @@ class WC_Bom_Settings {
 
 	public static function wco_ajax() {
 		//global $wpdb;
-
-		check_ajax_referer( 'wco-nonce', 'security' );
 
 
 		$whatever = $_POST[ 'whatever' ];
@@ -293,13 +288,7 @@ class WC_Bom_Settings {
 		//var_dump($wc_bom_options);?>
         <div id="">
             <fieldset>
-		        <?php $key = 'purchase_orders';
-		        //var_dump($trail_story_options[$key]);?>
-                <input id='wc_bom_options[<?php echo $key; ?>]'
-                       name="wc_bom_options[<?php echo $key; ?>]" type="checkbox"
-                       value="1" <?php checked( 1, $wc_bom_options[ $key ], true ); ?> />
-
-                <p class="description"></p>
+		       <button id="yeah" name="yeah"><a href="#" >Yeah</a></button>
             </fieldset>
         </div>
 
