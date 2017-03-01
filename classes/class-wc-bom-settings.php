@@ -291,6 +291,9 @@ class WC_Bom_Settings {
 		       <button id="yeah" name="yeah"><a href="#" >Yeah</a></button>
             </fieldset>
         </div>
+        <div>
+            <div id="feedme">&nbps;</div>
+        </div>
 
 	<?php }
 	/**

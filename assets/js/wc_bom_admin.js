@@ -28,7 +28,9 @@ jQuery(document).ready(function ($) {
 
   // We can also pass the url value separately from ajaxurl for front end AJAX implementations
   jQuery.post(ajax_object.ajax_url, data, function (response) {
-    alert('seRespon ' + response);
+
+    $('#feedme').html(response);
+    //alert('seRespon ' + response);
   });
 
 
