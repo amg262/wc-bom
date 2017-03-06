@@ -14,9 +14,8 @@
  * Time: 1:21 PM
  */
 
-namespace WooBom;
 
-function check_requirements() {
+function wc_bom_requirements() {
 
 	include_once ABSPATH . 'wp-admin/includes/plugin.php';
 	$woo       = 'woocommerce';

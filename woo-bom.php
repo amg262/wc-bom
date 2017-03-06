@@ -16,11 +16,43 @@
 * Text Domain: logicbom
 * License: GPL2
 */
+
 namespace WooBom;
+
+global $wc_bom_options, $wc_bom_settings;
+
+$wc_bom_options  = get_option( WC_BOM_OPTIONS );
+$wc_bom_settings = get_option( WC_BOM_SETTINGS );
+
+/**
+ *
+ */
+const WC_BOM_OPTIONS = 'wc_bom_options';
+/**
+ *
+ */
+const WC_BOM_SETTINGS = 'wc_bom_settings';
+
+const WC_BOM_LIB = 'assets/lib/';
+
+const WC_BOM_LIB_CSS = WC_BOM_LIB . 'css/';
+const WC_BOM_LIB_JS  = WC_BOM_LIB . 'js/';
+
+const WC_BOM_DIST = 'assets/dist/';
+
+const WC_BOM_DIST_CSS = WC_BOM_DIST . 'css/';
+const WC_BOM_DIST_JS  = WC_BOM_DIST . 'js/';
+
+const WC_BOM_VENDOR = 'assets/vendor/';
+const WC_BOM_ACF    = 'assets/vendor/acf/acf.php';
+
+const WC_BOM_WOO = 'woocommerce/woocommerce.php';
 
 /**
  * Class WC_Bom
  */
+
+
 /**
  * Class WC_Bom
  *
@@ -53,15 +85,17 @@ class WC_Bom {
 	public function init() {
 
 		$this->check_requirements();
-		//register_activation_hook( __FILE__, [ $this, 'activate' ] );
-		$this->plugin_options();
+		//$this->plugin_options();
+
+		add_action( 'admin_init', [ $this, 'plugin_options' ] );
+		add_action( 'admin_init', [ $this, 'check_requirements' ] );
 		//$this->load_assets();
 		//add_action( 'admin_enqueue_scripts', [ $this, 'load_assets' ] );
 		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
 		include_once __DIR__ . '/classes/class-wc-bom-post.php';
 		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
 		//include_once __DIR__.'/classes/settingsPage.php';
-        include_once __DIR__ . '/includes/acf/acf.php';
+		include_once __DIR__ . '/includes/acf/acf.php';
 		/**
 		 * Including files in other directories
 		 */
@@ -77,29 +111,39 @@ class WC_Bom {
 		flush_rewrite_rules();
 	}
 
+
 	/**
 	 * @return mixed|void
 	 */
 	public function plugin_options() {
 
-		$this->options = get_option( 'wc_bom_options' );
-		if ( ! $this->options ) {
-			$args = [ 'init' => true, 'config' => false ];
-			add_option( 'wc_bom_options', $args );
-		}
-		if ( function_exists( 'acf_add_options_page' ) ) {
-			$option_page =
-				acf_add_options_page( [
-					                      'page_title' => 'Theme General Settings',
-					                      'menu_title' => 'Theme Settings',
-					                      'menu_slug'  => 'theme-general-settings',
-					                      'capability' => 'edit_posts',
-					                      'redirect'   => false,
-				                      ] );
+		global $wc_bom_options, $wc_bom_settings;
+		$wc_bom_options  = get_option( WC_BOM_OPTIONS );
+		$wc_bom_settings = get_option( WC_BOM_SETTINGS );
+
+		$key = 'init';
+
+		if ( $wc_bom_options[ $key ] !== true ) {
+			add_option( WC_BOM_OPTIONS, [ $key => true ] );
 		}
 
+		if ( $wc_bom_settings[ $key ] !== true ) {
+			add_option( WC_BOM_SETTINGS, [ $key => true ] );
+		}
+
+		if ( function_exists( 'acf_add_options_page' ) ) {
+			$args = [
+				'page_title' => 'Theme General Settings',
+				'menu_title' => 'Theme Settings',
+				'menu_slug'  => 'theme-general-settings',
+				'capability' => 'edit_posts',
+				'redirect'   => false,
+			];
+			acf_add_options_page( $args );
+		}
 
 	}
+
 
 	/**
 	 *
@@ -112,7 +156,7 @@ class WC_Bom {
 			'name'  => bloginfo( 'name' ),
 			'admin' => bloginfo( 'admin_email' ),
 		];
-		wp_localize_script( 'host_info', 'host', $host );
+		wp_localize_script( 'host', 'host', $host );
 	}
 
 
@@ -122,41 +166,37 @@ class WC_Bom {
 	public function check_requirements() {
 
 		include_once ABSPATH . 'wp-admin/includes/plugin.php';
-		$woo       = 'woocommerce';
-		$woo_url   = $woo . '/' . $woo . '.php';
-		$is_active = in_array( $woo_url, apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) );
-		if ( ! $is_active ) {
-			if ( plugin_dir_url( $woo_url ) ) {
-				//activate_plugins($woo_url);
-				$error = '<span>WooCommerce must be installed and activated to use this plugin!</span>';
-			} else {
-				$error = '<h5>WooCommerce must be installed and activated to use this plugin!</h5>';
-			}
-			deactivate_plugins( __FILE__ );
-			add_action( 'admin_notices', [ $this, 'requirements_error' ] );
 
-			return false;
+		$is_active = in_array( WC_BOM_WOO, apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) );
+
+		if ( ! $is_active ) {
+			if ( plugin_dir_url( WC_BOM_WOO ) ) {
+			}
+
+			deactivate_plugins( __FILE__ );
+
+			wp_die( $this->requirements_error() );
 		}
 
 		return true;
-		//}
 	}
 
 
-	// display custom admin notice
+
+// display custom admin notice
 	/**
 	 *
 	 */
-	public function requirements_error() { ?>
+	public function requirements_error() {
 
-        <div class="notice error is-dismissible">
-            <p><?php _e( '<span>WooCommerce must be installed and activated to use this plugin!</span>',
-			             'wc-bom' ); ?></p>
-        </div>
+		$message = '<div class="wc-bom notice error is-dismissible">' .
+		           '<p><span>WooCommerce must be installed and activated to use this plugin!</span>&nbsp;' .
+		           '<a href=' . admin_url( 'plugins.php' ) . '>Back to plugins&nbsp;&rarr;</a>' .
+		           '</p>' .
+		           '</div>';
 
-	<?php }
-
-
+		return $message;
+	}
 
 
 	/**
@@ -180,6 +220,28 @@ class WC_Bom {
 	 */
 	public function load_assets() {
 
+		//if ()
+		$dist     = scandir( WC_BOM_DIST );
+		$dist_js  = scandir( WC_BOM_DIST_JS );
+		$dist_css = scandir( WC_BOM_DIST_CSS );
+		$lib_js   = scandir( WC_BOM_DIST_JS );
+		$lib_css  = scandir( WC_BOM_DIST_CSS );
+		$dist_js  = scandir( WC_BOM_DIST_JS );
+
+		if ( $dist !== false ) {
+			$dist_js = scandir( WC_BOM_DIST_JS );
+
+			if ( $dist_js !== false ) {
+
+				foreach ( $dist_js as $file ) {
+					wp_register_script( $file, plugins_url( WC_BOM_DIST_JS . $file, __FILE__ ) );
+					wp_enqueue_script( $file );
+
+				}
+			}
+		}
+
+	
 		wp_enqueue_script( 'jquery-ui' );
 		wp_enqueue_style( 'sweet',
 		                  'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css' );
@@ -208,7 +270,10 @@ class WC_Bom {
 	 *
 	 * @return array
 	 */
-	public function plugin_links( $actions, $plugin_file ) {
+	public
+	function plugin_links(
+		$actions, $plugin_file
+	) {
 
 		static $plugin;
 		if ( ! isset( $plugin ) ) {
