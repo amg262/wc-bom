@@ -27,6 +27,9 @@ var paths = {
   js:'assets/lib/js/*.js',
   includes:'includes/',
   classes:'classes/',
+  fontawesome: 'assets/vendor/fontawesome/',
+  sweetalert: 'assets/vendor/sweetalert/',
+  chartjs: 'assets/vendor/chartjs/'
 };
 
 
@@ -66,6 +69,35 @@ gulp.task('uglify', function () {
     .pipe(uglify())
     .pipe(rename({ suffix:'.min' }))
     .pipe(gulp.dest(paths.dist_js));
+
+});
+
+/**
+ * Minify compiled JavaScript.
+ *
+ * https://www.npmjs.com/package/gulp-uglify
+ */
+gulp.task('vendor', function () {
+
+  gulp.src(paths.sweetalert+'sweetalert.css')
+    .pipe(cssnano())
+    .pipe(rename({ suffix:'.min' }))
+    .pipe(gulp.dest(paths.sweetalert));
+
+  gulp.src(paths.fontawesome+'css/font-awesome.css')
+    .pipe(cssnano())
+    .pipe(rename({ suffix:'.min' }))
+    .pipe(gulp.dest(paths.fontawesome+'css'));
+
+  gulp.src(paths.chartjs+'chart.js')
+    .pipe(uglify())
+    .pipe(rename({ suffix:'.min' }))
+    .pipe(gulp.dest(paths.chartjs));
+
+  gulp.src(paths.sweetalert+'sweetalert-dev.js')
+    .pipe(uglify())
+    .pipe(rename({ suffix:'.min' }))
+    .pipe(gulp.dest(paths.sweetalert));
 
 });
 

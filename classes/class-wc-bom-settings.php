@@ -7,7 +7,7 @@
  * https://andrewgunn.org
  *
  */
-//namespace WooBom;
+namespace WooBom;
 
 /**
  * PLUGIN SETTINGS PAGE
@@ -29,7 +29,7 @@ class WC_Bom_Settings {
 		add_action( 'admin_init', [ $this, 'page_init' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'wco_admin' ] );
 		add_action( 'wp_ajax_wco_ajax', [ $this, 'wco_ajax' ] );
-		//add_action( 'wp_ajax_nopriv_wco_ajax', [ $this,'wco_admin'] );
+		add_action( 'wp_ajax_nopriv_wco_ajax', [ $this,'wco_ajax'] );
 		//add_filter('custom_menu_order', [$this,'custom_menu_order']); // Activate custom_menu_order
 		//add_filter('menu_order', [$this,'custom_menu_order']);
 	}
@@ -40,8 +40,8 @@ class WC_Bom_Settings {
 	 */
 	public function wc_bom_menu() {
 
-		$count         = wp_count_posts( 'part' );
-		$pending_count = $count->pending;
+		//$count         = wp_count_posts( 'part' );
+		//$pending_count = $count->pending;
 		// This page will be under "Settings"add_submenu_page( 'tools.php', 'SEO Image Tags', 'SEO Image Tags', 'manage_options', 'seo_image_tags', 'seo_image_tags_options_page' );
 
 		// add_submenu_page()
@@ -50,31 +50,13 @@ class WC_Bom_Settings {
 			__( 'WooCommerce BOM', 'wc_bom' ),
 			'Woo BOM',
 			'manage_options',
-			'wc-bom',
+			'wc-bom-settings',
 			[ $this, 'settings_page' ],
 			'dashicons-clipboard',//plugins_url( 'myplugin/images/icon.png' ),
 			57
 		);
 
-		//add_submenu_page( 'wc-bom', 'Parts', 'Parts', 'manage_options', 'edit.php?post_type=part' );
-		//add_menu_page('separator2','','','','','',61);
-
-		/*add_submenu_page( 'woocommerce', 'Bill of Materials', 'Bill of Materials', 'manage_options', 'wc-bom-admin', [
-			$this,
-			'settings_callback',
-		] );*/
-
-		add_submenu_page( 'wc-bom-options', 'BOM Admin', 'BOM Settings', 'manage_options', 'bom-admin', [
-			$this,
-			'settings_page',
-		] );
-
-		/*add_options_page( 'Bom Options', 'WooCommerce BOM', 'manage_options', 'bom-admin', [
-			$this,
-			'settings_callback',
-		] );*/
-
-		add_filter( 'add_menu_classes', [ $this, 'pending' ] );
+		//add_filter( 'add_menu_classes', [ $this, 'pending' ] );
 	}
 
 
@@ -130,43 +112,48 @@ class WC_Bom_Settings {
 	 */
 	public function settings_page() {
 
+		global $wc_bom_options, $wc_bom_settings;
+		$wc_bom_settings = get_option( WC_BOM_SETTINGS );
+		$wc_bom_options  = get_option( WC_BOM_OPTIONS );
+
 		// Set class property
-		$this->wc_bom_options = get_option( 'wc_bom_option' );
 		?>
 
-        <div class="wrap wc-bom-settings">
+        <div class="wrap wc-bom settings-page">
 
             <div id="icon-themes" class="icon32"></div>
             <h2>Sandbox Theme Options</h2>
 			<?php settings_errors(); ?>
 
-			<?php if ( isset( $_GET[ 'tab' ] ) ) {
-				$active_tab = $_GET[ 'tab' ];
-			} // end if
+			<?php
 
-			$active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'display_options';
+			//if ( isset( $_GET[ 'tab' ] ) ) {
+			//	$active_tab = $_GET[ 'tab' ];
+			//} // end if
+
+			//$active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'display_options';
 			?>
 
             <h2 class="nav-tab-wrapper">
-                <a href="?page=wc-bom&tab=display_options" class="nav-tab">Display Options</a>
-                <a href="?page=wc-bom&tab=social_options" class="nav-tab">Social Options</a>
+                <a href="?page=wc-bom-settings&tab=display_options" class="nav-tab">Display Options</a>
+                <a href="?page=wc-bom-settings&tab=social_options" class="nav-tab">Social Options</a>
             </h2>
             <form method="post" action="options.php">
 
-				<?php if ( $active_tab === 'display_options' ) {
-					// This prints out all hidden setting fields
-					settings_fields( 'wc_bom_options_group' );
-					do_settings_sections( 'wc-bom-option-admin' );
-				} else {
-					echo 'hi';
-					settings_fields( 'sandbox_theme_social_options' );
-					do_settings_sections( 'sandbox_theme_social_options' );
-				} // end if/else//wc_bom_options_group2
-
+				<?php //if ( $active_tab === 'display_options' ) {
+				// This prints out all hidden setting fields
+				settings_fields( 'wc_bom_settings_group' );
+				do_settings_sections( 'wc-bom-settings-admin' );
 				submit_button( 'Save Options' );
-				?>
 
-                submit_button(); ?>
+				//} else {
+				//echo 'hi';
+				//settings_fields( 'sandbox_theme_social_options' );
+				//do_settings_sections( 'sandbox_theme_social_options' );
+				//} // end if/else//wc_bom_options_group2
+
+				//				submit_button( 'Save Options' );
+				?>
 
             </form>
 
@@ -180,19 +167,26 @@ class WC_Bom_Settings {
 	 */
 	public function page_init() {
 
+		global $geo_mashup_options;
 		register_setting(
-			'wc_bom_options_group', // Option group
-			'wc_bom_options', // Option name
+			'wc_bom_settings_group', // Option group
+			'wc_bom_settings', // Option name
 			[ $this, 'sanitize' ] // Sanitize
 		);
 
 		add_settings_section(
-			'wc_bom_option', // ID
-			'Title', // Title
-			[ $this, 'settings_callback' ], // Callback
-			'wc-bom-option-admin',
-			'wc_bom_option_section'
+			'wc_bom_settings_section', // ID
+			'', // Title
+			[ $this, 'settings_info' ], // Callback
+			'wc-bom-settings-admin' // Page
+		);
 
+		add_settings_section(
+			'wc_bom_setting', // ID
+			'wc-bom-settings', // Title
+			[ $this, 'settings_callback' ], // Callback
+			'wc-bom-settings-admin', // Page
+			'wc_bom_settings_section' // Section
 		);
 
 	}
@@ -218,7 +212,7 @@ class WC_Bom_Settings {
 	/**
 	 * Print the Section text
 	 */
-	public function print_option_info() { ?>
+	public function settings_info() { ?>
         <div id="plugin-info-header" class="plugin-info header">
             <div class="plugin-info content">
 
@@ -232,7 +226,7 @@ class WC_Bom_Settings {
 
 		//wp_register_script( 'wc_bom_admin_js', plugins_url( 'assets/js/wc_bom_admin.js', __FILE__ ), [ 'jquery' ] );
 
-		$file = plugins_url( 'assets/js/wc_bom_admin.js', __DIR__ );
+		$file = plugins_url( 'assets/lib/js/wc_bom_ajax.js', __DIR__ );
 
 		if ( ! empty( $file ) ) {
 			wp_register_script( 'wco_admin_js', $file, [ 'jquery' ] );
@@ -258,7 +252,7 @@ class WC_Bom_Settings {
 		check_ajax_referer( 'ajax_nonce', 'security' );
 
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-
+           // return;
 		}
 		$whatever = $_POST[ 'whatever' ];
 		$posts    = get_posts( [ 'post_type' => $whatever ] );
@@ -278,25 +272,27 @@ class WC_Bom_Settings {
 	 */
 	public function settings_callback() {
 
-		//Get plugin options
-		global $wc_bom_options;
+		global $wc_bom_options, $wc_bom_settings;
+
+		$wc_bom_options  = get_option( WC_BOM_OPTIONS );
+		$wc_bom_settings = get_option( WC_BOM_SETTINGS );
 		// Enqueue Media Library Use
 		wp_enqueue_media();
 
-		$wc_bom_options = (array) get_option( 'wc_bom_option' ); ?>
-
-
-		<?php var_dump($wc_bom_options);
+		var_dump( $wc_bom_settings );
 
 		//var_dump($wc_bom_options);?>
-        <div id="">
+        <div>
             <fieldset><?php $key = 'opt'; ?>
-                <label for="woo_bom_options[<?php echo $key; ?>">Opt</label>
-                <input type="text" id="woo_bom_options[<?php echo $key; ?>"
-                       name="woo_bom_options[<?php echo $key; ?>" value="<?php echo $wc_bom_options[$key]; ?>"/>
+                <label for="wc_bom_settings[<?php echo $key; ?>]">Opt</label>
+                <input type="text" id="wc_bom_settings[<?php echo $key; ?>]"
+                       name="wc_bom_settings[<?php echo $key; ?>]"
+                       value="<?php echo sanitize_text_field( $wc_bom_settings[ $key ] ); ?>"/>
             </fieldset>
             <fieldset>
-                <button id="yeah" name="yeah"><a href="#">Yeah</a></button>
+                <p>
+                    <span id="yeahbtn" class="button secondary">Yeah</span>
+                </p>
             </fieldset>
         </div>
         <div>
@@ -304,22 +300,6 @@ class WC_Bom_Settings {
         </div>
 
 	<?php }
-	/**
-	 * Get the settings option array and print one of its values
-	 */
-	/*public function trail_story_setting_callback() {
-		//Get plugin options
-		global $wc_bom_options, $geo_mashup_options;
-		$wc_bom_options = (array) get_option( 'trail_story_settings' );
-		if( isset( $wc_bom_options['wc_bom_option'] ) ) { ?>
-			<input type="checkbox" id="trail_story_settings" name="trail_story_settings[trail_story_setting]" value="1" <?php checked( 1, $wc_bom_options['trail_story_setting'], false ); ?> />
-
-		<?php } else { ?>
-			<input type="checkbox" id="trail_story_settings" name="trail_story_settings[trail_story_setting]" value="1" <?php checked( 1, $wc_bom_options['trail_story_setting'], false ); ?> />
-
-		<?php }
-		echo $html;
-	}*/
 }
 
 

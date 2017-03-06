@@ -33,18 +33,7 @@ const WC_BOM_OPTIONS = 'wc_bom_options';
  */
 const WC_BOM_SETTINGS = 'wc_bom_settings';
 
-const WC_BOM_LIB = 'assets/lib/';
-
-const WC_BOM_LIB_CSS = WC_BOM_LIB . 'css/';
-const WC_BOM_LIB_JS  = WC_BOM_LIB . 'js/';
-
-const WC_BOM_DIST = 'assets/dist/';
-
-const WC_BOM_DIST_CSS = WC_BOM_DIST . 'css/';
-const WC_BOM_DIST_JS  = WC_BOM_DIST . 'js/';
-
-const WC_BOM_VENDOR = 'assets/vendor/';
-const WC_BOM_ACF    = 'assets/vendor/acf/acf.php';
+const WC_BOM_ACF = 'assets/vendor/acf/acf.php';
 
 const WC_BOM_WOO = 'woocommerce/woocommerce.php';
 
@@ -84,18 +73,24 @@ class WC_Bom {
 	 */
 	public function init() {
 
-		$this->check_requirements();
-		//$this->plugin_options();
+		include_once __DIR__ . '/assets/vendor/acf/acf.php';
+		include_once __DIR__ . '/classes/class-wc-bom-post.php';
+		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
+		//include_once __DIR__ . '/classes/settingsPage.php';
+
+		$this->acf_options();
+
+		add_action( 'admin_init', [ $this, 'check_requirements' ] );
+
+		add_action( 'init', [ $this, 'load_assets' ] );
+		add_action( 'init', [ $this, 'load_vendor_assets' ] );
 
 		add_action( 'admin_init', [ $this, 'plugin_options' ] );
-		add_action( 'admin_init', [ $this, 'check_requirements' ] );
 		//$this->load_assets();
 		//add_action( 'admin_enqueue_scripts', [ $this, 'load_assets' ] );
 		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
-		include_once __DIR__ . '/classes/class-wc-bom-post.php';
-		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
+
 		//include_once __DIR__.'/classes/settingsPage.php';
-		include_once __DIR__ . '/includes/acf/acf.php';
 		/**
 		 * Including files in other directories
 		 */
@@ -121,27 +116,24 @@ class WC_Bom {
 		$wc_bom_options  = get_option( WC_BOM_OPTIONS );
 		$wc_bom_settings = get_option( WC_BOM_SETTINGS );
 
-		$key = 'init';
-
-		if ( $wc_bom_options[ $key ] !== true ) {
-			add_option( WC_BOM_OPTIONS, [ $key => true ] );
+		if ( $wc_bom_options[ 'init' ] !== true ) {
+			add_option( WC_BOM_OPTIONS, [ 'init' => true ] );
 		}
 
-		if ( $wc_bom_settings[ $key ] !== true ) {
-			add_option( WC_BOM_SETTINGS, [ $key => true ] );
-		}
+	}
+
+
+	public function acf_options() {
 
 		if ( function_exists( 'acf_add_options_page' ) ) {
-			$args = [
-				'page_title' => 'Theme General Settings',
-				'menu_title' => 'Theme Settings',
-				'menu_slug'  => 'theme-general-settings',
-				'capability' => 'edit_posts',
-				'redirect'   => false,
-			];
-			acf_add_options_page( $args );
+			acf_add_options_page( [
+				                      'page_title' => 'Theme General Settings',
+				                      'menu_title' => 'Theme Settings',
+				                      'menu_slug'  => 'theme-general-settings',
+				                      'capability' => 'edit_posts',
+				                      'redirect'   => false,
+			                      ] );
 		}
-
 	}
 
 
@@ -171,6 +163,7 @@ class WC_Bom {
 
 		if ( ! $is_active ) {
 			if ( plugin_dir_url( WC_BOM_WOO ) ) {
+				activate_plugin( WC_BOM_WOO );
 			}
 
 			deactivate_plugins( __FILE__ );
@@ -198,20 +191,55 @@ class WC_Bom {
 		return $message;
 	}
 
+	// display custom admin notice
+	/**
+	 *
+	 */
+	public function setup_notice() {
+
+		$message = '<div class="wc-bom notice updated is-dismissible">' .
+		           '<p><span>WooCommerce must be installed and activated to use this plugin!</span>&nbsp;' .
+		           '<a href=' . admin_url( 'plugins.php' ) . '>Back to plugins&nbsp;&rarr;</a>' .
+		           '</p>' .
+		           '</div>';
+
+		return $message;
+	}
+
 
 	/**
 	 *
 	 */
-	public function load_vendor_assets() {
-		/*wp_register_script( 'wc_bom_js', plugins_url( 'assets/js/wc_bom.js' ), [ 'jquery' ] );
-		wp_register_script( 'wc_bom_min_js', plugins_url( 'assets/js/wc_bom.min.js' ), [ 'jquery' ] );
-		wp_register_style( 'wc_bom_css', plugins_url( 'assets/css/wc_bom.css' ), [ 'jquery' ] );
-		wp_register_style( 'wc_bom_min_css', plugins_url( 'assets/css/wc_bom.min.css' ), [ 'jquery' ] );
 
-		wp_enqueue_script( 'wc_bom_js' );
-		wp_enqueue_script( 'wc_bom_min_js' );
-		wp_enqueue_style( 'wc_bom_css' );
-		wp_enqueue_style( 'wc_bom_min_css' );*/
+	public function load_admin_assets() {
+
+		$url = 'assets/dist/js';
+
+		//wp_register_script( 'admin_js', plugins_url( $url . '/wc_bom_admin.js', __FILE__ ), [ 'jquery' ] );
+		//wp_register_style( 'admin_css', plugins_url( $url . 'assets/d/wc_bom_admin.css', __FILE__ ) );
+
+		//wp_enqueue_script( 'admin_js' );
+		//wp_enqueue_style( 'admin_css' );
+
+	}
+
+
+	public function load_vendor_assets() {
+
+		$url = 'assets/vendor/';
+
+		wp_enqueue_script( 'jquery-ui' );
+
+		wp_register_script( 'sweetalert_js', plugins_url( $url . 'sweetalert/sweetalert.min.js', __FILE__ ),
+		                    [ 'jquery' ] );
+		//wp_register_script( 'chart_js', plugins_url( $url . 'chartjs/chart.js', __FILE__ ), [ 'jquery' ] );
+		wp_register_style( 'sweetalert_css', plugins_url( $url . 'sweetalert/sweetalert.min.css', __FILE__ ) );
+		//wp_register_style( 'fontawesome', plugins_url( $url . 'fontawesome/font-awesome.min.css', __FILE__ ) );
+
+		wp_enqueue_script( 'sweetalert_js' );
+		//wp_enqueue_script( 'chart_js' );
+		wp_enqueue_style( 'sweetalert_css' );
+		//wp_enqueue_style( 'fontawesome' );
 	}
 
 
@@ -220,47 +248,23 @@ class WC_Bom {
 	 */
 	public function load_assets() {
 
-		//if ()
-		$dist     = scandir( WC_BOM_DIST );
-		$dist_js  = scandir( WC_BOM_DIST_JS );
-		$dist_css = scandir( WC_BOM_DIST_CSS );
-		$lib_js   = scandir( WC_BOM_DIST_JS );
-		$lib_css  = scandir( WC_BOM_DIST_CSS );
-		$dist_js  = scandir( WC_BOM_DIST_JS );
+		/*$url = 'assets/lib/js';
 
-		if ( $dist !== false ) {
-			$dist_js = scandir( WC_BOM_DIST_JS );
+		//wp_register_script( 'wp_js', plugins_url( 'assets/lib/js/wc_bom_wp.js', __FILE__ ), [ 'jquery' ] );
+		wp_register_script( 'js', plugins_url( 'assets/lib/js/wc_bom.js', __FILE__ ), [ 'jquery' ] );
+		wp_register_style( 'css', plugins_url( 'assets/lib/css/wc_bom.css', __FILE__ ) );
 
-			if ( $dist_js !== false ) {
+		wp_enqueue_script( 'wp_js' );
+		wp_enqueue_script( 'js' );
+		wp_enqueue_style( 'css' );*/
 
-				foreach ( $dist_js as $file ) {
-					wp_register_script( $file, plugins_url( WC_BOM_DIST_JS . $file, __FILE__ ) );
-					wp_enqueue_script( $file );
+		/*wp_register_script( 'wp_js', plugins_url( $url . '/wc_bom_wp.min.js', __FILE__ ), [ 'jquery' ] );
+		wp_register_script( 'js', plugins_url( $url . '/wc_bom.min.js', __FILE__ ), [ 'jquery' ] );
+		wp_register_style( 'css', plugins_url( $url . '/wc_bom.min.css', __FILE__ ) );
 
-				}
-			}
-		}
-
-	
-		wp_enqueue_script( 'jquery-ui' );
-		wp_enqueue_style( 'sweet',
-		                  'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css' );
-		wp_enqueue_script( 'sweet',
-		                   'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js' );
-
-		wp_register_style( 'font_css', plugins_url( 'assets/css/font-awesome.min.css', __FILE__ ) );
-		wp_register_script( 'wc_bom_wp_js', plugins_url( 'assets/js/wc_bom_wp.js', __FILE__ ), [ 'jquery' ] );
-		wp_register_script( 'wc_bom_wp_min_js', plugins_url( 'assets/js/wc_bom_wp.min.js', __FILE__ ), [ 'jquery' ] );
-		wp_register_style( 'wc_bom_css', plugins_url( 'assets/css/wc_bom.css', __FILE__ ), [ 'jquery' ] );
-		wp_register_style( 'wc_bom_min_css', plugins_url( 'assets/css/wc_bom.min.css', __FILE__ ), [ 'jquery' ] );
-
-		wp_enqueue_script( 'wc_bom_js' );
-		//wp_enqueue_script( 'wc_bom_min_js' );
-		wp_enqueue_script( 'wc_bom_wp_js' );
-		//wp_enqueue_script( 'wc_bom_wp_min_js' );
-		wp_enqueue_style( 'wc_bom_css' );
-		wp_enqueue_style( 'fontawesome_css' );
-
+		wp_enqueue_script( 'wp_js' );
+		wp_enqueue_script( 'js' );
+		wp_enqueue_style( 'css' );*/
 	}
 
 
@@ -297,4 +301,5 @@ class WC_Bom {
 
 
 $cl = new WC_Bom();
+
 //add_filter('acf/settings/show_admin', '__return_false');

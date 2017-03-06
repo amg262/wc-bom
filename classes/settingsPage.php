@@ -233,10 +233,11 @@ class WC_BomSettings {
 		wp_enqueue_media();
 
 		// Get trail story options
-		$wc_bom_settings = (array) get_option( 'wc_bom_settings' );
+		$wc_bom_settings = (array) get_option( 'wc_bom_setting' );
+
+		var_dump( $wc_bom_settings );
 
 		//var_dump($wc_bom_settings);?>
-        <div>
         <div>
             <hr>
             <table class="form-table">
