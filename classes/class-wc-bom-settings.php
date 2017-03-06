@@ -29,7 +29,7 @@ class WC_Bom_Settings {
 		add_action( 'admin_init', [ $this, 'page_init' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'wco_admin' ] );
 		add_action( 'wp_ajax_wco_ajax', [ $this, 'wco_ajax' ] );
-		add_action( 'wp_ajax_nopriv_wco_ajax', [ $this,'wco_ajax'] );
+		add_action( 'wp_ajax_nopriv_wco_ajax', [ $this, 'wco_ajax' ] );
 		//add_filter('custom_menu_order', [$this,'custom_menu_order']); // Activate custom_menu_order
 		//add_filter('menu_order', [$this,'custom_menu_order']);
 	}
@@ -249,10 +249,11 @@ class WC_Bom_Settings {
 
 		//global $wpdb;
 
-		check_ajax_referer( 'ajax_nonce', 'security' );
+		var_dump( check_ajax_referer( 'ajax_nonce', 'security' ) );
 
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-           // return;
+			// return;
+			//return;
 		}
 		$whatever = $_POST[ 'whatever' ];
 		$posts    = get_posts( [ 'post_type' => $whatever ] );
@@ -283,15 +284,27 @@ class WC_Bom_Settings {
 
 		//var_dump($wc_bom_options);?>
         <div>
-            <fieldset><?php $key = 'opt'; ?>
-                <label for="wc_bom_settings[<?php echo $key; ?>]">Opt</label>
-                <input type="text" id="wc_bom_settings[<?php echo $key; ?>]"
+            <!-- wc-bom-settings field -->
+			<?php
+			$name = 'Parts';
+			$key  = strtolower( $name );
+			$id = 'wc_bom_settings['.$key.']';
+			$obj = $wc_bom_settings[$key];
+			?>
+            <fieldset class="wc-bom-settings .<?php echo $key; ?>">
+                <label for="<?php echo $obj; ?>">
+					<?php echo $name; ?>
+                </label>
+                <input type="checkbox" id="<?php echo $id; ?>"
                        name="wc_bom_settings[<?php echo $key; ?>]"
-                       value="<?php echo sanitize_text_field( $wc_bom_settings[ $key ] ); ?>"/>
-            </fieldset>
+                       value="1" <?php checked( 1, $id, true ); ?> />
+            </fieldset><?php ?>
+            <!-- end settings -->
+
+
             <fieldset>
                 <p>
-                    <span id="yeahbtn" class="button secondary">Yeah</span>
+                    <span id="yeahbtn" class="button secondary"> Yeah</span>
                 </p>
             </fieldset>
         </div>
