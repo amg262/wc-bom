@@ -60,7 +60,8 @@ class WC_Bom {
 		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
 		include_once __DIR__ . '/classes/class-wc-bom-post.php';
 		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
-		include_once __DIR__ . '/includes/acf/acf.php';
+		//include_once __DIR__.'/classes/settingsPage.php';
+        include_once __DIR__ . '/includes/acf/acf.php';
 		/**
 		 * Including files in other directories
 		 */
