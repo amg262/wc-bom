@@ -116,7 +116,7 @@ class WC_Bom_Post {
 			'hierarchical'        => true,
 			'rewrite'             => [ 'slug' => 'part', 'with_front' => true ],
 			'query_var'           => true,
-			'menu_icon'           => 'dashicons-hammer',
+			'menu_icon'           => 'dashicons-admin-tools',
 			'supports'            => [
 				'title',
 				//'editor',
@@ -200,7 +200,7 @@ class WC_Bom_Post {
 			'hierarchical'        => true,
 			'rewrite'             => [ 'slug' => 'assembly', 'with_front' => true ],
 			'query_var'           => true,
-			'menu_icon'           => 'dashicons-nametag',
+			'menu_icon'           => 'dashicons-hammer',
 			'supports'            => [ 'title',
 			                           //'editor',
 			                           'thumbnail',
@@ -239,7 +239,7 @@ class WC_Bom_Post {
 			'hierarchical'        => true,
 			'rewrite'             => [ 'slug' => 'change-notice', 'with_front' => true ],
 			'query_var'           => true,
-			'menu_icon'           => 'dashicons-warning',
+			'menu_icon'           => 'dashicons-flag',
 			'supports'            => [ 'title',
 			                         //  'editor',
 			                           'thumbnail',
@@ -279,7 +279,7 @@ class WC_Bom_Post {
 			'hierarchical'        => true,
 			'rewrite'             => [ 'slug' => 'purchase-order', 'with_front' => true ],
 			'query_var'           => true,
-			//'menu_icon'           => 'dashicons-warning',
+			'menu_icon'           => 'dashicons-cart',
 			'supports'            => [ 'title',
 			                           //'editor',
 			                           'thumbnail',
@@ -319,7 +319,7 @@ class WC_Bom_Post {
 			'hierarchical'        => true,
 			'rewrite'             => [ 'slug' => 'vendor', 'with_front' => true ],
 			'query_var'           => true,
-			//'menu_icon'           => 'dashicons-warning',
+			'menu_icon'           => 'dashicons-groups',
 			'supports'            => [ 'title',
 			                           //'editor',
 			                           'thumbnail',
@@ -359,7 +359,7 @@ class WC_Bom_Post {
 			'hierarchical'        => true,
 			'rewrite'             => [ 'slug' => 'requisitions', 'with_front' => true ],
 			'query_var'           => true,
-			//'menu_icon'           => 'dashicons-warning',
+			'menu_icon'           => 'dashicons-clipboard',
 			'supports'            => [ 'title',
 			                           //'editor',
 			                           'thumbnail',
@@ -399,7 +399,7 @@ class WC_Bom_Post {
 			'hierarchical'        => true,
 			'rewrite'             => [ 'slug' => 'shipment', 'with_front' => true ],
 			'query_var'           => true,
-			//'menu_icon'           => 'dashicons-warning',
+			'menu_icon'           => 'dashicons-migrate',
 			'supports'            => [ 'title',
 			                           //'editor',
 			                           'thumbnail',
@@ -439,7 +439,7 @@ class WC_Bom_Post {
 			'hierarchical'        => true,
 			'rewrite'             => [ 'slug' => 'production-order', 'with_front' => true ],
 			'query_var'           => true,
-			//'menu_icon'           => 'dashicons-warning',
+			'menu_icon'           => 'dashicons-schedule',
 			'supports'            => [ 'title',
 			                           //'editor',
 			                           'thumbnail',
@@ -451,127 +451,8 @@ class WC_Bom_Post {
 		register_post_type( 'production', $args );
 
 
-		/* Post Type: Purchases.
-		 */
-
-		$labels = [
-			'name'          => __( 'Purchase Orders', 'wc-bom' ),
-			'singular_name' => __( 'Purchase Order', 'wc-bom' ),
-			'menu_name'     => __( 'Purchases', 'wc-bom' ),
-			//'archives'      => __( 'Purchase Directory', 'wc-bom' ),
-		];
-
-		$args = [
-			'label'               => __( 'Purchase Orders', 'wc-bom' ),
-			'labels'              => $labels,
-			'description'         => '',
-			'public'              => true,
-			'publicly_queryable'  => true,
-			'show_ui'             => true,
-			'show_in_rest'        => true,
-			'rest_base'           => 'purchase-order',
-			'has_archive'         => 'purchase-orders',
-			'show_in_menu'        => true,
-			//'show_in_menu_string' => 'wc-bom-admin',
-			'exclude_from_search' => false,
-			'capability_type'     => 'product',
-			'map_meta_cap'        => true,
-			'hierarchical'        => true,
-			'rewrite'             => [ 'slug' => 'purchase-order', 'with_front' => true ],
-			'query_var'           => true,
-			//'menu_icon'           => 'dashicons-warning',
-			'supports'            => [ 'title',
-			                           //'editor',
-			                           'thumbnail',
-			                           'revisions',
-			                           'author',
-			                           'page-attributes' ],
-		];
-
-		register_post_type( 'purchase', $args );
-
 	}
 
-	public function register_secondary() {
-		/* Post Type: Purchases.
-		 */
-
-		$labels = [
-			'name'          => __( 'Vendors', 'wc-bom' ),
-			'singular_name' => __( 'Vendor', 'wc-bom' ),
-			'menu_name'     => __( 'Vendors', 'wc-bom' ),
-			//'archives'      => __( 'Purchase Directory', 'wc-bom' ),
-		];
-
-		$args = [
-			'label'               => __( 'Vendors', 'wc-bom' ),
-			'labels'              => $labels,
-			'description'         => '',
-			'public'              => true,
-			'publicly_queryable'  => true,
-			'show_ui'             => true,
-			'show_in_rest'        => true,
-			'rest_base'           => 'vendor',
-			'has_archive'         => 'vendors',
-			'show_in_menu'        => true,
-			//'show_in_menu_string' => 'wc-bom-admin',
-			'exclude_from_search' => false,
-			'capability_type'     => 'vendor',
-			'map_meta_cap'        => true,
-			'hierarchical'        => true,
-			'rewrite'             => [ 'slug' => 'vendor', 'with_front' => true ],
-			'query_var'           => true,
-			//'menu_icon'           => 'dashicons-warning',
-			'supports'            => [ 'title',
-			                           //'editor',
-			                           'thumbnail',
-			                           'revisions',
-			                           'author',
-			                           'page-attributes' ],
-		];
-
-		register_post_type( 'vendors', $args );
-
-		/* Post Type: Purchases.
-		 */
-
-		$labels = [
-			'name'          => __( 'Requisitions', 'wc-bom' ),
-			'singular_name' => __( 'Requisition', 'wc-bom' ),
-			'menu_name'     => __( 'Requisition', 'wc-bom' ),
-			//'archives'      => __( 'Purchase Directory', 'wc-bom' ),
-		];
-
-		$args = [
-			'label'               => __( 'Requisitions', 'wc-bom' ),
-			'labels'              => $labels,
-			'description'         => '',
-			'public'              => true,
-			'publicly_queryable'  => true,
-			'show_ui'             => true,
-			'show_in_rest'        => true,
-			'rest_base'           => 'requisition',
-			'has_archive'         => 'requisitions',
-			'show_in_menu'        => true,
-			//'show_in_menu_string' => 'wc-bom-admin',
-			'exclude_from_search' => false,
-			'capability_type'     => 'requisition',
-			'map_meta_cap'        => true,
-			'hierarchical'        => true,
-			'rewrite'             => [ 'slug' => 'requisition', 'with_front' => true ],
-			'query_var'           => true,
-			//'menu_icon'           => 'dashicons-warning',
-			'supports'            => [ 'title',
-			                           //'editor',
-			                           'thumbnail',
-			                           'revisions',
-			                           'author',
-			                           'page-attributes' ],
-		];
-
-		register_post_type( 'requisition', $args );
-
-	}
 }
 
 
