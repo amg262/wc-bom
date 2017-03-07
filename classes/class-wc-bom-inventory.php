@@ -51,7 +51,7 @@ class WC_Bom_Inventory {
 			'hierarchical'        => true,
 			'rewrite'             => [ 'slug' => 'inventory-record', 'with_front' => true ],
 			'query_var'           => true,
-			'menu_icon'           => 'dashicons-admin-tools',
+			'menu_icon'           => 'dashicons-schedule',
 			'supports'            => [
 				'title',
 				//'editor',
