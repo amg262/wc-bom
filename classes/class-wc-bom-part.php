@@ -249,7 +249,7 @@ class WC_Bom_material {
 			'show_in_rest'       => true,
 			'show_in_quick_edit' => true,
 		];
-		register_taxonomy( 'part_tags', [ 'part', 'assembly' ], $args );
+		register_taxonomy( 'part_tags', [ 'part', 'assembly', 'inventory','ecn' ], $args );
 	}
 
 }

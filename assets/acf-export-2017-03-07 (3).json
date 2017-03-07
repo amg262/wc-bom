@@ -1,0 +1,400 @@
+[
+    {
+        "key": "group_58be21633a48e",
+        "title": "Part",
+        "fields": [
+            {
+                "key": "field_58bed3428e47c",
+                "label": "Basic",
+                "name": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "top",
+                "endpoint": 0
+            },
+            {
+                "key": "field_58be21cb63558",
+                "label": "Part ID",
+                "name": "part_id",
+                "type": "text",
+                "instructions": "",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_58be224180f49",
+                "label": "Part No.",
+                "name": "part_no",
+                "type": "text",
+                "instructions": "",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_58bed5eb041ea",
+                "label": "Part Category",
+                "name": "part_category",
+                "type": "taxonomy",
+                "instructions": "",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "taxonomy": "part-category",
+                "field_type": "checkbox",
+                "allow_null": 0,
+                "add_term": 1,
+                "save_terms": 1,
+                "load_terms": 1,
+                "return_format": "object",
+                "multiple": 0
+            },
+            {
+                "key": "field_58be224e80f4a",
+                "label": "Part Name",
+                "name": "part_name",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_58be2211b049f",
+                "label": "Part Sku",
+                "name": "part_sku",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_58be225a80f4b",
+                "label": "Part Description",
+                "name": "part_description",
+                "type": "textarea",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "maxlength": "",
+                "rows": "",
+                "new_lines": ""
+            },
+            {
+                "key": "field_58bed39aaa35e",
+                "label": "Details",
+                "name": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "top",
+                "endpoint": 0
+            },
+            {
+                "key": "field_58be23ec87b4e",
+                "label": "Part Units",
+                "name": "part_units",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_58be26e874984",
+                "label": "Part Cost",
+                "name": "part_cost",
+                "type": "number",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "min": "",
+                "max": "",
+                "step": ""
+            },
+            {
+                "key": "field_58be25d7bc42b",
+                "label": "Part Weight",
+                "name": "part_weight",
+                "type": "number",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "min": "",
+                "max": "",
+                "step": ""
+            },
+            {
+                "key": "field_58be27115df5e",
+                "label": "Part Measurement",
+                "name": "part_measurement",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_58be268b32e00",
+                "label": "Part Notes",
+                "name": "part_notes",
+                "type": "textarea",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "maxlength": "",
+                "rows": "",
+                "new_lines": "wpautop"
+            },
+            {
+                "key": "field_58bed24b1cdca",
+                "label": "Other",
+                "name": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "top",
+                "endpoint": 0
+            },
+            {
+                "key": "field_58bed27f1cdcb",
+                "label": "Part Vendor",
+                "name": "part_vendor",
+                "type": "taxonomy",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "taxonomy": "vendors",
+                "field_type": "select",
+                "allow_null": 1,
+                "add_term": 1,
+                "save_terms": 1,
+                "load_terms": 1,
+                "return_format": "object",
+                "multiple": 0
+            },
+            {
+                "key": "field_58bed2a91cdcc",
+                "label": "Part Location",
+                "name": "part_location",
+                "type": "taxonomy",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "taxonomy": "locations",
+                "field_type": "select",
+                "allow_null": 1,
+                "add_term": 1,
+                "save_terms": 1,
+                "load_terms": 1,
+                "return_format": "object",
+                "multiple": 0
+            },
+            {
+                "key": "field_58be266d32dff",
+                "label": "Part Phase",
+                "name": "part_phase",
+                "type": "taxonomy",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "taxonomy": "phases",
+                "field_type": "select",
+                "allow_null": 1,
+                "add_term": 1,
+                "save_terms": 1,
+                "load_terms": 1,
+                "return_format": "object",
+                "multiple": 0
+            },
+            {
+                "key": "field_58be263532dfe",
+                "label": "Part Procurement",
+                "name": "part_procurement",
+                "type": "taxonomy",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "taxonomy": "procurement_type",
+                "field_type": "select",
+                "allow_null": 1,
+                "add_term": 1,
+                "save_terms": 1,
+                "load_terms": 1,
+                "return_format": "object",
+                "multiple": 0
+            },
+            {
+                "key": "field_58be22d23e6ca",
+                "label": "BOM Level",
+                "name": "bom_level",
+                "type": "number",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "min": "",
+                "max": "",
+                "step": ""
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "part"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "left",
+        "instruction_placement": "label",
+        "hide_on_screen": [
+            "author"
+        ],
+        "active": 1,
+        "description": ""
+    }
+]
