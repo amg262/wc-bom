@@ -145,10 +145,13 @@ class WC_Bom_Settings {
 			//$active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'display_options';
 			?>
 
-            <h2 class="nav-tab-wrapper">
-                <a href="?page=wc-bom-settings&tab=display_options" class="nav-tab">Display Options</a>
-                <a href="?page=wc-bom-settings&tab=social_options" class="nav-tab">Social Options</a>
-            </h2>
+			<?php if ( $wc_bom_settings[ 'license_key' ]  !== '' ) { ?>
+
+                <h2 class="nav-tab-wrapper">
+                    <a href="?page=wc-bom-settings&tab=display_options" class="nav-tab">Display Options</a>
+                    <a href="?page=wc-bom-settings&tab=social_options" class="nav-tab">Social Options</a>
+                </h2>
+			<?php } ?>
             <form method="post" action="options.php">
 
 				<?php //if ( $active_tab === 'display_options' ) {
@@ -335,7 +338,7 @@ class WC_Bom_Settings {
                     </td>
                 </tr>
 
-				<?php if ( $wc_bom_settings[ $key ] !== null ) { ?>
+				<?php if ( $wc_bom_settings[ $key ] !== '' ) { ?>
 
                     <tr class="wc-bom-settings" id="">
                         <!-- top setting -->
@@ -478,8 +481,42 @@ class WC_Bom_Settings {
                         <!-- top setting -->
                         <!-- top setting -->
 						<?php
-						$name = 'Cron Job';
-						$key  = strtolower( $name );
+						$name = 'Enable Cron';
+						$str  = str_replace( ' ', '_', $name );
+						$key  = strtolower( $str );
+						$id   = 'wc_bom_settings[' . $key . ']';
+						$desc = 'desc';
+						$obj  = $wc_bom_settings[ $key ];
+						$icon = '';
+						?>
+                        <th scope="row">
+                            <label for="<?php _e( $id ); ?>">
+                            <span class="<?php _e( $icon ); ?>">
+                                <?php _e( $name ); ?>
+                            </span>
+                            </label>
+                        </th>
+                        <td>
+                            <fieldset>
+                                <input title="<?php _e( $id ); ?>"
+                                       type="checkbox"
+                                       id="<?php _e( $id ); ?>"
+                                       name="<?php _e( $id ); ?>"
+                                       value="1"
+									<?php if ( $obj ) {
+										checked( 1, $obj, true );
+									} ?> />
+
+                            </fieldset>
+                        </td>
+                    </tr>
+                    <tr class="wc-bom-settings" id="">
+                        <!-- top setting -->
+                        <!-- top setting -->
+						<?php
+						$name = 'Enable API';
+						$str  = str_replace( ' ', '_', $name );
+						$key  = strtolower( $str );
 						$id   = 'wc_bom_settings[' . $key . ']';
 						$desc = 'desc';
 						$obj  = $wc_bom_settings[ $key ];
