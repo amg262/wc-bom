@@ -95,7 +95,7 @@ class WC_Bom_Post {
 			'name'          => __( 'Parts', 'wc-bom' ),
 			'singular_name' => __( 'Part', 'wc-bom' ),
 			'menu_name'     => __( 'Part', 'wc-bom' ),
-			'all_items'     => __( 'All Parts', 'wc-bom' ),
+			'all_items'     => __( 'All Part', 'wc-bom' ),
 
 		];
 

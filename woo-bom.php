@@ -76,6 +76,7 @@ class WC_Bom {
 		include_once __DIR__ . '/assets/vendor/acf/acf.php';
 		include_once __DIR__ . '/classes/class-wc-bom-part.php';
 		include_once __DIR__ . '/classes/class-wc-bom-assembly.php';
+		include_once __DIR__ . '/classes/class-wc-bom-inventory.php';
 		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
 		//include_once __DIR__ . '/classes/settingsPage.php';
 
