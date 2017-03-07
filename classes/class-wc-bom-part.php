@@ -14,7 +14,6 @@
  * Time: 8:03 PM
  */
 
-namespace WooBom;
 
 class WC_Bom_material {
 

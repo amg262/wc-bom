@@ -145,12 +145,12 @@ class WC_Bom_Settings {
 			//$active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'display_options';
 			?>
 
-			<?php if ( $obj !== '' ) { ?>
+			<?php // if ( $obj !== '' ) { ?>
                 <h2 class="nav-tab-wrapper">
                     <a href="?page=wc-bom-settings&tab=display_options" class="nav-tab">Display Options</a>
                     <a href="?page=wc-bom-settings&tab=social_options" class="nav-tab">Social Options</a>
                 </h2>
-			<?php } ?>
+			<?php //} ?>
             <form method="post" action="options.php">
 
 				<?php //if ( $active_tab === 'display_options' ) {
@@ -235,30 +235,31 @@ class WC_Bom_Settings {
 	<?php }
 
 
-	public static function wco_admin() {
+	public function wco_admin() {
 
 		//wp_register_script( 'wc_bom_admin_js', plugins_url( 'assets/js/wc_bom_admin.js', __FILE__ ), [ 'jquery' ] );
 
 		$file = plugins_url( 'assets/lib/js/wc_bom_admin.js', __DIR__ );
 
 		if ( ! empty( $file ) ) {
-			wp_register_script( 'wco_admin_js', $file, [ 'jquery' ] );
-			wp_enqueue_script( 'wco_admin_js' );
+			wp_register_script( 'wco_adm_js', $file, [ 'jquery' ] );
+			wp_enqueue_script( 'wco_adm_js' );
 
 			$ajax_object = [
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
 				'nonce'    => wp_create_nonce( 'ajax_nonce' ),
 				'whatever' => 'product',
+                'action'=> [$this,'wco_ajax']
 				//'options'  => 'wc_bom_option[opt]',
 			];
-			wp_localize_script( 'wco_admin_js', 'ajax_object', $ajax_object );
+			wp_localize_script( 'wco_adm_js', 'ajax_object', $ajax_object );
 
 			/* Output empty div. */
 		}
 	}
 
 
-	public static function wco_ajax() {
+	public function wco_ajax() {
 
 		//global $wpdb;
 
@@ -292,7 +293,6 @@ class WC_Bom_Settings {
 		// Enqueue Media Library Use
 		wp_enqueue_media();
 
-		var_dump( $wc_bom_settings );
 
 		//var_dump($wc_bom_options);?>
         <div>
@@ -330,7 +330,7 @@ class WC_Bom_Settings {
                     </td>
                 </tr>
 
-				<?php if ( $wc_bom_settings[ $key ] !== '' ) { ?>
+				<?php //if ( $wc_bom_settings[ $key ] !== '' ) { ?>
 
                     <tr class="wc-bom-settings" id="">
                         <!-- top setting -->
@@ -535,7 +535,7 @@ class WC_Bom_Settings {
                             </fieldset>
                         </td>
                     </tr>
-				<?php } ?>
+				<?php //} ?>
                 <!-- end settings -->
                 </tbody><!-- end tbody -->
 
