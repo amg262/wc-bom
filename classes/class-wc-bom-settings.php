@@ -7,7 +7,6 @@
  * https://andrewgunn.org
  *
  */
-namespace WooBom;
 
 /**
  * PLUGIN SETTINGS PAGE
@@ -34,7 +33,7 @@ class WC_Bom_Settings {
 		add_action( 'admin_init', [ $this, 'page_init' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'wco_admin' ] );
 		add_action( 'wp_ajax_wco_ajax', [ $this, 'wco_ajax' ] );
-		add_action( 'wp_ajax_nopriv_wco_ajax', [ $this, 'wco_ajax' ] );
+		//add_action( 'wp_ajax_nopriv_wco_ajax', [ $this, 'wco_ajax' ] );
 		//add_filter('custom_menu_order', [$this,'custom_menu_order']); // Activate custom_menu_order
 		//add_filter('menu_order', [$this,'custom_menu_order']);
 	}
@@ -250,7 +249,7 @@ class WC_Bom_Settings {
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
 				'nonce'    => wp_create_nonce( 'ajax_nonce' ),
 				'whatever' => 'product',
-				'options'  => 'wc_bom_option[opt]',
+				//'options'  => 'wc_bom_option[opt]',
 			];
 			wp_localize_script( 'wco_admin_js', 'ajax_object', $ajax_object );
 
