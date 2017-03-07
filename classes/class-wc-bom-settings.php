@@ -131,8 +131,9 @@ class WC_Bom_Settings {
 			<?php settings_errors(); ?>
 
 			<?php
-			$name = 'Parts';
-			$key  = strtolower( $name );
+			$name = 'License Key';
+			$str  = str_replace( ' ', '_', $name );
+			$key  = strtolower( $str );
 			$id   = 'wc_bom_settings[' . $key . ']';
 			$desc = 'desc';
 			$obj  = $wc_bom_settings[ $key ];
@@ -145,8 +146,7 @@ class WC_Bom_Settings {
 			//$active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'display_options';
 			?>
 
-			<?php if ( $wc_bom_settings[ 'license_key' ]  !== '' ) { ?>
-
+			<?php if ( $obj  !== '' ) { ?>
                 <h2 class="nav-tab-wrapper">
                     <a href="?page=wc-bom-settings&tab=display_options" class="nav-tab">Display Options</a>
                     <a href="?page=wc-bom-settings&tab=social_options" class="nav-tab">Social Options</a>
