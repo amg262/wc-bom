@@ -123,6 +123,9 @@ class WC_Bom {
 			add_option( WC_BOM_OPTIONS, [ 'init' => true ] );
 		}
 
+		if ( $wc_bom_settings[ 'init' ] !== true ) {
+			add_option( WC_BOM_SETTINGS, [ 'init' => true ] );
+		}
 	}
 
 

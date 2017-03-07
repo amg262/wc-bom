@@ -17,6 +17,11 @@ namespace WooBom;
  *
  * @package WooBom
  */
+/**
+ * Class WC_Bom_Settings
+ *
+ * @package WooBom
+ */
 class WC_Bom_Settings {
 
 	/**
@@ -24,13 +29,12 @@ class WC_Bom_Settings {
 	 */
 	//public $wc_bom_options;
 
-
 	/**
 	 * Start up
 	 */
 	public function __construct() {
 
-	    include_once __DIR__.'/class-wc-bom-worker.php';
+		include_once __DIR__ . '/class-wc-bom-worker.php';
 		add_action( 'admin_menu', [ $this, 'wc_bom_menu' ] );
 		add_action( 'admin_init', [ $this, 'page_init' ] );
 		//add_action( 'admin_enqueue_scripts', [ $this, 'wco_admin' ] );
@@ -45,6 +49,7 @@ class WC_Bom_Settings {
 	 * Add options page
 	 */
 	public function wc_bom_menu() {
+
 		add_menu_page(
 			__( 'WooCommerce BOM', 'wc_bom' ),
 			'Woo BOM',
@@ -54,7 +59,7 @@ class WC_Bom_Settings {
 			'dashicons-clipboard',//plugins_url( 'myplugin/images/icon.png' ),
 			57
 		);
-    }
+	}
 
 
 	/**
@@ -65,8 +70,7 @@ class WC_Bom_Settings {
 		global $wc_bom_options, $wc_bom_settings;
 		$wc_bom_settings = get_option( WC_BOM_SETTINGS );
 		$wc_bom_options  = get_option( WC_BOM_OPTIONS );
-
-		// Set class property
+        // Set class property
 		?>
 
         <div class="wrap">
@@ -99,10 +103,16 @@ class WC_Bom_Settings {
                     <a href="?page=wc-bom-settings&tab=social_options" class="nav-tab">Social Options</a>
                 </h2>
 				<?php //} ?>
+
                 <form method="post" action="options.php">
 
 					<?php //if ( $active_tab === 'display_options' ) {
 					// This prints out all hidden setting fields
+                    //if (check_admin_referer($non, 'wc_non')) {
+                        //var_dump($wc_bom_settings);
+                    //}
+                    //wp_verify_nonce($non, 'wc_non');
+
 					settings_fields( 'wc_bom_settings_group' );
 					do_settings_sections( 'wc-bom-settings-admin' );
 					submit_button( 'Save Options' );
@@ -159,16 +169,19 @@ class WC_Bom_Settings {
 	 * Sanitize each setting field as needed
 	 *
 	 * @param array $input Contains all settings fields as array keys
+	 *
+	 * @return array
 	 */
-	public function sanitize( $input )
-	{
-		$new_input = array();
-		if( isset( $input['id_number'] ) )
-			$new_input['id_number'] = absint( $input['id_number'] );
+	public function sanitize( $input ) {
 
-		if( isset( $input['title'] ) )
-			$new_input['title'] = sanitize_text_field( $input['title'] );
+		$new_input = [];
+		if ( isset( $input[ 'license_key' ] ) ) {
+			$new_input[ 'license_key' ] = sanitize_text_field( $input[ 'license_key' ] );
+		}
 
+		//if ( isset( $input[ 'title' ] ) ) {
+		//	$new_input[ 'title' ] = sanitize_text_field( $input[ 'title' ] );
+		//}
 		return $new_input;
 	}
 	/**
@@ -188,9 +201,6 @@ class WC_Bom_Settings {
 	<?php }
 
 
-
-
-
 	/**
 	 * Get the settings option array and print one of its values
 	 */
@@ -202,9 +212,10 @@ class WC_Bom_Settings {
 		$wc_bom_settings = get_option( WC_BOM_SETTINGS );
 		// Enqueue Media Library Use
 		wp_enqueue_media();
-
 		//var_dump($wc_bom_options);?>
         <div>
+            <?php  ?>
+
             <table class="form-table">
                 <tbody>
 

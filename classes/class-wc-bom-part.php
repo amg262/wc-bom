@@ -22,7 +22,7 @@ class WC_Bom_material {
 		add_action( 'init', [ $this, 'register_material' ] );
 		add_action( 'init', [ $this, 'register_material_cat' ] );
 		add_action( 'init', [ $this, 'register_procurement_type' ] );
-		add_action( 'init', [ $this, 'register_location' ] );
+		//add_action( 'init', [ $this, 'register_location' ] );
 		add_action( 'init', [ $this, 'register_phase' ] );
 
 		add_action( 'init', [ $this, 'register_vendor' ] );
