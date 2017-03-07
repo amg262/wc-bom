@@ -21,15 +21,15 @@ var paths = {
   assets:'assets/',
   img:'assets/img/',
   lib:'assets/lib/',
-  dist_css:'assets/dist/css/',
+  dist_css:'assets/dist/css/*.css',
   dist_js:'assets/dist/js/',
-  css:'assets/lib/css/*.css',
-  js:'assets/lib/js/*.js',
+  css:'assets/lib/css/',
+  js:'assets/lib/js/',
   includes:'includes/',
   classes:'classes/',
-  fontawesome: 'assets/vendor/fontawesome/',
-  sweetalert: 'assets/vendor/sweetalert/',
-  chartjs: 'assets/vendor/chartjs/'
+  fontawesome:'assets/vendor/fontawesome/',
+  sweetalert:'assets/vendor/sweetalert/',
+  chartjs:'assets/vendor/chartjs/'
 };
 
 
@@ -51,12 +51,12 @@ gulp.task('images', function () {
 
 
 gulp.task('cssnano', function () {
-  gulp.src(paths.css)
+  gulp.src(paths.css + '*.css')
     .pipe(cssnano({
       'safe':true // Use safe optimizations.
     }))
     .pipe(rename({ suffix:'.min' }))
-    .pipe(gulp.dest(paths.dist_css))
+    .pipe(gulp.dest(paths.css))
 });
 /**
  * Minify compiled JavaScript.
@@ -65,10 +65,18 @@ gulp.task('cssnano', function () {
  */
 gulp.task('uglify', function () {
 
-  gulp.src(paths.js)
+  gulp.src(paths.js + 'wc_bom.js')
     .pipe(uglify())
     .pipe(rename({ suffix:'.min' }))
-    .pipe(gulp.dest(paths.dist_js));
+    .pipe(gulp.dest(paths.js));
+  gulp.src(paths.js + 'wc_bom_admin.js')
+    .pipe(uglify())
+    .pipe(rename({ suffix:'.min' }))
+    .pipe(gulp.dest(paths.js));
+  gulp.src(paths.js + 'wc_bom_wp.js')
+    .pipe(uglify())
+    .pipe(rename({ suffix:'.min' }))
+    .pipe(gulp.dest(paths.js));
 
 });
 
@@ -79,22 +87,22 @@ gulp.task('uglify', function () {
  */
 gulp.task('vendor', function () {
 
-  gulp.src(paths.sweetalert+'sweetalert.css')
+  gulp.src(paths.sweetalert + 'sweetalert.css')
     .pipe(cssnano())
     .pipe(rename({ suffix:'.min' }))
     .pipe(gulp.dest(paths.sweetalert));
 
-  gulp.src(paths.fontawesome+'css/font-awesome.css')
+  gulp.src(paths.fontawesome + 'css/font-awesome.css')
     .pipe(cssnano())
     .pipe(rename({ suffix:'.min' }))
-    .pipe(gulp.dest(paths.fontawesome+'css'));
+    .pipe(gulp.dest(paths.fontawesome + 'css'));
 
-  gulp.src(paths.chartjs+'chart.js')
+  gulp.src(paths.chartjs + 'chart.js')
     .pipe(uglify())
     .pipe(rename({ suffix:'.min' }))
     .pipe(gulp.dest(paths.chartjs));
 
-  gulp.src(paths.sweetalert+'sweetalert-dev.js')
+  gulp.src(paths.sweetalert + 'sweetalert-dev.js')
     .pipe(uglify())
     .pipe(rename({ suffix:'.min' }))
     .pipe(gulp.dest(paths.sweetalert));

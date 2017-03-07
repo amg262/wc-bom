@@ -331,7 +331,7 @@ class WC_Bom_Settings {
                                    value="<?php _e( $obj ); ?>"/>
 
                         </fieldset>
-                        
+
                     </td>
                 </tr>
 
