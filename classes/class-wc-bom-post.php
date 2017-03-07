@@ -95,6 +95,7 @@ class WC_Bom_Post {
 			'name'          => __( 'Parts', 'wc-bom' ),
 			'singular_name' => __( 'Part', 'wc-bom' ),
 			'menu_name'     => __( 'Part', 'wc-bom' ),
+			'all_items'     => __( 'All Parts', 'wc-bom' ),
 
 		];
 
@@ -258,6 +259,7 @@ class WC_Bom_Post {
 			'name'          => __( 'Purchase Orders', 'wc-bom' ),
 			'singular_name' => __( 'Purchase Order', 'wc-bom' ),
 			'menu_name'     => __( 'Purchases', 'wc-bom' ),
+		    'all_items' => __('All Purchases', 'wc-bom'),
 			//'archives'      => __( 'Purchase Directory', 'wc-bom' ),
 		];
 
