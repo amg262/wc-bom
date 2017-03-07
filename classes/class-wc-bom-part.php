@@ -24,6 +24,7 @@ class WC_Bom_material {
 		add_action( 'init', [ $this, 'register_material_cat' ] );
 		add_action( 'init', [ $this, 'register_procurement_type' ] );
 		add_action( 'init', [ $this, 'register_location' ] );
+		add_action( 'init', [ $this, 'register_phase' ] );
 
 		add_action( 'init', [ $this, 'register_vendor' ] );
 		add_action( 'init', [ $this, 'register_material_tags' ] );
@@ -99,11 +100,24 @@ class WC_Bom_material {
 			'rest_base'          => 'material-category',
 			'show_in_quick_edit' => true,
 		];
-		register_taxonomy( 'material_category', [ 'material' ], $args );
+		register_taxonomy( 'material-category', [ 'material' ], $args );
 
-		if (! has_term( 'geoposts', 'geopost-category' )) {
-			wp_insert_term( 'GeoPosts','geopost-category', array('GeoPosts', 'geoposts') );
+		if ( ! has_term( 'raw-material', 'material-category' ) ) {
+			wp_insert_term( 'Raw Material', 'material-category', [ 'Raw Material', 'raw-material' ] );
 		}
+
+		if ( ! has_term( 'part', 'material-category' ) ) {
+			wp_insert_term( 'Part', 'material-category', [ 'Part', 'part' ] );
+		}
+
+		if ( ! has_term( 'component', 'material-category' ) ) {
+			wp_insert_term( 'Component', 'material-category', [ 'Component', 'component' ] );
+		}
+
+		if ( ! has_term( 'general', 'material-category' ) ) {
+			wp_insert_term( 'General', 'material-category', [ 'General', 'general' ] );
+		}
+
 	}
 
 
@@ -190,13 +204,40 @@ class WC_Bom_material {
 		register_taxonomy( 'locations', [ 'material' ], $args );
 	}
 
+	public function register_phase() {
+
+		$labels = [
+			'name'          => __( 'Phases', 'wc-bom' ),
+			'singular_name' => __( 'Phase', 'wc-bom' ),
+			'menu_name'     => __( 'Phases', 'wc-bom' ),
+		];
+
+		$args = [
+			'label'              => __( 'Phases', 'wc-bom' ),
+			'labels'             => $labels,
+			'public'             => true,
+			'hierarchical'       => true,
+			//'label' => 'Inventory Types',
+			'show_ui'            => true,
+			'show_in_menu'       => true,
+			'show_in_nav_menus'  => true,
+			'query_var'          => true,
+			'rewrite'            => [ 'slug' => 'phases', 'with_front' => true, 'hierarchical' => true, ],
+			'show_admin_column'  => true,
+			'show_in_rest'       => true,
+			'rest_base'          => 'phases',
+			'show_in_quick_edit' => true,
+		];
+		register_taxonomy( 'phases', [ 'material' ], $args );
+	}
+
 
 	public function register_material_tags() {
 
 		$labels = [
 			'name'          => __( 'Material Tags', 'wc-bom' ),
 			'singular_name' => __( 'Material Tag', 'wc-bom' ),
-			'menu_name'     => __( 'Material Tags', 'wc-bom' ),
+			'menu_name'     => __( 'Tags', 'wc-bom' ),
 		];
 
 		$args = [
