@@ -51,7 +51,7 @@ gulp.task('images', function () {
 
 
 gulp.task('cssnano', function () {
-  gulp.src(paths.css + '*.css')
+  gulp.src(paths.css + 'wc_bom.css')
     .pipe(cssnano({
       'safe':true // Use safe optimizations.
     }))
