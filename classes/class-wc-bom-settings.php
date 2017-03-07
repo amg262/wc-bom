@@ -363,6 +363,7 @@ class WC_Bom_Settings {
                             </fieldset>
                         </td>
 
+
                     </tr>
                     <!-- end settings -->
 
