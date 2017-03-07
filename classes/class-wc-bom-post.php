@@ -392,7 +392,7 @@ class WC_Bom_Post {
 			'rest_base'           => 'shipment',
 			'has_archive'         => 'shipments',
 			'show_in_menu'        => true,
-			//'show_in_menu_string' => 'wc-bom-admin',
+			'show_in_menu_string' => 'wc-bom-settings',
 			'exclude_from_search' => false,
 			'capability_type'     => 'product',
 			'map_meta_cap'        => true,
