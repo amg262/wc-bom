@@ -284,38 +284,278 @@ class WC_Bom_Settings {
 
 		//var_dump($wc_bom_options);?>
         <div>
-            <!-- wc-bom-settings field -->
-			<?php
-			$name = 'Parts';
-			$key  = strtolower( $name );
-			$id = 'wc_bom_settings['.$key.']';
-			$obj = $wc_bom_settings[$key];
-			?>
-            <fieldset class="wc-bom-settings .<?php echo $key; ?>">
-                <label for="<?php echo $obj; ?>">
-					<?php echo $name; ?>
-                </label>
-                <input type="checkbox" id="<?php echo $id; ?>"
-                       name="wc_bom_settings[<?php echo $key; ?>]"
-                       value="1" <?php checked( 1, $id, true ); ?> />
-            </fieldset><?php ?>
-            <!-- end settings -->
+            <table class="form-table">
+                <tbody>
+                <tr class="wc-bom-settings" id="">
+                    <!-- top setting -->
+					<?php
+					$name = 'Parts';
+					$key  = strtolower( $name );
+					$id   = 'wc_bom_settings[' . $key . ']';
+					$desc = 'desc';
+					$obj  = $wc_bom_settings[ $key ];
+					$icon = 'wp-menu-image dashicons-before dashicons-hammer';
+					?>
+                    <th scope="row">
+                        <label for="<?php _e( $id ); ?>">
+                            <span class="<?php _e( $icon ); ?>">
+                                <?php _e( $name ); ?>
+                            </span>
+                        </label>
+                    </th>
+                    <td>
+                        <fieldset>
+                            <input title="<?php _e( $id ); ?>"
+                                   type="checkbox"
+                                   id="<?php _e( $id ); ?>"
+                                   name="<?php _e( $id ); ?>"
+                                   value="1"
+								<?php if ( $obj ) {
+									checked( 1, $obj, true );
+								} ?> />
 
+                        </fieldset>
+                    </td>
 
-            <fieldset>
-                <p>
-                    <span id="yeahbtn" class="button secondary"> Yeah</span>
-                </p>
-            </fieldset>
+                    <!-- top setting -->
+					<?php
+					$name = 'Assemblies';
+					$key  = strtolower( $name );
+					$id   = 'wc_bom_settings[' . $key . ']';
+					$desc = 'desc';
+					$obj  = $wc_bom_settings[ $key ];
+					$icon = 'wp-menu-image dashicons-before dashicons-hammer';
+					?>
+                    <th scope="row">
+                        <label for="<?php _e( $id ); ?>">
+                            <span class="<?php _e( $icon ); ?>">
+                                <?php _e( $name ); ?>
+                            </span>
+                        </label>
+                    </th>
+                    <td>
+                        <fieldset>
+                            <input title="<?php _e( $id ); ?>"
+                                   type="checkbox"
+                                   id="<?php _e( $id ); ?>"
+                                   name="<?php _e( $id ); ?>"
+                                   value="1"
+								<?php if ( $obj ) {
+									checked( 1, $obj, true );
+								} ?> />
+
+                        </fieldset>
+                    </td>
+                </tr>
+                <!-- end settings -->
+
+                <tr class="wc-bom-settings" id="">
+                    <!-- top setting -->
+	                <?php
+	                $name = 'Shipments';
+	                $key  = strtolower( $name );
+	                $id   = 'wc_bom_settings[' . $key . ']';
+	                $desc = 'desc';
+	                $obj  = $wc_bom_settings[ $key ];
+	                $icon = 'wp-menu-image dashicons-before dashicons-hammer';
+	                ?>
+                    <th scope="row">
+                        <label for="<?php _e( $id ); ?>">
+                            <span class="<?php _e( $icon ); ?>">
+                                <?php _e( $name ); ?>
+                            </span>
+                        </label>
+                    </th>
+                    <td>
+                        <fieldset>
+                            <input title="<?php _e( $id ); ?>"
+                                   type="checkbox"
+                                   id="<?php _e( $id ); ?>"
+                                   name="<?php _e( $id ); ?>"
+                                   value="1"
+				                <?php if ( $obj ) {
+					                checked( 1, $obj, true );
+				                } ?> />
+
+                        </fieldset>
+                    </td>
+
+                    <!-- top setting -->
+	                <?php
+	                $name = 'Requisitions';
+	                $key  = strtolower( $name );
+	                $id   = 'wc_bom_settings[' . $key . ']';
+	                $desc = 'desc';
+	                $obj  = $wc_bom_settings[ $key ];
+	                $icon = 'wp-menu-image dashicons-before dashicons-hammer';
+	                ?>
+                    <th scope="row">
+                        <label for="<?php _e( $id ); ?>">
+                            <span class="<?php _e( $icon ); ?>">
+                                <?php _e( $name ); ?>
+                            </span>
+                        </label>
+                    </th>
+                    <td>
+                        <fieldset>
+                            <input title="<?php _e( $id ); ?>"
+                                   type="checkbox"
+                                   id="<?php _e( $id ); ?>"
+                                   name="<?php _e( $id ); ?>"
+                                   value="1"
+				                <?php if ( $obj ) {
+					                checked( 1, $obj, true );
+				                } ?> />
+
+                        </fieldset>
+                    </td>
+                </tr>
+                <!-- end settings -->
+
+                <tr class="wc-bom-settings" id="">
+                    <!-- top setting -->
+	                <?php
+	                $name = 'Purchases';
+	                $key  = strtolower( $name );
+	                $id   = 'wc_bom_settings[' . $key . ']';
+	                $desc = 'desc';
+	                $obj  = $wc_bom_settings[ $key ];
+	                $icon = 'wp-menu-image dashicons-before dashicons-hammer';
+	                ?>
+                    <th scope="row">
+                        <label for="<?php _e( $id ); ?>">
+                            <span class="<?php _e( $icon ); ?>">
+                                <?php _e( $name ); ?>
+                            </span>
+                        </label>
+                    </th>
+                    <td>
+                        <fieldset>
+                            <input title="<?php _e( $id ); ?>"
+                                   type="checkbox"
+                                   id="<?php _e( $id ); ?>"
+                                   name="<?php _e( $id ); ?>"
+                                   value="1"
+				                <?php if ( $obj ) {
+					                checked( 1, $obj, true );
+				                } ?> />
+
+                        </fieldset>
+                    </td>
+
+                    <!-- top setting -->
+	                <?php
+	                $name = 'Vendors';
+	                $key  = strtolower( $name );
+	                $id   = 'wc_bom_settings[' . $key . ']';
+	                $desc = 'desc';
+	                $obj  = $wc_bom_settings[ $key ];
+	                $icon = 'wp-menu-image dashicons-before dashicons-hammer';
+	                ?>
+                    <th scope="row">
+                        <label for="<?php _e( $id ); ?>">
+                            <span class="<?php _e( $icon ); ?>">
+                                <?php _e( $name ); ?>
+                            </span>
+                        </label>
+                    </th>
+                    <td>
+                        <fieldset>
+                            <input title="<?php _e( $id ); ?>"
+                                   type="checkbox"
+                                   id="<?php _e( $id ); ?>"
+                                   name="<?php _e( $id ); ?>"
+                                   value="1"
+				                <?php if ( $obj ) {
+					                checked( 1, $obj, true );
+				                } ?> />
+
+                        </fieldset>
+                    </td>
+                </tr>
+                <!-- end settings -->
+                <!-- end settings -->
+
+                <tr class="wc-bom-settings" id="">
+                    <!-- top setting -->
+	                <?php
+	                $name = 'Production';
+	                $key  = strtolower( $name );
+	                $id   = 'wc_bom_settings[' . $key . ']';
+	                $desc = 'desc';
+	                $obj  = $wc_bom_settings[ $key ];
+	                $icon = 'wp-menu-image dashicons-before dashicons-hammer';
+	                ?>
+                    <th scope="row">
+                        <label for="<?php _e( $id ); ?>">
+                            <span class="<?php _e( $icon ); ?>">
+                                <?php _e( $name ); ?>
+                            </span>
+                        </label>
+                    </th>
+                    <td>
+                        <fieldset>
+                            <input title="<?php _e( $id ); ?>"
+                                   type="checkbox"
+                                   id="<?php _e( $id ); ?>"
+                                   name="<?php _e( $id ); ?>"
+                                   value="1"
+				                <?php if ( $obj ) {
+					                checked( 1, $obj, true );
+				                } ?> />
+
+                        </fieldset>
+                    </td>
+
+                    <!-- top setting -->
+	                <?php
+	                $name = 'ECN';
+	                $key  = strtolower( $name );
+	                $id   = 'wc_bom_settings[' . $key . ']';
+	                $desc = 'desc';
+	                $obj  = $wc_bom_settings[ $key ];
+	                $icon = 'wp-menu-image dashicons-before dashicons-hammer';
+	                ?>
+                    <th scope="row">
+                        <label for="<?php _e( $id ); ?>">
+                            <span class="<?php _e( $icon ); ?>">
+                                <?php _e( $name ); ?>
+                            </span>
+                        </label>
+                    </th>
+                    <td>
+                        <fieldset>
+                            <input title="<?php _e( $id ); ?>"
+                                   type="checkbox"
+                                   id="<?php _e( $id ); ?>"
+                                   name="<?php _e( $id ); ?>"
+                                   value="1"
+				                <?php if ( $obj ) {
+					                checked( 1, $obj, true );
+				                } ?> />
+
+                        </fieldset>
+                    </td>
+                </tr>
+                <!-- end settings -->
+                </tbody><!-- end tbody -->
+
+            </table><!--end table -->
+
+            <p>
+                <span id="yeahbtn" class="button secondary"> Yeah</span>
+            </p>
+            <div>
+                <div id="feedme">&nbps;</div>
+            </div>
         </div>
-        <div>
-            <div id="feedme">&nbps;</div>
-        </div>
+
 
 	<?php }
 }
 
 
 if ( is_admin() ) {
+
 	$settings = new WC_Bom_Settings();
 }

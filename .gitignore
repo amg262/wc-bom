@@ -462,3 +462,4 @@ typings/
 /fuel/app/logs/*/*/*
 /fuel/app/cache/*/*
 /fuel/app/config/crypt.php
+/classes/class-wc-bom-settings.php
