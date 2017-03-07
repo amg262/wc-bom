@@ -7,14 +7,13 @@
  * https://andrewgunn.org
  */
 
+
 /**
  * Created by PhpStorm.
  * User: andy
  * Date: 3/6/17
  * Time: 8:03 PM
  */
-
-
 class WC_Bom_material {
 
 	public function __construct() {
@@ -97,8 +96,6 @@ class WC_Bom_material {
 			'show_in_quick_edit' => true,
 		];
 		register_taxonomy( 'part-category', [ 'part' ], $args );
-
-
 
 		if ( ! has_term( 'part', 'part-category' ) ) {
 			wp_insert_term( 'Part', 'part-category', [ 'Part', 'part' ] );
@@ -198,6 +195,7 @@ class WC_Bom_material {
 		register_taxonomy( 'locations', [ 'part' ], $args );
 	}
 
+
 	public function register_phase() {
 
 		$labels = [
@@ -249,7 +247,7 @@ class WC_Bom_material {
 			'show_in_rest'       => true,
 			'show_in_quick_edit' => true,
 		];
-		register_taxonomy( 'part_tags', [ 'part', 'assembly', 'inventory','ecn' ], $args );
+		register_taxonomy( 'part_tags', [ 'part', 'assembly', 'inventory', 'ecn' ], $args );
 	}
 
 }
