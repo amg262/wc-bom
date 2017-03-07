@@ -23,6 +23,14 @@ class WC_Bom_Assembly {
 		add_action( 'init', [ $this, 'register_assembly_cat' ] );
 	}
 
+	public function init() {
+
+	}
+
+
+	public function register() {
+
+	}
 
 	public function register_assembly() {
 

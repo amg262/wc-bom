@@ -22,7 +22,7 @@ class WC_Bom_Settings {
 	/**
 	 * Holds the values to be used in the fields callbacks
 	 */
-	public $wc_bom_options;
+	//public $wc_bom_options;
 
 
 	/**
@@ -30,10 +30,11 @@ class WC_Bom_Settings {
 	 */
 	public function __construct() {
 
+	    include_once __DIR__.'/class-wc-bom-worker.php';
 		add_action( 'admin_menu', [ $this, 'wc_bom_menu' ] );
 		add_action( 'admin_init', [ $this, 'page_init' ] );
-		add_action( 'admin_enqueue_scripts', [ $this, 'wco_admin' ] );
-		add_action( 'wp_ajax_wco_ajax', [ $this, 'wco_ajax' ] );
+		//add_action( 'admin_enqueue_scripts', [ $this, 'wco_admin' ] );
+		//add_action( 'wp_ajax_wco_ajax', [ $this, 'wco_ajax' ] );
 		//add_action( 'wp_ajax_nopriv_wco_ajax', [ $this, 'wco_ajax' ] );
 		//add_filter('custom_menu_order', [$this,'custom_menu_order']); // Activate custom_menu_order
 		//add_filter('menu_order', [$this,'custom_menu_order']);
@@ -44,13 +45,6 @@ class WC_Bom_Settings {
 	 * Add options page
 	 */
 	public function wc_bom_menu() {
-
-		//$count         = wp_count_posts( 'part' );
-		//$pending_count = $count->pending;
-		// This page will be under "Settings"add_submenu_page( 'tools.php', 'SEO Image Tags', 'SEO Image Tags', 'manage_options', 'seo_image_tags', 'seo_image_tags_options_page' );
-
-		// add_submenu_page()
-
 		add_menu_page(
 			__( 'WooCommerce BOM', 'wc_bom' ),
 			'Woo BOM',
@@ -60,56 +54,7 @@ class WC_Bom_Settings {
 			'dashicons-clipboard',//plugins_url( 'myplugin/images/icon.png' ),
 			57
 		);
-
-		//add_filter( 'add_menu_classes', [ $this, 'pending' ] );
-	}
-
-
-	/**
-	 * @param $menu
-	 *
-	 * @return mixed
-	 */
-	public function link_target( $menu ) {
-
-		// loop through $menu items, find match, add indicator
-		foreach ( $menu as $menu_key => $menu_data ) {
-			$menu[ $menu_key ][ 0 ] .= "<span class='wc-bom-admin-menu'>&nbsp;</span>";
-		}
-
-		return $menu;
-	}
-
-
-	/**
-	 * Shows pending for trail stories
-	 */
-	public function pending( $menu ) {
-
-		$post_types    = [ 'part', 'subassembly', 'assembly', 'vendor', 'requistion', 'shipping' ];
-		$type          = "part";
-		$status        = "pending";
-		$num_posts     = wp_count_posts( $type, 'readable' );
-		$pending_count = 0;
-		if ( ! empty( $num_posts->$status ) ) {
-			$pending_count = $num_posts->$status;
-		}
-		// build string to match in $menu array
-		if ( $type == 'post' ) {
-			$menu_str = 'edit.php';
-		} else {
-			$menu_str = 'edit.php?post_type=' . $type;
-		}
-		// loop through $menu items, find match, add indicator
-		foreach ( $menu as $menu_key => $menu_data ) {
-			if ( $menu_str !== $menu_data[ 2 ] ) {
-				continue;
-			}
-			$menu[ $menu_key ][ 0 ] .= " <span class='awaiting-mod count-$pending_count'><span class='pending-count'>" . number_format_i18n( $pending_count ) . '</span></span>';
-		}
-
-		return $menu;
-	}
+    }
 
 
 	/**
@@ -240,50 +185,7 @@ class WC_Bom_Settings {
 	<?php }
 
 
-	public function wco_admin() {
 
-		//wp_register_script( 'wc_bom_admin_js', plugins_url( 'assets/js/wc_bom_admin.js', __FILE__ ), [ 'jquery' ] );
-
-		$file = plugins_url( 'assets/lib/js/wc_bom_admin.js', __DIR__ );
-
-		if ( ! empty( $file ) ) {
-			wp_register_script( 'wco_adm_js', $file, [ 'jquery' ] );
-			wp_enqueue_script( 'wco_adm_js' );
-
-			$ajax_object = [
-				'ajax_url' => admin_url( 'admin-ajax.php' ),
-				'nonce'    => wp_create_nonce( 'ajax_nonce' ),
-				'whatever' => 'product',
-				'action'   => [ $this, 'wco_ajax' ]
-				//'options'  => 'wc_bom_option[opt]',
-			];
-			wp_localize_script( 'wco_adm_js', 'ajax_object', $ajax_object );
-
-			/* Output empty div. */
-		}
-	}
-
-
-	public function wco_ajax() {
-
-		//global $wpdb;
-
-		check_ajax_referer( 'ajax_nonce', 'security' );
-
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-
-		}
-		$whatever = $_POST[ 'whatever' ];
-		$posts    = get_posts( [ 'post_type' => $whatever ] );
-
-		foreach ( $posts as $p ) {
-			echo $p->post_title . '<br>';
-		}
-		//$whatever = intval( $_POST['whatever'] );
-		//$whatever += 10;
-		//echo $whatever;
-		wp_die();
-	}
 
 
 	/**

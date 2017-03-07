@@ -8,7 +8,6 @@
 
 namespace WooBom;
 
-
 /**
  * Created by PhpStorm.
  * User: andy
@@ -34,113 +33,47 @@ namespace WooBom;
  */
 class WC_Bom_Data {
 
-	/**
-	 * @var
-	 */
-	private $db;
-	/**
-	 * @var
-	 */
-	private $record;
-	/**
-	 * @var
-	 */
-	private $query;
-	/**
-	 * @var
-	 */
-	private $view;
-	/**
-	 * @var
-	 */
-	private $output;
-	/**
-	 * @var
-	 */
-	private $salt;
-	/**
-	 * @var
-	 */
-	private $key;
-	/**
-	 * @var
-	 */
-	private $format;
-	/**
-	 * @var
-	 */
-	private $encode;
-	/**
-	 * @var
-	 */
-	private $decode;
-	/**
-	 * @var
-	 */
-	private $encrypt;
-	/**
-	 * @var
-	 */
-	private $decrypt;
-	/**
-	 * @var
-	 */
-	private $file;
-	/**
-	 * @var
-	 */
-	private $data;
-	/**
-	 * @var
-	 */
-	private $outcome;
+	public function jal_install() {
 
-	/**
-	 *
-	 */
-	public function init() {
+		global $wpdb;
+		global $jal_db_version;
+
+		$table_name = $wpdb->prefix . 'liveshoutbox';
+
+		$charset_collate = $wpdb->get_charset_collate();
+
+		$sql = 'CREATE TABLE $table_name (
+		id MEDIUMINT(9) NOT NULL AUTO_INCREMENT,
+		time DATETIME DEFAULT \'0000-00-00 00:00:00\' NOT NULL,
+		name TINYTEXT NOT NULL,
+		text TEXT NOT NULL,
+		url VARCHAR(55) DEFAULT \'\' NOT NULL,
+		PRIMARY KEY  (id)
+	) $charset_collate;';
+
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		dbDelta( $sql );
+
+		add_option( 'jal_db_version', $jal_db_version );
 	}
 
-	/**
-	 *
-	 */
-	public function install_db() {
-	}
 
-	/**
-	 *
-	 */
-	public function delete_db() {
-	}
+	public function jal_install_data() {
 
-	/**
-	 * @param $record
-	 */
-	public function create_record( $record ) {
-	}
+		global $wpdb;
 
-	/**
-	 * @param $record
-	 */
-	public function update_record( $record ) {
-	}
+		$welcome_name = 'Mr. WordPress';
+		$welcome_text = 'Congratulations, you just completed the installation!';
 
-	/**
-	 * @param $record
-	 */
-	public function delete_record( $record ) {
-	}
+		$table_name = $wpdb->prefix . 'liveshoutbox';
 
-	/**
-	 * @param $query
-	 */
-	public function query_data( $query ) {
+		$wpdb->insert(
+			$table_name,
+			[
+				'time' => current_time( 'mysql' ),
+				'name' => $welcome_name,
+				'text' => $welcome_text,
+			]
+		);
 	}
-
-	/**
-	 * @param $view
-	 */
-	public function data_view( $view ) {
-	}
-
 }
