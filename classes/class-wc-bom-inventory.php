@@ -20,15 +20,15 @@ class WC_Bom_Inventory {
 	public function __construct() {
 
 		add_action( 'init', [ $this, 'register_inventory' ] );
-		add_action( 'init', [ $this, 'register_inventory_cat' ] );
+		//add_action( 'init', [ $this, 'register_inventory_cat' ] );
 	}
 
 
 	public function register_inventory() {
 
 		$labels = [
-			'name'          => __( 'Inventory Records', 'wc-bom' ),
-			'singular_name' => __( 'Inventory Record', 'wc-bom' ),
+			'name'          => __( 'Inventory', 'wc-bom' ),
+			'singular_name' => __( 'Inventory', 'wc-bom' ),
 			'menu_name'     => __( 'Inventory', 'wc-bom' ),
 			'all_items'     => __( 'All Records', 'wc-bom' ),
 

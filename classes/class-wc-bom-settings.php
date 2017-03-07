@@ -159,14 +159,17 @@ class WC_Bom_Settings {
 	 * Sanitize each setting field as needed
 	 *
 	 * @param array $input Contains all settings fields as array keys
-	 *
-	 * @return array
 	 */
-	public function sanitize( $input ) {
+	public function sanitize( $input )
+	{
+		$new_input = array();
+		if( isset( $input['id_number'] ) )
+			$new_input['id_number'] = absint( $input['id_number'] );
 
-		$new_input = [];
+		if( isset( $input['title'] ) )
+			$new_input['title'] = sanitize_text_field( $input['title'] );
 
-		return $input;
+		return $new_input;
 	}
 	/**
 	 * Print the Section text

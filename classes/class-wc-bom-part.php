@@ -33,30 +33,28 @@ class WC_Bom_material {
 	public function register_material() {
 
 		$labels = [
-			'name'          => __( 'Materials', 'wc-bom' ),
-			'singular_name' => __( 'Material', 'wc-bom' ),
-			'menu_name'     => __( 'Material', 'wc-bom' ),
-			'all_items'     => __( 'All Materials', 'wc-bom' ),
+			'name'          => __( 'Parts', 'wc-bom' ),
+			'singular_name' => __( 'Part', 'wc-bom' ),
+			'menu_name'     => __( 'Parts', 'wc-bom' ),
+			'all_items'     => __( 'All Parts', 'wc-bom' ),
 
 		];
 
 		$args = [
-			'label'               => __( 'Materials', 'wc-bom' ),
+			'label'               => __( 'Parts', 'wc-bom' ),
 			'labels'              => $labels,
 			//'description'         => 'Materials post type that will be combined to make subassemblies and assemblies portion of BOM.',
 			'public'              => true,
 			'publicly_queryable'  => true,
 			'show_ui'             => true,
 			'show_in_rest'        => true,
-			'rest_base'           => 'Material',
-			'has_archive'         => 'Materials',
 			'show_in_menu'        => true,
 			//'show_in_menu_string' => 'wc-bom-admin',
 			'exclude_from_search' => false,
 			'capability_type'     => 'product',
 			'map_meta_cap'        => true,
 			'hierarchical'        => true,
-			'rewrite'             => [ 'slug' => 'material', 'with_front' => true ],
+			'rewrite'             => [ 'slug' => 'part', 'with_front' => true ],
 			'query_var'           => true,
 			'menu_icon'           => 'dashicons-admin-tools',
 			'supports'            => [
@@ -71,20 +69,20 @@ class WC_Bom_material {
 			],
 		];
 
-		register_post_type( 'material', $args );
+		register_post_type( 'part', $args );
 	}
 
 
 	public function register_material_cat() {
 
 		$labels = [
-			'name'          => __( 'Material Categories', 'wc-bom' ),
-			'singular_name' => __( 'Material Category', 'wc-bom' ),
+			'name'          => __( 'Part Categories', 'wc-bom' ),
+			'singular_name' => __( 'Part Category', 'wc-bom' ),
 			'menu_name'     => __( 'Categories', 'wc-bom' ),
 		];
 
 		$args = [
-			'label'              => __( 'Material Categories', 'wc-bom' ),
+			'label'              => __( 'Part Categories', 'wc-bom' ),
 			'labels'             => $labels,
 			'public'             => true,
 			'hierarchical'       => true,
@@ -93,28 +91,25 @@ class WC_Bom_material {
 			'show_in_menu'       => true,
 			'show_in_nav_menus'  => true,
 			'query_var'          => true,
-			'rewrite'            => [ 'slug' => 'material-category', 'with_front' => true, 'hierarchical' => true, ],
+			'rewrite'            => [ 'slug' => 'part-category', 'with_front' => true, 'hierarchical' => true, ],
 			'show_admin_column'  => true,
 			'show_in_rest'       => true,
-			'rest_base'          => 'material-category',
 			'show_in_quick_edit' => true,
 		];
-		register_taxonomy( 'material-category', [ 'material' ], $args );
+		register_taxonomy( 'part-category', [ 'part' ], $args );
 
-		if ( ! has_term( 'raw-material', 'material-category' ) ) {
-			wp_insert_term( 'Raw Material', 'material-category', [ 'Raw Material', 'raw-material' ] );
+
+
+		if ( ! has_term( 'part', 'part-category' ) ) {
+			wp_insert_term( 'Part', 'part-category', [ 'Part', 'part' ] );
 		}
 
-		if ( ! has_term( 'part', 'material-category' ) ) {
-			wp_insert_term( 'Part', 'material-category', [ 'Part', 'part' ] );
+		if ( ! has_term( 'component', 'part-category' ) ) {
+			wp_insert_term( 'Component', 'part-category', [ 'Component', 'component' ] );
 		}
 
-		if ( ! has_term( 'component', 'material-category' ) ) {
-			wp_insert_term( 'Component', 'material-category', [ 'Component', 'component' ] );
-		}
-
-		if ( ! has_term( 'general', 'material-category' ) ) {
-			wp_insert_term( 'General', 'material-category', [ 'General', 'general' ] );
+		if ( ! has_term( 'raw-material', 'part-category' ) ) {
+			wp_insert_term( 'Raw Material', 'part-category', [ 'Raw Material', 'raw-material' ] );
 		}
 
 	}
@@ -144,7 +139,7 @@ class WC_Bom_material {
 			'rest_base'          => 'procurement-type',
 			'show_in_quick_edit' => true,
 		];
-		register_taxonomy( 'procurement_type', [ 'material' ], $args );
+		register_taxonomy( 'procurement_type', [ 'part' ], $args );
 	}
 
 
@@ -172,7 +167,7 @@ class WC_Bom_material {
 			'rest_base'          => 'vendors',
 			'show_in_quick_edit' => true,
 		];
-		register_taxonomy( 'vendors', [ 'material' ], $args );
+		register_taxonomy( 'vendors', [ 'part' ], $args );
 	}
 
 
@@ -200,7 +195,7 @@ class WC_Bom_material {
 			'rest_base'          => 'locations',
 			'show_in_quick_edit' => true,
 		];
-		register_taxonomy( 'locations', [ 'material' ], $args );
+		register_taxonomy( 'locations', [ 'part' ], $args );
 	}
 
 	public function register_phase() {
@@ -227,20 +222,20 @@ class WC_Bom_material {
 			'rest_base'          => 'phases',
 			'show_in_quick_edit' => true,
 		];
-		register_taxonomy( 'phases', [ 'material' ], $args );
+		register_taxonomy( 'phases', [ 'part' ], $args );
 	}
 
 
 	public function register_material_tags() {
 
 		$labels = [
-			'name'          => __( 'Material Tags', 'wc-bom' ),
-			'singular_name' => __( 'Material Tag', 'wc-bom' ),
+			'name'          => __( 'Part Tags', 'wc-bom' ),
+			'singular_name' => __( 'Part Tag', 'wc-bom' ),
 			'menu_name'     => __( 'Tags', 'wc-bom' ),
 		];
 
 		$args = [
-			'label'              => __( 'Material Tags', 'wc-bom' ),
+			'label'              => __( 'Part Tags', 'wc-bom' ),
 			'labels'             => $labels,
 			'public'             => true,
 			'hierarchical'       => false,
@@ -249,13 +244,12 @@ class WC_Bom_material {
 			'show_in_menu'       => true,
 			'show_in_nav_menus'  => true,
 			'query_var'          => true,
-			'rewrite'            => [ 'slug' => 'material-tags', 'with_front' => true, 'hierarchical' => false, ],
+			'rewrite'            => [ 'slug' => 'part-tags', 'with_front' => true, 'hierarchical' => false, ],
 			'show_admin_column'  => true,
 			'show_in_rest'       => true,
-			'rest_base'          => 'Material-tags',
 			'show_in_quick_edit' => true,
 		];
-		register_taxonomy( 'material_tags', [ 'material', 'assembly' ], $args );
+		register_taxonomy( 'part_tags', [ 'part', 'assembly' ], $args );
 	}
 
 }
