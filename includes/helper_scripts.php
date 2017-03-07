@@ -107,19 +107,23 @@ add_filter( 'add_attachment', 'insert_image_alt_tag', 10, 2 );
 
 //add_filter('edit_attachment', 'insert_image_alt_tag', 10, 2);
 
-function insert_image_alt_tag( $post_ID ) {
+function update_alt_tag( $post_ID , $action) {
 
-	$sit_settings = get_option( 'sit_settings' );
-
-	$attach = wp_get_attachment_url( $post_ID );
-
+    $attach = wp_get_attachment_url( $post_ID );
 	$title = sanitize_text_field( get_the_title( $post_ID ) );
 
-	if ( ! add_post_meta( $post_ID, '_wp_attachment_image_alt', $title, true ) ) {
-
+	if ($action === 'create') {
+		if ( ! add_post_meta( $post_ID, '_wp_attachment_image_alt', $title, true ) ) {
+			update_post_meta( $post_ID, '_wp_attachment_image_alt', $title );
+		}
+    } elseif ($action === 'update') {
 		update_post_meta( $post_ID, '_wp_attachment_image_alt', $title );
 
+	} elseif ($action === 'delete') {
+		delete_post_meta( $post_ID, '_wp_attachment_image_alt', $title );
 	}
+	
+	return get_post($post_ID);
 
 }
 

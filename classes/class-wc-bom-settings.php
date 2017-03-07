@@ -146,7 +146,7 @@ class WC_Bom_Settings {
 			//$active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'display_options';
 			?>
 
-			<?php if ( $obj  !== '' ) { ?>
+			<?php if ( $obj !== '' ) { ?>
                 <h2 class="nav-tab-wrapper">
                     <a href="?page=wc-bom-settings&tab=display_options" class="nav-tab">Display Options</a>
                     <a href="?page=wc-bom-settings&tab=social_options" class="nav-tab">Social Options</a>
@@ -236,14 +236,11 @@ class WC_Bom_Settings {
 	<?php }
 
 
-	/**
-	 *
-	 */
 	public static function wco_admin() {
 
 		//wp_register_script( 'wc_bom_admin_js', plugins_url( 'assets/js/wc_bom_admin.js', __FILE__ ), [ 'jquery' ] );
 
-		$file = plugins_url( 'assets/lib/js/wc_bom_ajax.js', __DIR__ );
+		$file = plugins_url( 'assets/lib/js/wc_bom_admin.js', __DIR__ );
 
 		if ( ! empty( $file ) ) {
 			wp_register_script( 'wco_admin_js', $file, [ 'jquery' ] );
@@ -262,18 +259,14 @@ class WC_Bom_Settings {
 	}
 
 
-	/**
-	 *
-	 */
 	public static function wco_ajax() {
 
 		//global $wpdb;
 
-		var_dump( check_ajax_referer( 'ajax_nonce', 'security' ) );
+		check_ajax_referer( 'ajax_nonce', 'security' );
 
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-			// return;
-			//return;
+
 		}
 		$whatever = $_POST[ 'whatever' ];
 		$posts    = get_posts( [ 'post_type' => $whatever ] );

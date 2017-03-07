@@ -236,12 +236,12 @@ class WC_Bom {
 		                    [ 'jquery' ] );
 		//wp_register_script( 'chart_js', plugins_url( $url . 'chartjs/chart.js', __FILE__ ), [ 'jquery' ] );
 		wp_register_style( 'sweetalert_css', plugins_url( $url . 'sweetalert/sweetalert.min.css', __FILE__ ) );
-		wp_register_style( 'fontawesome', plugins_url( $url . 'fontawesome/css/font-awesome.min.css', __FILE__ ) );
+		//wp_register_style( 'fontawesome', plugins_url( $url . 'fontawesome/css/font-awesome.min.css', __FILE__ ) );
 
 		wp_enqueue_script( 'sweetalert_js' );
 		//wp_enqueue_script( 'chart_js' );
 		wp_enqueue_style( 'sweetalert_css' );
-		wp_enqueue_style( 'fontawesome' );
+		//wp_enqueue_style( 'fontawesome' );
 	}
 
 
