@@ -244,9 +244,6 @@ class WC_Bom {
 		wp_enqueue_script( 'validate_js',
 		                  'https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js' );
 
-		wp_enqueue_script( 'spin_js',
-		                   'https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js' );
-
 	}
 
 
