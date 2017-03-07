@@ -17,7 +17,7 @@
 * License: GPL2
 */
 
-//namespace WooBom;
+namespace WooBom;
 
 global $wc_bom_options, $wc_bom_settings;
 

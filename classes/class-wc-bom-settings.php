@@ -7,7 +7,7 @@
  * https://andrewgunn.org
  *
  */
-
+namespace WooBom;
 /**
  * PLUGIN SETTINGS PAGE
  */
