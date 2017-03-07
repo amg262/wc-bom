@@ -54,7 +54,7 @@
     "chart.js": "^2.5.0",
     "chartjs": "^0.3.24",
     "del": "^2.2.2",
-    "electron": "^1.4.15",
+    "electron": "^1.6.1",
     "eslint": "^3.16.1",
     "flexslider": "^2.6.3",
     "foundation-sites": "^6.3.0",
