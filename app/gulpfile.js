@@ -112,7 +112,7 @@ gulp.task('watch', ['serve'], function () {
   gulp.watch("assets/lib/js/*.js").on('change', browserSync.reload);
   gulp.watch("assets/lib/css/*.css").on('change', browserSync.reload);
   gulp.watch("includes/*.php").on('change', browserSync.reload);
-  gulp.watch("woo-bom.php").on('change', browserSync.reload);
+  gulp.watch("wc-bom.php").on('change', browserSync.reload);
 });
 
 gulp.task('default', ['images', 'cssnano', 'uglify', 'serve']);
