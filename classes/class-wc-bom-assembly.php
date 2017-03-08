@@ -7,7 +7,6 @@
  * https://andrewgunn.org
  */
 
-
 /**
  * Created by PhpStorm.
  * User: andy
@@ -20,41 +19,26 @@ class WC_Bom_Assembly {
 	 * WC_Bom_Assembly constructor.
 	 */
 	public function __construct() {
-
-		add_action( 'init', [ $this, 'register_assembly' ] );
-		add_action( 'init', [ $this, 'register_assembly_cat' ] );
 	}
-
 
 	/**
 	 *
 	 */
 	public function init() {
-
+		add_action( 'init', [ $this, 'register_post' ] );
+		add_action( 'init', [ $this, 'register_taxonomy' ] );
 	}
-
 
 	/**
 	 *
 	 */
-	public function register() {
-
-	}
-
-
-	/**
-	 *
-	 */
-	public function register_assembly() {
-
+	public function register_post() {
 		$labels = [
 			'name'          => __( 'Assemblies', 'wc-bom' ),
 			'singular_name' => __( 'Assembly', 'wc-bom' ),
 			'menu_name'     => __( 'Assembly', 'wc-bom' ),
 			'all_items'     => __( 'All Assemblies', 'wc-bom' ),
-
 		];
-
 		$args = [
 			'label'               => __( 'Assemblies', 'wc-bom' ),
 			'labels'              => $labels,
@@ -83,22 +67,18 @@ class WC_Bom_Assembly {
 				'page-attributes',
 			],
 		];
-
 		register_post_type( 'assembly', $args );
 	}
-
 
 	/**
 	 *
 	 */
-	public function register_assembly_cat() {
-
+	public function register_taxonomy() {
 		$labels = [
 			'name'          => __( 'Assembly Categories', 'wc-bom' ),
 			'singular_name' => __( 'Assembly Category', 'wc-bom' ),
 			'menu_name'     => __( 'Categories', 'wc-bom' ),
 		];
-
 		$args = [
 			'label'              => __( 'Assembly Categories', 'wc-bom' ),
 			'labels'             => $labels,
@@ -117,8 +97,6 @@ class WC_Bom_Assembly {
 		];
 		register_taxonomy( 'assembly_category', [ 'assembly' ], $args );
 	}
-
 }
-
 
 $obj = new WC_Bom_Assembly();
