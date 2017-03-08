@@ -19,6 +19,7 @@ class WC_Bom_Assembly {
 	 * WC_Bom_Assembly constructor.
 	 */
 	public function __construct() {
+		$this->init();
 	}
 
 	/**
