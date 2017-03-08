@@ -6,6 +6,7 @@ const concat = require('gulp-concat');
 const uglify = require('gulp-uglify');
 const imagemin = require('gulp-imagemin');
 const del = require('del');
+const clean = require('gulp-clean');
 //const csslint = require('gulp-csslint');
 const rename = require("gulp-rename");
 const browserSync = require('browser-sync').create();
@@ -19,9 +20,10 @@ const plumber = require('gulp-plumber');
 
 var paths = {
   assets:'assets/',
-  img:'assets/img/',
+  img:'assets/img/*',
   lib:'assets/lib/',
   dist:'assets/dist/',
+  images:'assets/dist/images/',
   includes:'includes/',
   classes:'classes/',
 };
@@ -29,18 +31,18 @@ var paths = {
 
 // Not all tasks need to use streams
 // A gulpfile is just another node program and you can use any package available on npm
-gulp.task('clean', function () {
-  // You can use multiple globbing patterns as you would with `gulp.src`
-  return del(['build']);
+gulp.task('delete', function () {
+  gulp.src(paths.images + 'img', { read:false })
+    .pipe(clean());
 });
 
 
 // Copy all static images
-gulp.task('images', function () {
-  return gulp.src(paths.img)
+gulp.task('imagemin', function () {
+  gulp.src(paths.img)
   // Pass in options to the task
-    .pipe(imagemin({ optimizationLevel:5 }))
-    .pipe(gulp.dest(paths.img));
+    .pipe(imagemin())
+    .pipe(gulp.dest(paths.images));
 });
 
 
@@ -115,9 +117,9 @@ gulp.task('watch', ['serve'], function () {
   gulp.watch("woo-bom.php").on('change', browserSync.reload);
 });
 
-gulp.task('default', ['images', 'cssnano', 'uglify', 'serve']);
-gulp.task('clean', ['images', 'cssnano', 'uglify']);
-gulp.task('start', ['images', 'cssnano', 'uglify', 'serve']);
+gulp.task('default', ['imagemin', 'delete', 'cssnano', 'uglify', 'serve']);
+gulp.task('clean', ['imagemin', 'delete', 'cssnano', 'uglify']);
+gulp.task('start', ['imagemin', 'delete', 'cssnano', 'uglify', 'serve']);
 
 //gulp.task('uglify', ['uglify']);
 // The default task (called when you run `gulp` from cli)
