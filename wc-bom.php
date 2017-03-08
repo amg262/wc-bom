@@ -19,7 +19,6 @@
 
 namespace WooBom;
 
-
 global $wc_bom_options, $wc_bom_settings;
 
 $wc_bom_options  = get_option( WC_BOM_OPTIONS );
@@ -30,6 +29,7 @@ $wc_bom_settings = get_option( WC_BOM_SETTINGS );
  */
 const WC_BOM_OPTIONS = 'wc_bom_options';
 /**
+ *
  *
  */
 const WC_BOM_SETTINGS = 'wc_bom_settings';
@@ -65,6 +65,7 @@ class WC_Bom {
 	 */
 	private $posts;
 
+
 	/**
 	 * Plugin constructor.
 	 */
@@ -72,6 +73,7 @@ class WC_Bom {
 
 		$this->init();
 	}
+
 
 	/**
 	 *
@@ -105,6 +107,7 @@ class WC_Bom {
 		//register_deactivation_hook( __FILE__, [ $this, 'deactivate' ] );
 	}
 
+
 	/**
 	 *
 	 */
@@ -112,6 +115,7 @@ class WC_Bom {
 
 		flush_rewrite_rules();
 	}
+
 
 	/**
 	 * @return mixed|void
@@ -131,6 +135,7 @@ class WC_Bom {
 		}
 	}
 
+
 	/**
 	 *
 	 */
@@ -147,6 +152,7 @@ class WC_Bom {
 		}
 	}
 
+
 	/**
 	 *
 	 */
@@ -160,6 +166,7 @@ class WC_Bom {
 		];
 		wp_localize_script( 'host', 'host', $host );
 	}
+
 
 	/**
 	 *
@@ -215,6 +222,7 @@ class WC_Bom {
 		return $message;
 	}
 
+
 	/**
 	 *
 	 */
@@ -231,6 +239,7 @@ class WC_Bom {
 
 	}
 
+
 	/**
 	 *
 	 */
@@ -239,7 +248,6 @@ class WC_Bom {
 		$url = 'assets/vendor/';
 
 		wp_enqueue_script( 'jquery-ui' );
-
 
 		wp_enqueue_script( 'sweetalertjs',
 		                   'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js' );
@@ -251,6 +259,7 @@ class WC_Bom {
 		wp_enqueue_script( 'validate_js',
 		                   'https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js' );
 	}
+
 
 	/**
 	 *
@@ -274,6 +283,7 @@ class WC_Bom {
 		wp_enqueue_script( 'js' );
 		wp_enqueue_style( 'css' );*/
 	}
+
 
 	/**
 	 * @param $actions
