@@ -27,15 +27,21 @@ $wc_bom_settings = get_option( WC_BOM_SETTINGS );
 /**
  *
  */
-const WC_BOM_OPTIONS = 'wc_bom_options';
+const WC_BOM_OPTIONS  = 'wc_bom_options';
 /**
  *
  */
 const WC_BOM_SETTINGS = 'wc_bom_settings';
 
-const WC_BOM_ACF = 'assets/vendor/acf/acf.php';
+/**
+ *
+ */
+const WC_BOM_ACF      = 'assets/vendor/acf/acf.php';
 
-const WC_BOM_WOO = 'woocommerce/woocommerce.php';
+/**
+ *
+ */
+const WC_BOM_WOO      = 'woocommerce/woocommerce.php';
 
 /**
  * Class WC_Bom
@@ -129,6 +135,9 @@ class WC_Bom {
 	}
 
 
+	/**
+	 *
+	 */
 	public function acf_options() {
 
 		if ( function_exists( 'acf_add_options_page' ) ) {
@@ -230,6 +239,9 @@ class WC_Bom {
 	}
 
 
+	/**
+	 *
+	 */
 	public function load_vendor_assets() {
 
 		$url = 'assets/vendor/';

@@ -20,6 +20,7 @@ class WC_Bom_API {
 	 * WC_Bom_API constructor.
 	 */
 	public function __construct() {
+
 		add_action( 'rest_api_init', 'dt_register_api_hooks' );
 
 	}

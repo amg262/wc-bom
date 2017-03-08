@@ -7,31 +7,44 @@
  * https://andrewgunn.org
  */
 
+
 /**
  * Created by PhpStorm.
  * User: andy
  * Date: 3/6/17
  * Time: 8:03 PM
  */
-
-
 class WC_Bom_Assembly {
 
+	/**
+	 * WC_Bom_Assembly constructor.
+	 */
 	public function __construct() {
 
 		add_action( 'init', [ $this, 'register_assembly' ] );
 		add_action( 'init', [ $this, 'register_assembly_cat' ] );
 	}
 
+
+	/**
+	 *
+	 */
 	public function init() {
 
 	}
 
 
+	/**
+	 *
+	 */
 	public function register() {
 
 	}
 
+
+	/**
+	 *
+	 */
 	public function register_assembly() {
 
 		$labels = [
@@ -75,6 +88,9 @@ class WC_Bom_Assembly {
 	}
 
 
+	/**
+	 *
+	 */
 	public function register_assembly_cat() {
 
 		$labels = [
@@ -101,9 +117,6 @@ class WC_Bom_Assembly {
 		];
 		register_taxonomy( 'assembly_category', [ 'assembly' ], $args );
 	}
-
-
-
 
 }
 

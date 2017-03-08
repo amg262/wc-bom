@@ -10,7 +10,11 @@ add_action( 'wp_enqueue_scripts', 'wco_setup_scripts' );
 add_action( 'wp_enqueue_scripts', 'wco_scripts', 1 );
 //add_action( 'wp_enqueue_scripts', 'oss_styles' );
 
+/**
+ *
+ */
 function wco_setup_scripts() {
+
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'jquery-ui-core' );
 }
@@ -18,7 +22,6 @@ function wco_setup_scripts() {
 /**
  * Enqueue scripts
  */
-
 
 function wco_scripts() { ?>
 
@@ -105,17 +108,15 @@ function wco_scripts() { ?>
 	//var_dump($arr_4);
 	//var_dump($arr_4);
 
-
 	//var_dump($arr_4);
-
 
 	?>
     <script type="text/javascript">
 
-        jQuery(document).ready(function ($) {
+      jQuery(document).ready(function ($) {
 
 
-        });
+      });
 
     </script>
 

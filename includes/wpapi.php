@@ -11,12 +11,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 register_activation_hook( __FILE__, 'giar_activate' );
+/**
+ *
+ */
 function giar_activate() {
 
 	flush_rewrite_rules();
 }
 
 add_action( 'rest_api_init', 'dt_register_api_hooks' );
+/**
+ *
+ */
 function dt_register_api_hooks() {
 
 	$namespace = 'give-it-a-rest/v1';
@@ -30,6 +36,9 @@ function dt_register_api_hooks() {
 	] );
 }
 
+/**
+ * @return \WP_REST_Response
+ */
 function giar_get_posts() {
 
 	if ( 0 || false === ( $return = get_transient( 'dt_all_posts' ) ) ) {
@@ -58,6 +67,9 @@ function giar_get_posts() {
 	return $response;
 }
 
+/**
+ * @return bool|\WP_REST_Response
+ */
 function giar_process_vote() {
 
 	$vote    = $_POST[ 'vote' ];

@@ -22,6 +22,11 @@ namespace WooBom;
  *
  * @package WooBom
  */
+/**
+ * Class WC_Bom_Settings
+ *
+ * @package WooBom
+ */
 class WC_Bom_Settings {
 
 	/**
@@ -70,7 +75,7 @@ class WC_Bom_Settings {
 		global $wc_bom_options, $wc_bom_settings;
 		$wc_bom_settings = get_option( WC_BOM_SETTINGS );
 		$wc_bom_options  = get_option( WC_BOM_OPTIONS );
-        // Set class property
+		// Set class property
 		?>
 
         <div class="wrap">
@@ -108,10 +113,10 @@ class WC_Bom_Settings {
 
 					<?php //if ( $active_tab === 'display_options' ) {
 					// This prints out all hidden setting fields
-                    //if (check_admin_referer($non, 'wc_non')) {
-                        //var_dump($wc_bom_settings);
-                    //}
-                    //wp_verify_nonce($non, 'wc_non');
+					//if (check_admin_referer($non, 'wc_non')) {
+					//var_dump($wc_bom_settings);
+					//}
+					//wp_verify_nonce($non, 'wc_non');
 
 					settings_fields( 'wc_bom_settings_group' );
 					do_settings_sections( 'wc-bom-settings-admin' );
@@ -214,7 +219,7 @@ class WC_Bom_Settings {
 		wp_enqueue_media();
 		//var_dump($wc_bom_options);?>
         <div>
-            <?php  ?>
+			<?php ?>
 
             <table class="form-table">
                 <tbody>

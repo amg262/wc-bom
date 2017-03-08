@@ -15,15 +15,27 @@ namespace WooBom;
  * Date: 3/7/17
  * Time: 8:44 AM
  */
+/**
+ * Class WC_Bom_Worker
+ *
+ * @package WooBom
+ */
 class WC_Bom_Worker {
 
+	/**
+	 * WC_Bom_Worker constructor.
+	 */
 	public function __construct() {
+
 		add_action( 'admin_enqueue_scripts', [ $this, 'wco_admin' ] );
 		add_action( 'wp_ajax_wco_ajax', [ $this, 'wco_ajax' ] );
 		//add_action( 'wp_ajax_nopriv_wco_ajax', [ $this, 'wco_ajax' ] );
 	}
 
 
+	/**
+	 *
+	 */
 	public function wco_admin() {
 
 		//wp_register_script( 'wc_bom_admin_js', plugins_url( 'assets/js/wc_bom_admin.js', __FILE__ ), [ 'jquery' ] );
@@ -48,6 +60,9 @@ class WC_Bom_Worker {
 	}
 
 
+	/**
+	 *
+	 */
 	public function wco_ajax() {
 
 		//global $wpdb;
@@ -70,5 +85,6 @@ class WC_Bom_Worker {
 	}
 
 }
+
 
 $obj = new WC_Bom_Worker();

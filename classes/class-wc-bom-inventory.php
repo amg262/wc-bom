@@ -7,16 +7,18 @@
  * https://andrewgunn.org
  */
 
+
 /**
  * Created by PhpStorm.
  * User: andy
  * Date: 3/6/17
  * Time: 8:03 PM
  */
-
-
 class WC_Bom_Inventory {
 
+	/**
+	 * WC_Bom_Inventory constructor.
+	 */
 	public function __construct() {
 
 		add_action( 'init', [ $this, 'register_inventory' ] );
@@ -24,6 +26,9 @@ class WC_Bom_Inventory {
 	}
 
 
+	/**
+	 *
+	 */
 	public function register_inventory() {
 
 		$labels = [
@@ -68,6 +73,9 @@ class WC_Bom_Inventory {
 	}
 
 
+	/**
+	 *
+	 */
 	public function register_inventory_cat() {
 
 		$labels = [

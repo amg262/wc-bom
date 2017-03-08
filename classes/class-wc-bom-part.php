@@ -16,6 +16,9 @@
  */
 class WC_Bom_material {
 
+	/**
+	 * WC_Bom_material constructor.
+	 */
 	public function __construct() {
 
 		add_action( 'init', [ $this, 'register_material' ] );
@@ -29,6 +32,9 @@ class WC_Bom_material {
 	}
 
 
+	/**
+	 *
+	 */
 	public function register_material() {
 
 		$labels = [
@@ -72,6 +78,9 @@ class WC_Bom_material {
 	}
 
 
+	/**
+	 *
+	 */
 	public function register_material_cat() {
 
 		$labels = [
@@ -112,6 +121,9 @@ class WC_Bom_material {
 	}
 
 
+	/**
+	 *
+	 */
 	public function register_procurement_type() {
 
 		$labels = [
@@ -140,6 +152,9 @@ class WC_Bom_material {
 	}
 
 
+	/**
+	 *
+	 */
 	public function register_vendor() {
 
 		$labels = [
@@ -168,6 +183,9 @@ class WC_Bom_material {
 	}
 
 
+	/**
+	 *
+	 */
 	public function register_location() {
 
 		$labels = [
@@ -196,6 +214,9 @@ class WC_Bom_material {
 	}
 
 
+	/**
+	 *
+	 */
 	public function register_phase() {
 
 		$labels = [
@@ -224,6 +245,9 @@ class WC_Bom_material {
 	}
 
 
+	/**
+	 *
+	 */
 	public function register_material_tags() {
 
 		$labels = [

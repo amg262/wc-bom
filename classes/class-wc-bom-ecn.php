@@ -17,6 +17,9 @@
 
 class WC_Bom_Ecn {
 
+	/**
+	 * WC_Bom_Ecn constructor.
+	 */
 	public function __construct() {
 
 		add_action( 'init', [ $this, 'register_ecn' ] );
@@ -24,6 +27,9 @@ class WC_Bom_Ecn {
 	}
 
 
+	/**
+	 *
+	 */
 	public function register_ecn() {
 		/**
 		 * Post Type: Change Notices.

@@ -1,10 +1,17 @@
 {
-  "name": "logicbom",
+  "name": "woobom",
   "version": "1.0.0",
   "description": "=== WooCommerce Bill of Materials === Contributors: netraa414, amg26 Tags: woocommerce, woocommerce bill of materials, bill of materials, bom, woocommere bom, material tracking, woocommere material tracking, raw material tracking, woocommere raw material, woocommerce erp, erp, bom, woo bom, wc bom Donate link: http://andrewgunn.org/donate Requires at least: 3.0 Tested up to: 4.7.2 Stable tag: 1.0.0 License: GNU AGPLv3 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "awake": "npm update && npm install && npm build",
+    "start": "gulp",
+    "gulp": "gulp",
+    "build": "gulp build",
+    "clean": "gulp clean",
+    "watch": "gulp serve",
+    "serve": "gulp serve",
+    "postinstall": "cd app && npm update && npm install && npm start"
   },
   "repository": {
     "type": "git",
@@ -21,49 +28,21 @@
     "of",
     "materials",
     "bom",
-    "woocommere",
-    "bom",
-    "material",
-    "tracking",
-    "woocommere",
-    "material",
-    "tracking",
-    "raw",
-    "material",
-    "tracking",
-    "woocommere",
-    "raw",
-    "material",
-    "woocommerce",
-    "erp",
-    "erp",
-    "bom",
-    "woo",
-    "bom",
-    "wc",
-    "bom"
+    "woocommere"
   ],
   "author": "amg262",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/amg262/logicbom/issues"
+    "url": "https://github.com/amg262/woobom/issues"
   },
-  "homepage": "https://github.com/amg262/logicbom#readme",
+  "homepage": "https://github.com/amg262/woobom#readme",
   "dependencies": {
-    "browser-sync": "^2.18.8",
-    "chart.js": "^2.5.0",
-    "chartjs": "^0.3.24",
-    "del": "^2.2.2",
-    "electron": "^1.6.1",
-    "eslint": "^3.16.1",
-    "flexslider": "^2.6.3",
-    "foundation-sites": "^6.3.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.1",
     "gulp-concat": "^2.6.1",
-    "gulp-css-scss": "^0.1.0",
     "gulp-csslint": "^1.0.0",
     "gulp-cssnano": "^2.1.2",
+    "gulp-electron": "^0.1.3",
     "gulp-file": "^0.3.0",
     "gulp-imagemin": "^3.1.1",
     "gulp-minify": "0.0.15",
@@ -74,11 +53,22 @@
     "gulp-sourcemaps": "^2.4.1",
     "gulp-uglify": "^2.0.1",
     "gulp-util": "^3.0.8",
-    "pump": "^1.0.2",
-    "sweetalert": "^1.1.3",
+    "gulp-watch": "^4.3.11",
     "wordpress": "^1.4.0",
     "wordpress-debug": "^1.0.1",
     "wpapi": "^1.0.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "browser-sync": "^2.18.8",
+    "chart.js": "^2.5.0",
+    "chartjs": "^0.3.24",
+    "del": "^2.2.2",
+    "electron": "^1.6.1",
+    "eslint": "^3.16.1",
+    "flexslider": "^2.6.3",
+    "foundation-sites": "^6.3.0",
+    "generator-electron-boilerplate": "^1.1.3",
+    "pump": "^1.0.2",
+    "sweetalert": "^1.1.3"
+  }
 }
