@@ -1,21 +1,15 @@
 // Require our dependencies
 //const babel = require('gulp-babel');
 const gulp = require( 'gulp' );
-const pump = require( 'pump' );
 const concat = require( 'gulp-concat' );
 const uglify = require( 'gulp-uglify' );
 const imagemin = require( 'gulp-imagemin' );
 const del = require( 'del' );
 const clean = require( 'gulp-clean' );
-//const csslint = require('gulp-csslint');
 const rename = require( "gulp-rename" );
 const browserSync = require( 'browser-sync' ).create();
-//const sass = require('gulp-sass');
 const cssnano = require( 'gulp-cssnano' );
-const plumber = require( 'gulp-plumber' );
-//const postcss      = require('gulp-postcss');
-//const sourcemaps   = require('gulp-sourcemaps');
-//const autoprefixer = require('autoprefixer');
+
 
 var paths = {
 	assets  :'assets/',
