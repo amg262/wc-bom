@@ -40,7 +40,7 @@ class WC_Bom_Worker {
 
 		//wp_register_script( 'wc_bom_admin_js', plugins_url( 'assets/js/wc_bom_admin.js', __FILE__ ), [ 'jquery' ] );
 
-		$file = plugins_url( 'assets/lib/js/wc_bom_admin.js', __DIR__ );
+		$file = plugins_url( 'assets/dist/wc-bom-admin.min.js', __DIR__ );
 
 		if ( ! empty( $file ) ) {
 			wp_register_script( 'wco_adm_js', $file, [ 'jquery' ] );
