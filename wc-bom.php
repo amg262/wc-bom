@@ -269,6 +269,24 @@ class WC_Bom {
 	/**
 	 *
 	 */
+	protected function activate() {
+
+		$this->create_options();
+		$this->check_requirements();
+		flush_rewrite_rules();
+	}
+
+
+	/**
+	 *
+	 */
+	protected function check_requirements() {
+	}
+
+
+	/**
+	 *
+	 */
 	protected function init() {
 
 		register_activation_hook( __FILE__, [ $this, 'activate' ] );
@@ -285,24 +303,6 @@ class WC_Bom {
 
 		$this->is_acf_included();
 		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
-	}
-
-
-	/**
-	 *
-	 */
-	protected function activate() {
-
-		$this->create_options();
-		$this->check_requirements();
-		flush_rewrite_rules();
-	}
-
-
-	/**
-	 *
-	 */
-	protected function check_requirements() {
 	}
 }
 
