@@ -107,9 +107,8 @@ class WC_Bom {
 	 *
 	 */
 	public function activate() {
-
-		$this->check_requirements();
 		$this->create_options();
+		$this->check_requirements();
 		flush_rewrite_rules();
 	}
 
