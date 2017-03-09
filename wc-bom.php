@@ -18,6 +18,7 @@
 */
 namespace WooBom;
 
+
 global $wc_bom_options, $wc_bom_settings;
 /**
  *
@@ -47,6 +48,7 @@ const WC_BOM_WOO = 'woocommerce/woocommerce.php';
  * @package WooBom
  */
 class WC_Bom {
+
 	/**
 	 * @var null
 	 */
@@ -56,7 +58,6 @@ class WC_Bom {
 	 */
 	private $acf_path = __DIR__ . '/assets/vendor/acf/acf.php';
 
-
 	/**
 	 * WC_Bom constructor.
 	 */
@@ -64,7 +65,6 @@ class WC_Bom {
 
 		$this->init();
 	}
-
 
 	/**
 	 *
@@ -83,29 +83,32 @@ class WC_Bom {
 		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
 		add_action( 'init', [ $this, 'load_plugin_scripts' ] );
 
-		$this->acf_include();
+		$this->is_acf_included();
 		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
 	}
 
-
 	/**
-	 *
+	 * @return bool
 	 */
-	public function acf_include() {
+	public function is_acf_included() {
 
 		include_once $this->acf_path;
 
 		if ( function_exists( 'acf_add_options_page' ) ) {
-			acf_add_options_page( [
-				                      'page_title' => 'Theme General Settings',
-				                      'menu_title' => 'Theme Settings',
-				                      'menu_slug'  => 'theme-general-settings',
-				                      'capability' => 'edit_posts',
-				                      'redirect'   => false,
-			                      ] );
+			acf_add_options_page(
+				[
+					'page_title' => 'Theme General Settings',
+					'menu_title' => 'Theme Settings',
+					'menu_slug'  => 'theme-general-settings',
+					'capability' => 'edit_posts',
+					'redirect'   => false,
+				] );
+
+			return true;
+		} else {
+			return false;
 		}
 	}
-
 
 	/**
 	 * @return null
@@ -119,71 +122,32 @@ class WC_Bom {
 		return static::$instance;
 	}
 
-
 	/**
-	 *
+	 * @return mixed
 	 */
-	public function activate() {
+	public function create_settings() {
 
-		$this->create_options();
-		$this->check_requirements();
-		flush_rewrite_rules();
-	}
-
-
-	/**
-	 * @return mixed|void
-	 */
-	public function create_options() {
-
-		global $wc_bom_options;
-		$key            = 'init';
-		$wc_bom_options = get_option( WC_BOM_OPTIONS );
-		if ( $wc_bom_options[ $key ] !== true ) {
-			add_option( WC_BOM_OPTIONS, [ $key => true ] );
+		global $wc_bom_settings;
+		$key             = 'setup';
+		$wc_bom_settings = get_option( WC_BOM_SETTINGS );
+		if ( $wc_bom_settings[ $key ] !== true ) {
+			add_option( WC_BOM_SETTINGS, [ $key => false ] );
 		}
-		//return $wc_bom_options;
+
+		return $wc_bom_settings;
 	}
 
-
 	/**
-	 *
+	 * @return bool
 	 */
-	public function check_requirements() {
+	public function is_woo_activated() {
 
 		include_once ABSPATH . 'wp-admin/includes/plugin.php';
 		$active        = 'active_plugins';
 		$woo           = 'woocommerce/woocommerce.php';
-		$acf           = 'advanced-custom-fields/acf.php';
 		$is_woo        = plugin_dir_url( $woo );
 		$is_woo_active = in_array( $woo, apply_filters( $active, get_option( $active ) ) );
-		$is_acf        = plugin_dir_url( $acf );
-		$is_acf_active = in_array( $acf, apply_filters( $active, get_option( $active ) ) );
 
-		if ( $is_acf ) {
-			//$overwrite = true;
-			//$this->acf_path = $is_acf;
-
-			//save an opt
-			//make sure its pro and give the option to change include paths
-			//with it. save and option with acf path
-		}
-
-		if ( $is_acf_active ) {
-			//if ( plugin_dir_url( WC_BOM_WOO ) ) { activate_plugin( WC_BOM_WOO ); }
-			deactivate_plugins( __FILE__ );
-			$message =
-				'<div style="text-align: center;"><h3>' .
-				'ACF must be installed and activated!</h3>' .
-				'<a href=' . admin_url( 'plugins.php' ) . '>' .
-				'Back to plugins&nbsp;&rarr;</a>' .
-				'<p>' . $is_acf . '</p>' .
-				'</div>';
-
-			wp_die( $message );
-
-			return false;
-		}
 		if ( ! $is_woo_active ) {
 			//if ( plugin_dir_url( WC_BOM_WOO ) ) { activate_plugin( WC_BOM_WOO ); }
 			deactivate_plugins( __FILE__ );
@@ -197,11 +161,39 @@ class WC_Bom {
 			wp_die( $message );
 
 			return false;
+		} else {
+			return true;
 		}
-
-		return true;
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function is_acf_deactivated() {
+
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+		$active             = 'active_plugins';
+		$acf                = 'advanced-custom-fields/acf.php';
+		$is_acf_deactivated = in_array( ! $acf, apply_filters( $active, get_option( $active ) ) );
+		$is_acf             = plugin_dir_url( $acf );
+
+		if ( $is_acf_deactivated ) {
+			deactivate_plugins( __FILE__ );
+			$message =
+				'<div style="text-align: center;"><h3>' .
+				'ACF must be installed and activated!</h3>' .
+				'<a href=' . admin_url( 'plugins.php' ) . '>' .
+				'Back to plugins&nbsp;&rarr;</a>' .
+				'<p>' . $is_acf . '</p>' .
+				'</div>';
+
+			wp_die( $message );
+
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	/**
 	 *
@@ -211,7 +203,6 @@ class WC_Bom {
 		$this->load_dist_scripts();
 		$this->load_vendor_scripts();
 	}
-
 
 	/**
 	 *
@@ -232,7 +223,6 @@ class WC_Bom {
 		wp_enqueue_style( 'bom_css' );
 	}
 
-
 	/**
 	 *
 	 */
@@ -248,7 +238,6 @@ class WC_Bom {
 			'validate_js', 'https://cdnjs.cloudflare.com/ajax/libs/' .
 			               'jquery-validate/1.16.0/jquery.validate.min.js' );
 	}
-
 
 	/**
 	 * @param $actions
@@ -271,6 +260,37 @@ class WC_Bom {
 		}
 
 		return $actions;
+	}
+
+	/**
+	 *
+	 */
+	protected function activate() {
+
+		$this->create_options();
+		$this->check_requirements();
+		flush_rewrite_rules();
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function create_options() {
+
+		global $wc_bom_options;
+		$key            = 'init';
+		$wc_bom_options = get_option( WC_BOM_OPTIONS );
+		if ( $wc_bom_options[ $key ] !== true ) {
+			add_option( WC_BOM_OPTIONS, [ $key => true ] );
+		}
+
+		return $wc_bom_options;
+	}
+
+	/**
+	 *
+	 */
+	protected function check_requirements() {
 	}
 }
 
