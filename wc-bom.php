@@ -49,6 +49,11 @@ const WC_BOM_WOO = 'woocommerce/woocommerce.php';
 class WC_Bom {
 
 	/**
+	 * @var string
+	 */
+	private $acf_path = __DIR__ . '/assets/vendor/acf/acf.php';
+
+	/**
 	 * @var null
 	 */
 	protected static $instance = null;
@@ -91,9 +96,9 @@ class WC_Bom {
 		include_once __DIR__ . '/classes/class-wc-bom-inventory.php';
 		include_once __DIR__ . '/classes/class-wc-bom-ecn.php';
 		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
-		add_action( 'init', [ $this, 'load_assets' ] );
+		add_action( 'init', [ $this, 'load_plugin_scripts' ] );
 
-		$this->acf_options();
+		$this->acf_include();
 		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
 	}
 
@@ -104,7 +109,7 @@ class WC_Bom {
 	public function activate() {
 
 		$this->check_requirements();
-		$this->add_options();
+		$this->create_options();
 		flush_rewrite_rules();
 	}
 
@@ -123,6 +128,15 @@ class WC_Bom {
 		$is_acf        = plugin_dir_url( $acf );
 		$is_acf_active = in_array( $acf, apply_filters( $active, get_option( $active ) ) );
 
+		if ( $is_acf ) {
+			//$overwrite = true;
+			//$this->acf_path = $is_acf;
+
+			//save an opt
+			//make sure its pro and give the option to change include paths
+			//with it. save and option with acf path
+		}
+
 		if ( $is_acf_active ) {
 			//if ( plugin_dir_url( WC_BOM_WOO ) ) { activate_plugin( WC_BOM_WOO ); }
 			deactivate_plugins( __FILE__ );
@@ -135,6 +149,8 @@ class WC_Bom {
 				'</div>';
 
 			wp_die( $message );
+
+			return false;
 		}
 		if ( ! $is_woo_active ) {
 			//if ( plugin_dir_url( WC_BOM_WOO ) ) { activate_plugin( WC_BOM_WOO ); }
@@ -147,6 +163,8 @@ class WC_Bom {
 				'</div>';
 
 			wp_die( $message );
+
+			return false;
 		}
 
 		return true;
@@ -156,7 +174,7 @@ class WC_Bom {
 	/**
 	 * @return mixed|void
 	 */
-	public function add_options() {
+	public function create_options() {
 
 		global $wc_bom_options;
 		$key            = 'init';
@@ -172,9 +190,9 @@ class WC_Bom {
 	/**
 	 *
 	 */
-	public function acf_options() {
+	public function acf_include() {
 
-		///include_once __DIR__ . '/assets/vendor/acf/acf.php';
+		include_once $this->acf_path;
 
 		if ( function_exists( 'acf_add_options_page' ) ) {
 			acf_add_options_page( [
@@ -191,17 +209,28 @@ class WC_Bom {
 	/**
 	 *
 	 */
-	public function load_assets() {
+	public function load_dist_scripts() {
 
 		$url = 'assets/dist/scripts/';
 		wp_register_script( 'bom_js', plugins_url( $url . 'wc-bom.min.js', __FILE__ ) );
+		wp_register_script( 'bom_adm_js', plugins_url( $url . 'wc-bom-admin.min.js', __FILE__ ) );
 		wp_register_script( 'api_js', plugins_url( $url . 'wc-bom-api.min.js', __FILE__ ) );
 		wp_register_script( 'wp_js', plugins_url( $url . 'wc-bom-wp.min.js', __FILE__ ) );
 		wp_register_style( 'bom_css', plugins_url( $url . 'wc-bom.min.css', __FILE__ ) );
 		wp_enqueue_script( 'bom_js' );
+		wp_enqueue_script( 'bom_adm_js' );
+		//wp_enqueue_script( 'ajax_js' );
 		//wp_enqueue_script( 'api_js' );
 		//wp_enqueue_script( 'wp_js' );
 		wp_enqueue_style( 'bom_css' );
+	}
+
+
+	/**
+	 *
+	 */
+	public function load_vendor_scripts() {
+
 		wp_enqueue_script(
 			'sweetalertjs', 'https://cdnjs.cloudflare.com/ajax/libs/' .
 			                'sweetalert/1.1.3/sweetalert.min.js' );
@@ -211,6 +240,15 @@ class WC_Bom {
 		wp_enqueue_script(
 			'validate_js', 'https://cdnjs.cloudflare.com/ajax/libs/' .
 			               'jquery-validate/1.16.0/jquery.validate.min.js' );
+	}
+
+
+	/**
+	 *
+	 */
+	public function load_plugin_scripts() {
+		$this->load_dist_scripts();
+		$this->load_vendor_scripts();
 	}
 
 
@@ -228,7 +266,7 @@ class WC_Bom {
 		}
 		if ( $plugin == $plugin_file ) {
 			$settings = [
-				'settings' => '<a href="admin.php?page=wc-bom-settings>' . __( 'Settings', 'wc-bom' ) . '</a>',
+				'settings' => '<a href="admin.php?page=wc-bom-settings">' . __( 'Settings', 'wc-bom' ) . '</a>',
 				'support'  => '<a href="http://andrewgunn.org/support">' . __( 'Support', 'wc-bom' ) . '</a>',
 			];
 			$actions  = array_merge( $settings, $actions );
@@ -239,5 +277,5 @@ class WC_Bom {
 }
 
 
-$wc_bom = WC_Bom::getInstance();
+$wc_bom = \WooBom\WC_Bom::getInstance();
 //add_filter('acf/settings/show_admin', '__return_false');

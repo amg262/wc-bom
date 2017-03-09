@@ -34,11 +34,7 @@ class WC_Bom_Worker {
 	 *
 	 */
 	public function wco_admin() {
-		//wp_register_script( 'wc_bom_admin_js', plugins_url( 'assets/js/wc_bom_admin.js', __FILE__ ), [ 'jquery' ] );
-		$file = plugins_url( 'assets/dist/scripts/wc-bom-admin.min.js', __DIR__ );
-		if ( ! empty( $file ) ) {
-			wp_register_script( 'wco_adm_js', $file, [ 'jquery' ] );
-			wp_enqueue_script( 'wco_adm_js' );
+
 			$ajax_object = [
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
 				'nonce'    => wp_create_nonce( 'ajax_nonce' ),
@@ -46,9 +42,9 @@ class WC_Bom_Worker {
 				'action'   => [ $this, 'wco_ajax' ]
 				//'options'  => 'wc_bom_option[opt]',
 			];
-			wp_localize_script( 'wco_adm_js', 'ajax_object', $ajax_object );
+			wp_localize_script( 'bom_adm_js', 'ajax_object', $ajax_object );
 			/* Output empty div. */
-		}
+
 	}
 
 	/**
