@@ -18,7 +18,6 @@
 */
 namespace WooBom;
 
-
 global $wc_bom_options, $wc_bom_settings;
 /**
  *
@@ -48,7 +47,6 @@ const WC_BOM_WOO = 'woocommerce/woocommerce.php';
  * @package WooBom
  */
 class WC_Bom {
-
 	/**
 	 * @var null
 	 */
@@ -58,6 +56,7 @@ class WC_Bom {
 	 */
 	private $acf_path = __DIR__ . '/assets/vendor/acf/acf.php';
 
+
 	/**
 	 * WC_Bom constructor.
 	 */
@@ -66,26 +65,19 @@ class WC_Bom {
 		$this->init();
 	}
 
+
 	/**
-	 *
+	 * @return null
 	 */
-	protected function init() {
+	public static function getInstance() {
 
-		register_activation_hook( __FILE__, [ $this, 'activate' ] );
-		//add_action( 'admin_init', [ $this, 'activate' ] );
-		/*add_action( 'admin_init', [ $this, 'check_requirements' ] );
-		add_action( 'admin_init', [ $this, 'plugin_options' ] );
-		add_action( 'admin_init', [ $this, 'plugin_settings' ] );*/
-		include_once __DIR__ . '/classes/class-wc-bom-part.php';
-		include_once __DIR__ . '/classes/class-wc-bom-assembly.php';
-		include_once __DIR__ . '/classes/class-wc-bom-inventory.php';
-		include_once __DIR__ . '/classes/class-wc-bom-ecn.php';
-		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
-		add_action( 'init', [ $this, 'load_plugin_scripts' ] );
+		if ( ! isset( static::$instance ) ) {
+			static::$instance = new static;
+		}
 
-		$this->is_acf_included();
-		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
+		return static::$instance;
 	}
+
 
 	/**
 	 * @return bool
@@ -110,17 +102,6 @@ class WC_Bom {
 		}
 	}
 
-	/**
-	 * @return null
-	 */
-	public static function getInstance() {
-
-		if ( ! isset( static::$instance ) ) {
-			static::$instance = new static;
-		}
-
-		return static::$instance;
-	}
 
 	/**
 	 * @return mixed
@@ -136,6 +117,7 @@ class WC_Bom {
 
 		return $wc_bom_settings;
 	}
+
 
 	/**
 	 * @return bool
@@ -166,6 +148,7 @@ class WC_Bom {
 		}
 	}
 
+
 	/**
 	 * @return bool
 	 */
@@ -195,6 +178,7 @@ class WC_Bom {
 		}
 	}
 
+
 	/**
 	 *
 	 */
@@ -203,6 +187,7 @@ class WC_Bom {
 		$this->load_dist_scripts();
 		$this->load_vendor_scripts();
 	}
+
 
 	/**
 	 *
@@ -223,6 +208,7 @@ class WC_Bom {
 		wp_enqueue_style( 'bom_css' );
 	}
 
+
 	/**
 	 *
 	 */
@@ -238,6 +224,7 @@ class WC_Bom {
 			'validate_js', 'https://cdnjs.cloudflare.com/ajax/libs/' .
 			               'jquery-validate/1.16.0/jquery.validate.min.js' );
 	}
+
 
 	/**
 	 * @param $actions
@@ -262,15 +249,6 @@ class WC_Bom {
 		return $actions;
 	}
 
-	/**
-	 *
-	 */
-	protected function activate() {
-
-		$this->create_options();
-		$this->check_requirements();
-		flush_rewrite_rules();
-	}
 
 	/**
 	 * @return mixed
@@ -287,6 +265,40 @@ class WC_Bom {
 		return $wc_bom_options;
 	}
 
+
+	/**
+	 *
+	 */
+	protected function init() {
+
+		register_activation_hook( __FILE__, [ $this, 'activate' ] );
+		//add_action( 'admin_init', [ $this, 'activate' ] );
+		/*add_action( 'admin_init', [ $this, 'check_requirements' ] );
+		add_action( 'admin_init', [ $this, 'plugin_options' ] );
+		add_action( 'admin_init', [ $this, 'plugin_settings' ] );*/
+		include_once __DIR__ . '/classes/class-wc-bom-part.php';
+		include_once __DIR__ . '/classes/class-wc-bom-assembly.php';
+		include_once __DIR__ . '/classes/class-wc-bom-inventory.php';
+		include_once __DIR__ . '/classes/class-wc-bom-ecn.php';
+		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
+		add_action( 'init', [ $this, 'load_plugin_scripts' ] );
+
+		$this->is_acf_included();
+		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
+	}
+
+
+	/**
+	 *
+	 */
+	protected function activate() {
+
+		$this->create_options();
+		$this->check_requirements();
+		flush_rewrite_rules();
+	}
+
+
 	/**
 	 *
 	 */
@@ -295,5 +307,5 @@ class WC_Bom {
 }
 
 
-$wc_bom = \WooBom\WC_Bom::getInstance();
+$wc_bom = WC_Bom::getInstance();
 //add_filter('acf/settings/show_admin', '__return_false');

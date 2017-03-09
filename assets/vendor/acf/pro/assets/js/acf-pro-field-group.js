@@ -457,7 +457,7 @@
 		render_display: function(){
 			
 			// vars
-			var display = this.setting('display select').val()
+			var display = this.setting('display select').val();
 			
 			
 			// update data

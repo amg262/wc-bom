@@ -95,7 +95,7 @@
 
     var colorNames = Object.keys(window.chartColors);
     document.getElementById('addDataset').addEventListener('click', function() {
-        var colorName = colorNames[config.data.datasets.length % colorNames.length];;
+        var colorName = colorNames[config.data.datasets.length % colorNames.length];
         var newColor = window.chartColors[colorName];
 
         var newDataset = {

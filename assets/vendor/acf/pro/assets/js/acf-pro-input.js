@@ -2155,7 +2155,7 @@
 			
 			
 				// vars
-				var $content	= frame.content.get().$el
+				var $content	= frame.content.get().$el;
 					collection	= frame.content.get().collection || null;
 					
 

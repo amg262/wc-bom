@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
-const childProcess = require('child_process')
-const fs = require('fs')
-const path = require('path')
-const request = require('request')
-const util = require('util')
+const childProcess = require('child_process');
+const fs = require('fs');
+const path = require('path');
+const request = require('request');
+const util = require('util');
 
-const token = process.env.ELECTRON_API_DEMO_GITHUB_TOKEN
-const version = require('../package').version
+const token = process.env.ELECTRON_API_DEMO_GITHUB_TOKEN;
+const version = require('../package').version;
 
 checkToken()
   .then(checkHerokuLoginStatus)
@@ -17,8 +17,8 @@ checkToken()
   .then(publishRelease)
   .then(deployToHeroku)
   .catch((error) => {
-    console.error(error.message || error)
-    process.exit(1)
+    console.error(error.message || error);
+    process.exit(1);
   })
 
 function checkToken () {
@@ -31,7 +31,7 @@ function checkToken () {
 
 function checkHerokuLoginStatus () {
   return new Promise((resolve, reject) => {
-    console.log('Checking Heroku login status')
+    console.log('Checking Heroku login status');
 
     childProcess.exec('heroku whoami', (error, stdout, stderr) => {
       if (error) {
@@ -41,20 +41,20 @@ function checkHerokuLoginStatus () {
       }
     })
   })
-}
+};
 
 function zipAsset (asset) {
   return new Promise((resolve, reject) => {
     const assetBase = path.basename(asset.path)
     const assetDirectory = path.dirname(asset.path)
-    console.log(`Zipping ${assetBase} to ${asset.name}`)
+    console.log(`Zipping ${assetBase} to ${asset.name}`);
 
     if (!fs.existsSync(asset.path)) {
       return reject(new Error(`${asset.path} does not exist`))
     }
 
-    const zipCommand = `zip --recurse-paths --symlinks '${asset.name}' '${assetBase}'`
-    const options = {cwd: assetDirectory, maxBuffer: Infinity}
+    const zipCommand = `zip --recurse-paths --symlinks '${asset.name}' '${assetBase}'`;
+    const options = {cwd: assetDirectory, maxBuffer: Infinity};
     childProcess.exec(zipCommand, options, (error) => {
       if (error) {
         reject(error)
@@ -67,7 +67,7 @@ function zipAsset (asset) {
 }
 
 function zipAssets () {
-  const outPath = path.join(__dirname, '..', 'out')
+  const outPath = path.join(__dirname, '..', 'out');
 
   const zipAssets = [{
     name: 'electron-api-demos-mac.zip',
@@ -78,7 +78,7 @@ function zipAssets () {
   }, {
     name: 'electron-api-demos-linux.zip',
     path: path.join(outPath, 'Electron API Demos-linux-x64')
-  }]
+  }];
 
   return Promise.all(zipAssets.map(zipAsset)).then((zipAssets) => {
     return zipAssets.concat([{
@@ -92,7 +92,7 @@ function zipAssets () {
       path: path.join(outPath, 'windows-installer', `ElectronAPIDemos-${version}-full.nupkg`)
     }])
   })
-}
+};
 
 function createRelease (assets) {
   const options = {
@@ -109,10 +109,10 @@ function createRelease (assets) {
       draft: true,
       prerelease: false
     }
-  }
+  };
 
   return new Promise((resolve, reject) => {
-    console.log('Creating new draft release')
+    console.log('Creating new draft release');
 
     request.post(options, (error, response, body) => {
       if (error) {
@@ -125,7 +125,7 @@ function createRelease (assets) {
       resolve({assets: assets, draft: body})
     })
   })
-}
+};
 
 function uploadAsset (release, asset) {
   const options = {
@@ -136,10 +136,10 @@ function uploadAsset (release, asset) {
       'Content-Length': fs.statSync(asset.path).size,
       'User-Agent': `node/${process.versions.node}`
     }
-  }
+  };
 
   return new Promise((resolve, reject) => {
-    console.log(`Uploading ${asset.name} as release asset`)
+    console.log(`Uploading ${asset.name} as release asset`);
 
     const assetRequest = request.post(options, (error, response, body) => {
       if (error) {
@@ -153,13 +153,13 @@ function uploadAsset (release, asset) {
     })
     fs.createReadStream(asset.path).pipe(assetRequest)
   })
-}
+};
 
 function uploadAssets (release) {
   return Promise.all(release.assets.map((asset) => {
     return uploadAsset(release.draft, asset)
   })).then(() => release)
-}
+};;
 
 function publishRelease (release) {
   const options = {
@@ -171,10 +171,10 @@ function publishRelease (release) {
     json: {
       draft: false
     }
-  }
+  };
 
   return new Promise((resolve, reject) => {
-    console.log('Publishing release')
+    console.log('Publishing release');
 
     request.post(options, (error, response, body) => {
       if (error) {
@@ -187,11 +187,11 @@ function publishRelease (release) {
       resolve(body)
     })
   })
-}
+};
 
 function deployToHeroku () {
   return new Promise((resolve, reject) => {
-    console.log('Deploying to heroku')
+    console.log('Deploying to heroku');
 
     const herokuCommand = [
       'heroku',
@@ -199,7 +199,7 @@ function deployToHeroku () {
       '-a',
       'github-electron-api-demos',
       `ELECTRON_LATEST_RELEASE=${version}`
-    ].join(' ')
+    ].join(' ');
 
     childProcess.exec(herokuCommand, (error) => {
       if (error) {
@@ -209,4 +209,4 @@ function deployToHeroku () {
       }
     })
   })
-}
+};

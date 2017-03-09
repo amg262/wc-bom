@@ -15,7 +15,7 @@ var giar_settings = {
     posts:{ route:'list-posts/', method:'GET' },
     vote:{ route:'vote/', method:'POST' }
   }
-}
+};
 
 var $el;
 var posts = {};

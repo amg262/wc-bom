@@ -1,7 +1,7 @@
-const electron = require('electron')
-const BrowserWindow = electron.BrowserWindow
-const Menu = electron.Menu
-const app = electron.app
+const electron = require('electron');
+const BrowserWindow = electron.BrowserWindow;
+const Menu = electron.Menu;
+const app = electron.app;
 
 let template = [{
   label: 'Edit',
@@ -90,7 +90,7 @@ let template = [{
           title: 'Application Menu Demo',
           buttons: ['Ok'],
           message: 'This demo is for the Menu section, showing how to create a clickable menu item in the application menu.'
-        }
+        };
         electron.dialog.showMessageBox(focusedWindow, options, function () {})
       }
     }
@@ -126,12 +126,12 @@ let template = [{
       electron.shell.openExternal('http://electron.atom.io')
     }
   }]
-}]
+}];
 
 function addUpdateMenuItems (items, position) {
-  if (process.mas) return
+  if (process.mas) return;
 
-  const version = electron.app.getVersion()
+  const version = electron.app.getVersion();
   let updateItems = [{
     label: `Version ${version}`,
     enabled: false
@@ -154,16 +154,16 @@ function addUpdateMenuItems (items, position) {
     click: function () {
       require('electron').autoUpdater.quitAndInstall()
     }
-  }]
+  }];
 
   items.splice.apply(items, [position, 0].concat(updateItems))
 }
 
 function findReopenMenuItem () {
-  const menu = Menu.getApplicationMenu()
-  if (!menu) return
+  const menu = Menu.getApplicationMenu();
+  if (!menu) return;
 
-  let reopenMenuItem
+  let reopenMenuItem;
   menu.items.forEach(function (item) {
     if (item.submenu) {
       item.submenu.items.forEach(function (item) {
@@ -172,12 +172,12 @@ function findReopenMenuItem () {
         }
       })
     }
-  })
+  });
   return reopenMenuItem
 }
 
 if (process.platform === 'darwin') {
-  const name = electron.app.getName()
+  const name = electron.app.getName();
   template.unshift({
     label: name,
     submenu: [{
@@ -211,7 +211,7 @@ if (process.platform === 'darwin') {
         app.quit()
       }
     }]
-  })
+  });
 
   // Window menu.
   template[3].submenu.push({
@@ -219,27 +219,27 @@ if (process.platform === 'darwin') {
   }, {
     label: 'Bring All to Front',
     role: 'front'
-  })
+  });
 
   addUpdateMenuItems(template[0].submenu, 1)
 }
 
 if (process.platform === 'win32') {
-  const helpMenu = template[template.length - 1].submenu
+  const helpMenu = template[template.length - 1].submenu;
   addUpdateMenuItems(helpMenu, 0)
 }
 
 app.on('ready', function () {
-  const menu = Menu.buildFromTemplate(template)
+  const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu)
-})
+});
 
 app.on('browser-window-created', function () {
-  let reopenMenuItem = findReopenMenuItem()
+  let reopenMenuItem = findReopenMenuItem();
   if (reopenMenuItem) reopenMenuItem.enabled = false
-})
+});
 
 app.on('window-all-closed', function () {
-  let reopenMenuItem = findReopenMenuItem()
+  let reopenMenuItem = findReopenMenuItem();
   if (reopenMenuItem) reopenMenuItem.enabled = true
-})
+});

@@ -31,10 +31,9 @@
 		function getStorage() {
 			
 			return STORAGE;
-			
-		};
-		
-		/**
+
+}
+        /**
 		 * Adds an action to the event manager.
 		 *
 		 * @param action Must contain namespace.identifier
@@ -4033,7 +4032,7 @@ var acf;
 					
 				}, 1);
 				
-			}
+			};
 			
 			
 			// args
@@ -4045,7 +4044,7 @@ var acf;
 				change: change_hidden,
 				clear: change_hidden
 				
-			}
+			};
  			
  			
  			// filter
@@ -4622,7 +4621,7 @@ var acf;
 			
 			// vars
 			var locale = acf.get('locale'),
-				rtl = acf.get('rtl')
+				rtl = acf.get('rtl');
 				l10n = acf._e('date_picker');
 			
 			
@@ -4854,7 +4853,7 @@ var acf;
 			
 			// vars
 			var locale = acf.get('locale'),
-				rtl = acf.get('rtl')
+				rtl = acf.get('rtl');
 				l10n = acf._e('date_time_picker');
 			
 			
@@ -6931,7 +6930,7 @@ var acf;
 						
 					});
 					
-					return;
+
 					
 				}
 				
@@ -8573,7 +8572,7 @@ var acf;
 						
 			
 			// add new li
-			this.$values.children('.list').append( html )
+			this.$values.children('.list').append( html );
 			
 			
 			// trigger change on new_li
@@ -8685,7 +8684,7 @@ var acf;
 			
 			// vars
 			var locale = acf.get('locale'),
-				rtl = acf.get('rtl')
+				rtl = acf.get('rtl');
 				l10n = acf._e('select');
 			
 			
@@ -9659,13 +9658,13 @@ var acf;
 		
 		acf.select2.init( $select, args );
 
-	}
+	};
 	
 	acf.remove_select2 = function( $select ) {
 		
 		acf.select2.destroy( $select );
 		
-	}
+	};
 	
 	
 	// select
@@ -10384,7 +10383,7 @@ var acf;
 			
 			// vars
 			var $on = this.$switch.children('.acf-switch-on'),
-				$off = this.$switch.children('.acf-switch-off')
+				$off = this.$switch.children('.acf-switch-off');
 				width = Math.max( $on.width(), $off.width() );
 			
 			
@@ -11730,7 +11729,7 @@ var acf;
 				// remove self
 				$field.off('focus change', 'input, textarea, select', event);
 				
-			}
+			};
 			
 			$field.on('focus change', 'input, textarea, select', event);
 			
@@ -12022,7 +12021,7 @@ var acf;
 			
 						
 			// update id
-			this.o.id = new_id
+			this.o.id = new_id;
 			
 			
 			// initialize
@@ -12264,7 +12263,7 @@ ed.on('ResizeEditor', function(e) {
 			try {
 				
 				// vars
-				var ed = tinyMCE.get( this.o.id )
+				var ed = tinyMCE.get( this.o.id );
 					
 				
 				// save

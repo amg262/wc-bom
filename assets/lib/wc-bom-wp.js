@@ -28,7 +28,7 @@ var apiPromise = WPAPI.discover('http://my-site.com').then(function (site) {
 });
 apiPromise.then(function (site) {
   // site is now configured to use authentication
-})
+});
 
 client.getPosts(function (error, posts) {
   console.log("Found " + posts.length + " posts!");
@@ -82,7 +82,7 @@ wp.posts().id(2501).update({
   status:'publish'
 }).then(function (response) {
   console.log(response);
-})
+});
 
 // Promises
 wp.posts().then(function (data) {

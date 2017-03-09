@@ -137,7 +137,7 @@
         var colorNames = Object.keys(window.chartColors);
         document.getElementById('addDataset').addEventListener('click', function() {
             ++addedCount;
-            var colorName = colorNames[bubbleChartData.datasets.length % colorNames.length];;
+            var colorName = colorNames[bubbleChartData.datasets.length % colorNames.length];
             var dsColor = window.chartColors[colorName];
             var newDataset = {
                 label: "My added dataset " + addedCount,
