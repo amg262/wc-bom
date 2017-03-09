@@ -47,29 +47,14 @@ const WC_BOM_WOO = 'woocommerce/woocommerce.php';
  * @package WooBom
  */
 class WC_Bom {
-
-	/**
-	 * @var string
-	 */
-	private $acf_path = __DIR__ . '/assets/vendor/acf/acf.php';
-
 	/**
 	 * @var null
 	 */
 	protected static $instance = null;
-
-
 	/**
-	 * @return null
+	 * @var string
 	 */
-	public static function getInstance() {
-
-		if ( ! isset( static::$instance ) ) {
-			static::$instance = new static;
-		}
-
-		return static::$instance;
-	}
+	private $acf_path = __DIR__ . '/assets/vendor/acf/acf.php';
 
 
 	/**
@@ -106,11 +91,58 @@ class WC_Bom {
 	/**
 	 *
 	 */
+	public function acf_include() {
+
+		include_once $this->acf_path;
+
+		if ( function_exists( 'acf_add_options_page' ) ) {
+			acf_add_options_page( [
+				                      'page_title' => 'Theme General Settings',
+				                      'menu_title' => 'Theme Settings',
+				                      'menu_slug'  => 'theme-general-settings',
+				                      'capability' => 'edit_posts',
+				                      'redirect'   => false,
+			                      ] );
+		}
+	}
+
+
+	/**
+	 * @return null
+	 */
+	public static function getInstance() {
+
+		if ( ! isset( static::$instance ) ) {
+			static::$instance = new static;
+		}
+
+		return static::$instance;
+	}
+
+
+	/**
+	 *
+	 */
 	public function activate() {
 
 		$this->create_options();
 		$this->check_requirements();
 		flush_rewrite_rules();
+	}
+
+
+	/**
+	 * @return mixed|void
+	 */
+	public function create_options() {
+
+		global $wc_bom_options;
+		$key            = 'init';
+		$wc_bom_options = get_option( WC_BOM_OPTIONS );
+		if ( $wc_bom_options[ $key ] !== true ) {
+			add_option( WC_BOM_OPTIONS, [ $key => true ] );
+		}
+		//return $wc_bom_options;
 	}
 
 
@@ -172,37 +204,12 @@ class WC_Bom {
 
 
 	/**
-	 * @return mixed|void
-	 */
-	public function create_options() {
-
-		global $wc_bom_options;
-		$key            = 'init';
-		$wc_bom_options = get_option( WC_BOM_OPTIONS );
-		if ( $wc_bom_options[ $key ] !== true ) {
-			add_option( WC_BOM_OPTIONS, [ $key => true ] );
-		}
-
-		//return $wc_bom_options;
-	}
-
-
-	/**
 	 *
 	 */
-	public function acf_include() {
+	public function load_plugin_scripts() {
 
-		include_once $this->acf_path;
-
-		if ( function_exists( 'acf_add_options_page' ) ) {
-			acf_add_options_page( [
-				                      'page_title' => 'Theme General Settings',
-				                      'menu_title' => 'Theme Settings',
-				                      'menu_slug'  => 'theme-general-settings',
-				                      'capability' => 'edit_posts',
-				                      'redirect'   => false,
-			                      ] );
-		}
+		$this->load_dist_scripts();
+		$this->load_vendor_scripts();
 	}
 
 
@@ -240,16 +247,6 @@ class WC_Bom {
 		wp_enqueue_script(
 			'validate_js', 'https://cdnjs.cloudflare.com/ajax/libs/' .
 			               'jquery-validate/1.16.0/jquery.validate.min.js' );
-	}
-
-
-	/**
-	 *
-	 */
-	public function load_plugin_scripts() {
-
-		$this->load_dist_scripts();
-		$this->load_vendor_scripts();
 	}
 
 
