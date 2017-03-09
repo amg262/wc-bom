@@ -15,17 +15,15 @@
  * Time: 8:03 PM
  */
 class WC_Bom_Inventory {
-
+//
 	/**
 	 * WC_Bom_Inventory constructor.
 	 */
 	public function __construct() {
 
 		add_action( 'init', [ $this, 'register_inventory' ] );
-		//add_action( 'init', [ $this, 'register_inventory_cat' ] );
+		add_action( 'init', [ $this, 'register_inventory_cat' ] );
 	}
-
-
 	/**
 	 *
 	 */
