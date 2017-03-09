@@ -107,6 +107,7 @@ class WC_Bom {
 	 *
 	 */
 	public function activate() {
+
 		$this->create_options();
 		$this->check_requirements();
 		flush_rewrite_rules();
@@ -246,6 +247,7 @@ class WC_Bom {
 	 *
 	 */
 	public function load_plugin_scripts() {
+
 		$this->load_dist_scripts();
 		$this->load_vendor_scripts();
 	}
