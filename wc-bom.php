@@ -64,6 +64,9 @@ class WC_Bom {
 		$this->init();
 	}
 
+
+
+
 	/**
 	 *
 	 */
@@ -87,6 +90,17 @@ class WC_Bom {
 		include_once __DIR__ . '/classes/class-wc-bom-post.php';
 		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
 	}
+
+
+	
+
+
+
+
+
+
+
+
 
 	/**
 	 * @return null
