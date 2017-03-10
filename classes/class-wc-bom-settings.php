@@ -30,27 +30,47 @@ namespace WooBom;
 class WC_Bom_Settings {
 
 	/**
-	 * Holds the values to be used in the fields callbacks
+	 * @var null
 	 */
-	//public $wc_bom_options;
+	protected static $instance = null;
 
 	/**
-	 * Start up
+	 * WC_Bom constructor.
 	 */
-	public function __construct() {
+	private function __construct() {
 
+		$this->init();
+	}
+
+	/**
+	 * @return null
+	 */
+	public static function getInstance() {
+
+		if ( ! isset( static::$instance ) ) {
+			static::$instance = new static;
+		}
+
+		return static::$instance;
+	}
+
+	/**
+	 *
+	 */
+	protected function init() {
+
+		if ( ! is_admin() ) {
+			wp_die( 'You must be an admin to view this.' );
+		}
 		include_once __DIR__ . '/class-wc-bom-worker.php';
 		add_action( 'admin_menu', [ $this, 'wc_bom_menu' ] );
 		add_action( 'admin_init', [ $this, 'page_init' ] );
-		//add_action( 'admin_enqueue_scripts', [ $this, 'wco_admin' ] );
-		//add_action( 'wp_ajax_wco_ajax', [ $this, 'wco_ajax' ] );
-		//add_action( 'wp_ajax_nopriv_wco_ajax', [ $this, 'wco_ajax' ] );
-		//add_filter('custom_menu_order', [$this,'custom_menu_order']); // Activate custom_menu_order
-		//add_filter('menu_order', [$this,'custom_menu_order']);
 	}
 
-
 	/**
+	 *W
+	 *
+	 * /**
 	 * Add options page
 	 */
 	public function wc_bom_menu() {
@@ -65,7 +85,6 @@ class WC_Bom_Settings {
 			57
 		);
 	}
-
 
 	/**
 	 * Options page callback
@@ -139,7 +158,6 @@ class WC_Bom_Settings {
 		<?php
 	}
 
-
 	/**
 	 * Register and add settings
 	 */
@@ -166,9 +184,7 @@ class WC_Bom_Settings {
 			'wc-bom-settings-admin', // Page
 			'wc_bom_settings_section' // Section
 		);
-
 	}
-
 
 	/**
 	 * Sanitize each setting field as needed
@@ -204,7 +220,6 @@ class WC_Bom_Settings {
 
         </div>
 	<?php }
-
 
 	/**
 	 * Get the settings option array and print one of its values
@@ -543,10 +558,4 @@ class WC_Bom_Settings {
 
 
 	<?php }
-}
-
-
-if ( is_admin() ) {
-
-	$settings = new WC_Bom_Settings();
 }

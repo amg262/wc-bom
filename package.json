@@ -12,7 +12,7 @@
     "clean": "gulp clean",
     "watch": "gulp serve",
     "serve": "gulp serve",
-    "postinstall": "cd app && npm install && npm start"
+    "postinstall": "cd app && npm install"
   },
   "repository": {
     "type": "git",
