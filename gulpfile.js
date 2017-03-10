@@ -12,20 +12,20 @@ const cssnano = require('gulp-cssnano');
 
 
 var paths = {
-    assets  :'assets/',
-    img     :'assets/img/*',
-    lib     :'assets/lib/',
-    dist    :'assets/dist/',
-    scripts :'assets/dist/scripts/',
-    images  :'assets/dist/images/',
-    includes:'includes/',
-    classes :'classes/',
+    assets: 'assets/',
+    img: 'assets/img/*',
+    lib: 'assets/lib/',
+    dist: 'assets/dist/',
+    scripts: 'assets/dist/scripts/',
+    images: 'assets/dist/images/',
+    includes: 'includes/',
+    classes: 'classes/',
 };
 
 // Not all tasks need to use streams
 // A gulpfile is just another node program and you can use any package available on npm
 gulp.task('delete', function () {
-    gulp.src(paths.images + 'img', { read:false })
+    gulp.src(paths.images + 'img', {read: false})
         .pipe(clean());
 });
 
@@ -40,7 +40,7 @@ gulp.task('imagemin', function () {
 gulp.task('cssnano', function () {
     gulp.src(paths.lib + '*.css')
         .pipe(cssnano())
-        .pipe(rename({ suffix:'.min' }))
+        .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest(paths.scripts))
 });
 /**
@@ -52,7 +52,7 @@ gulp.task('uglify', function () {
 
     gulp.src(paths.lib + '*.js')
         .pipe(uglify())
-        .pipe(rename({ suffix:'.min' }))
+        .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest(paths.scripts));
 });
 
@@ -61,7 +61,7 @@ gulp.task('uglify', function () {
 gulp.task('serve', function () {
 
     browserSync.init({
-        proxy:"http://www.devnet.dev/wp-admin/"
+        proxy: "http://www.devnet.dev/wp-admin/"
     });
 
 });

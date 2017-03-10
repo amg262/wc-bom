@@ -37,7 +37,7 @@ const WC_BOM_SETTINGS = 'wc_bom_settings';
 /**
  *
  */
-const WC_BOM_ACF = 'assets/vendor/acf/acf.php';
+const WC_BOM_ACF = 'assets/dist/acf/acf.php';
 /**
  *
  */
@@ -59,7 +59,7 @@ class WC_Bom implements WC_Abstract_Bom {
 	/**
 	 * @var string
 	 */
-	private $acf_path = __DIR__ . '/assets/vendor/acf/acf.php';
+	private $acf_path = __DIR__ . '/assets/dist/acf/acf.php';
 
 	/**
 	 * WC_Bom constructor.
@@ -91,18 +91,6 @@ class WC_Bom implements WC_Abstract_Bom {
 		include_once __DIR__ . '/classes/class-wc-bom-data.php';
 		include_once __DIR__ . '/classes/class-wc-bom-post.php';
 		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
-	}
-
-	/**
-	 * @return null
-	 */
-	public static function getInstance() {
-
-		if ( ! isset( static::$instance ) ) {
-			static::$instance = new static;
-		}
-
-		return static::$instance;
 	}
 
 	/**
@@ -170,6 +158,18 @@ class WC_Bom implements WC_Abstract_Bom {
 		}
 
 		return $actions;
+	}
+
+	/**
+	 * @return null
+	 */
+	public static function getInstance() {
+
+		if ( ! isset( static::$instance ) ) {
+			static::$instance = new static;
+		}
+
+		return static::$instance;
 	}
 
 	/**

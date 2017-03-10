@@ -105,7 +105,6 @@ class WC_Bom_Settings implements WC_Abstract_Settings {
 	 */
 	public function page_init() {
 
-		global $geo_mashup_options;
 		register_setting(
 			'wc_bom_settings_group', // Option group
 			'wc_bom_settings', // Option name
