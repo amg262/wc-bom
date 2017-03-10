@@ -177,3 +177,4 @@ composer.phar
 # composer.lock
 
 /vendor/
+/assets/app/

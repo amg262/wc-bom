@@ -1,10 +1,23 @@
 {
     "name": "andy/wc-bom",
+    "type": "project",
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^2.8"
+    },
+    "license": "GPLv3",
     "authors": [
         {
             "name": "Andrew Gunn",
             "email": "andrewmgunn26@gmail.com"
         }
     ],
-    "require": {}
+    "minimum-stability": "dev",
+    "require": {
+        "phpmd/phpmd": "dev-master",
+        "phing/phing": "^3.0@dev",
+        "phpunit/phpunit": "^6.1@dev",
+        "behat/behat": "^3.2@dev",
+        "phpspec/phpspec": "^3.0@dev",
+        "phpmetrics/phpmetrics": "dev-master"
+    }
 }
