@@ -19,6 +19,9 @@
 namespace WooBom;
 
 global $wc_bom_options, $wc_bom_settings;
+
+const WC_BOM_ABSTRACT = __DIR__ . '/abstract/';
+
 /**
  *
  */
@@ -36,16 +39,15 @@ const WC_BOM_ACF = 'assets/vendor/acf/acf.php';
  *
  */
 const WC_BOM_WOO = 'woocommerce/woocommerce.php';
-/**
- * Class WC_Bom
- */
+
+require_once WC_BOM_ABSTRACT . 'WC_Abstract_Bom.php';
 
 /**
  * Class WC_Bom
  *
  * @package WooBom
  */
-class WC_Bom {
+class WC_Bom implements WC_Abstract_Bom {
 
 	/**
 	 * @var null
@@ -64,15 +66,10 @@ class WC_Bom {
 		$this->init();
 	}
 
-
-
-
 	/**
 	 *
 	 */
 	public function init() {
-
-		//include_once ABSPATH.'wp-includes/class-wp-rewrite.php';
 
 		register_activation_hook( __FILE__, [ $this, 'activate' ] );
 		add_action( 'init', [ $this, 'load_plugin_scripts' ] );
@@ -81,26 +78,17 @@ class WC_Bom {
 		$this->load_classes();
 		$settings = WC_Bom_Settings::getInstance();
 		$post     = WC_Bom_Post::getInstance();
-		//flush_rewrite_rules();
 	}
 
+	/**
+	 *
+	 */
 	protected function load_classes() {
 
 		include_once __DIR__ . '/classes/class-wc-bom-data.php';
 		include_once __DIR__ . '/classes/class-wc-bom-post.php';
 		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
 	}
-
-
-	
-
-
-
-
-
-
-
-
 
 	/**
 	 * @return null

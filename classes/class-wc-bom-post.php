@@ -9,13 +9,15 @@
 
 namespace WooBom;
 
+
+require_once WC_BOM_ABSTRACT . 'WC_Abstract_Post.php';
 /**
  * Created by PhpStorm.
  * User: andy
  * Date: 3/6/17
  * Time: 8:03 PM
  */
-class WC_Bom_Post {
+class WC_Bom_Post implements WC_Bom_Abstract_Post {
 
 	/**
 	 * @var null
