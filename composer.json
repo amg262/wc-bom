@@ -18,6 +18,8 @@
         "phpunit/phpunit": "^6.1@dev",
         "behat/behat": "^3.2@dev",
         "phpspec/phpspec": "^3.0@dev",
-        "phpmetrics/phpmetrics": "dev-master"
-    }
+        "phpmetrics/phpmetrics": "dev-master",
+        "roave/security-advisories": "dev-master"
+    },
+    "prefer-stable": true
 }
