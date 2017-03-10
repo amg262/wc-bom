@@ -19,7 +19,7 @@ var paths = {
     scripts: 'assets/dist/scripts/',
     images: 'assets/dist/images/',
     includes: 'includes/',
-    classes: 'classes/',
+    classes: 'classes/'
 };
 
 // Not all tasks need to use streams
@@ -79,10 +79,3 @@ gulp.task('default', ['imagemin', 'delete', 'cssnano', 'uglify', 'serve', 'watch
 gulp.task('clean', ['imagemin', 'delete', 'cssnano', 'uglify']);
 gulp.task('start', ['imagemin', 'delete', 'cssnano', 'uglify', 'serve', 'watch']);
 gulp.task('live', ['serve', 'watch']);
-
-//gulp.task('uglify', ['uglify']);
-// The default task (called when you run `gulp` from cli)
-//gulp.task('default', ['watch', 'scripts', 'images']);
-//gulp.task('default', ['watch', 'images']);
-//gulp.task('scripts', ['clean']);
-

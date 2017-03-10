@@ -1,11 +1,5 @@
 <?php
-/**
- * Copyright (c) 2017  |  Netraa, LLC
- * netraa414@gmail.com  |  https://netraa.us
- *
- * Andrew Gunn  |  Owner
- * https://andrewgunn.org
- */
+declare( strict_types = 1 );
 /*
 * Plugin Name: WooBOM
 * Plugin URI: https/nextraa.us
@@ -224,7 +218,7 @@ class WC_Bom implements WC_Abstract_Bom {
 		$active        = 'active_plugins';
 		$woo           = 'woocommerce/woocommerce.php';
 		$is_woo        = plugin_dir_url( $woo );
-		$is_woo_active = in_array( $woo, apply_filters( $active, get_option( $active ) ) );
+		$is_woo_active = in_array( $woo, apply_filters( $active, get_option( $active ) ), true );
 		if ( ! $is_woo_active ) {
 			//if ( plugin_dir_url( WC_BOM_WOO ) ) { activate_plugin( WC_BOM_WOO ); }
 			deactivate_plugins( __FILE__ );
@@ -250,7 +244,7 @@ class WC_Bom implements WC_Abstract_Bom {
 		include_once ABSPATH . 'wp-admin/includes/plugin.php';
 		$active             = 'active_plugins';
 		$acf                = 'advanced-custom-fields/acf.php';
-		$is_acf_deactivated = in_array( ! $acf, apply_filters( $active, get_option( $active ) ) );
+		$is_acf_deactivated = in_array( ! $acf, apply_filters( $active, get_option( $active ) ), true );
 		$is_acf             = plugin_dir_url( $acf );
 		if ( $is_acf_deactivated ) {
 			deactivate_plugins( __FILE__ );
