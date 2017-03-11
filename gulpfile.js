@@ -13,35 +13,44 @@ const cssnano = require('gulp-cssnano');
 
 var paths = {
     assets: 'assets/',
-    img: 'assets/img/*',
-    lib: 'assets/lib/',
+    home: 'wc-bom.php',
+    lib_js: 'assets/lib/scripts/',
+    lib_css: 'assets/lib/styles/',
+    lib_img: 'assets/lib/images/*',
     dist: 'assets/dist/',
-    scripts: 'assets/dist/scripts/',
-    images: 'assets/dist/images/',
+    dist_js: 'assets/dist/scripts/',
+    dist_css: 'assets/dist/styles/',
+    dist_img: 'assets/dist/images/',
     includes: 'includes/',
     classes: 'classes/'
 };
 
 // Not all tasks need to use streams
 // A gulpfile is just another node program and you can use any package available on npm
-gulp.task('delete', function () {
-    gulp.src(paths.images + 'img', {read: false})
+gulp.task('purge', function () {
+    gulp.src(paths.dist_img + '*')
+        .pipe(clean());
+    gulp.src(paths.dist_js + '*')
+        .pipe(clean());
+    gulp.src(paths.dist_css + '*')
         .pipe(clean());
 });
 
 // Copy all static images
 gulp.task('imagemin', function () {
-    gulp.src(paths.img)
+    gulp.src(paths.lib_img)
     // Pass in options to the task
         .pipe(imagemin())
-        .pipe(gulp.dest(paths.images));
+        .pipe(gulp.dest(paths.dist_img));
+    gulp.src(paths.dist_img + 'images')
+        .pipe(clean());
 });
 
 gulp.task('cssnano', function () {
-    gulp.src(paths.lib + '*.css')
+    gulp.src(paths.lib_css + '*.css')
         .pipe(cssnano())
         .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest(paths.scripts))
+        .pipe(gulp.dest(paths.dist_css))
 });
 /**
  * Minify compiled JavaScript.
@@ -50,10 +59,10 @@ gulp.task('cssnano', function () {
  */
 gulp.task('uglify', function () {
 
-    gulp.src(paths.lib + '*.js')
+    gulp.src(paths.lib_js + '*.js')
         .pipe(uglify())
         .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest(paths.scripts));
+        .pipe(gulp.dest(paths.dist_js));
 });
 
 
@@ -69,13 +78,11 @@ gulp.task('serve', function () {
 // Rerun the task when a file changes
 gulp.task('watch', function () {
     //gulp.watch(paths.scripts, ['scripts']);
-    gulp.watch("classes/*.php").on('change', browserSync.reload);
-    gulp.watch("assets/dist/scripts/*").on('change', browserSync.reload);
-    gulp.watch("includes/*.php").on('change', browserSync.reload);
-    gulp.watch("wc-bom.php").on('change', browserSync.reload);
+    gulp.watch(paths.home).on('change', browserSync.reload);
+    gulp.watch(paths.classes).on('change', browserSync.reload);
+    gulp.watch(paths.includes).on('change', browserSync.reload);
 });
 
-gulp.task('default', ['imagemin', 'delete', 'cssnano', 'uglify', 'serve', 'watch']);
-gulp.task('clean', ['imagemin', 'delete', 'cssnano', 'uglify']);
-gulp.task('start', ['imagemin', 'delete', 'cssnano', 'uglify', 'serve', 'watch']);
+gulp.task('default', ['purge', 'imagemin', 'cssnano', 'uglify', 'serve', 'watch']);
+gulp.task('clean', ['purge', 'imagemin', 'cssnano', 'uglify']);
 gulp.task('live', ['serve', 'watch']);
