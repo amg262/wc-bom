@@ -69,7 +69,10 @@ class WC_Bom { // implements WC_Abstract_Bom {
 	public function init() {
 
 		register_activation_hook( __FILE__, [ $this, 'activate' ] );
+		require_once __DIR__ . '/assets/dist/acf/acf.php';
 		add_action( 'admin_init', [ $this, 'acf_installed' ] );
+		$this->include_acf();
+
 		add_action( 'init', [ $this, 'load_plugin_scripts' ] );
 		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
 
@@ -179,8 +182,8 @@ class WC_Bom { // implements WC_Abstract_Bom {
 
 		if ( $has_acf && $active ) {
 
-			deactivate_plugins( __FILE__ );
 			deactivate_plugins( $acf );
+			deactivate_plugins( __FILE__ );
 
 			$message =
 				'<div style="text-align: center;"><h3>' .
@@ -202,7 +205,6 @@ class WC_Bom { // implements WC_Abstract_Bom {
 	 */
 	public function include_acf() {
 
-		require_once __DIR__ . '/assets/dist/acf/acf.php';
 
 		if ( function_exists( 'acf_add_options_page' ) ) {
 			acf_add_options_page(
