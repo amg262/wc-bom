@@ -178,3 +178,7 @@ composer.phar
 
 /vendor/
 /assets/app/
+
+\.idea/
+
+*.iml
