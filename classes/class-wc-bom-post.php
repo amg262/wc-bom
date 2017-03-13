@@ -1,28 +1,22 @@
-<?php
+<?php declare( strict_types = 1 );
 /**
- * Copyright (c) 2017  |  Netraa, LLC
- * netraa414@gmail.com  |  https://netraa.us
+ * Copyright (c) 2017.  |  Andrew Gunn
+ * http://andrewgunn.org  |   https://github.com/amg262
+ * andrewmgunn26@gmail.com
  *
- * Andrew Gunn  |  Owner
- * https://andrewgunn.org
  */
-
 namespace WooBom;
-
-
-require_once WC_BOM_ABSTRACT . 'WC_Abstract_Post.php';
 /**
- * Created by PhpStorm.
- * User: andy
- * Date: 3/6/17
- * Time: 8:03 PM
+ * Class WC_Bom_Post
+ *
+ * @package WooBom
  */
-class WC_Bom_Post implements WC_Bom_Abstract_Post {
+class WC_Bom_Post {
 
 	/**
 	 * @var null
 	 */
-	protected static $instance = null;
+	protected static $instance;
 
 	/**
 	 * WC_Bom_Post_Type constructor.
@@ -30,18 +24,6 @@ class WC_Bom_Post implements WC_Bom_Abstract_Post {
 	private function __construct() {
 
 		$this->init();
-	}
-
-	/**
-	 * @return null
-	 */
-	public static function getInstance() {
-
-		if ( ! isset( static::$instance ) ) {
-			static::$instance = new static;
-		}
-
-		return static::$instance;
 	}
 
 	/**
@@ -530,4 +512,17 @@ class WC_Bom_Post implements WC_Bom_Abstract_Post {
 
 		register_post_type( 'ecn', $args );
 	}
+
+	/**
+	 * @return null
+	 */
+	public static function getInstance() {
+
+		if ( null === static::$instance ) {
+			static::$instance = new static;
+		}
+
+		return static::$instance;
+	}
+
 }

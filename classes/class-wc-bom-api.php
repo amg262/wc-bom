@@ -1,18 +1,15 @@
-`<?php
+<?php declare( strict_types = 1 );
 /**
- * Copyright (c) 2017  |  Netraa, LLC
- * netraa414@gmail.com  |  https://netraa.us
+ * Copyright (c) 2017.  |  Andrew Gunn
+ * http://andrewgunn.org  |   https://github.com/amg262
+ * andrewmgunn26@gmail.com
  *
- * Andrew Gunn  |  Owner
- * https://andrewgunn.org
  */
-
-
+namespace WooBom;
 /**
- * Created by PhpStorm.
- * User: andy
- * Date: 3/7/17
- * Time: 4:52 PM
+ * Class WC_Bom_API
+ *
+ * @package WooBom
  */
 class WC_Bom_API {
 
@@ -89,8 +86,8 @@ class WC_Bom_API {
 	 */
 	public function giar_process_vote() {
 
-		$vote    = $_POST[ 'vote' ];
-		$post_id = $_POST[ 'id' ];
+		$vote    = $_POST['vote'];
+		$post_id = $_POST['id'];
 		// input validation
 		if ( ! is_numeric( $post_id ) || ! in_array( strtolower( $vote ), [ 'up', 'down' ] ) ) {
 			return false;

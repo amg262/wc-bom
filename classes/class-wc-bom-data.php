@@ -1,20 +1,21 @@
-<?php
+<?php declare( strict_types = 1 );
 /**
- * Copyright (c) 2017  |  Netraa, LLC
- * netraa414@gmail.com  |  https://netraa.us
+ * Copyright (c) 2017.  |  Andrew Gunn
+ * http://andrewgunn.org  |   https://github.com/amg262
+ * andrewmgunn26@gmail.com
  *
- * Andrew Gunn  |  Owner
- * https://andrewgunn.org
  */
-
+namespace WooBom;
 /**
- * Created by PhpStorm.
- * User: andy
- * Date: 3/6/17
- * Time: 8:03 PM
+ * Class WC_Bom_Data
+ *
+ * @package WooBom
  */
 class WC_Bom_Data {
 
+	/**
+	 * @var
+	 */
 	private $table;
 
 	/**

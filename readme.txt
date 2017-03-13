@@ -1,4 +1,4 @@
-=== LogicBOM ===
+=== WooBOM ===
 Contributors: netraa414, amg26
 Tags: woocommerce, woocommerce bill of materials, bill of materials, bom, woocommere bom, material tracking, woocommere material tracking, raw material tracking, woocommere raw material, woocommerce erp, erp, bom, woo bom, wc bom
 Donate link: http://andrewgunn.org/donate

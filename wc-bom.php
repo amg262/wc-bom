@@ -1,5 +1,11 @@
-<?php
-declare( strict_types = 1 );
+<?php declare( strict_types = 1 );
+/**
+ * Copyright (c) 2017.  |  Andrew Gunn
+ * http://andrewgunn.org  |   https://github.com/amg262
+ * andrewmgunn26@gmail.com
+ *
+ */
+namespace WooBom;
 /*
 * Plugin Name: WooBOM
 * Plugin URI: https/nextraa.us
@@ -10,7 +16,6 @@ declare( strict_types = 1 );
 * Text Domain: logicbom
 * License: GPL2
 */
-namespace WooBom;
 
 global $wc_bom_options, $wc_bom_settings;
 
@@ -37,8 +42,7 @@ const WC_BOM_ACF = __DIR__ . 'assets/dist/acf/acf.php';
  */
 const WC_BOM_WOO = 'woocommerce/woocommerce.php';
 
-require_once WC_BOM_ABSTRACT . 'WC_Abstract_Bom.php';
-
+//require_once WC_BOM_ABSTRACT . 'WC_Abstract_Bom.php';
 //require_once __DIR__ . '/assets/dist/acf/acf.php';
 
 /**
@@ -46,12 +50,12 @@ require_once WC_BOM_ABSTRACT . 'WC_Abstract_Bom.php';
  *
  * @package WooBom
  */
-class WC_Bom { // implements WC_Abstract_Bom {
+class WC_Bom {
 
 	/**
 	 * @var null
 	 */
-	protected static $instance = null;
+	protected static $instance;
 	/**
 	 * @var string
 	 */
@@ -61,18 +65,6 @@ class WC_Bom { // implements WC_Abstract_Bom {
 	private function __construct() {
 
 		$this->init();
-	}
-
-	/**
-	 * @return null
-	 */
-	public static function getInstance() {
-
-		if ( ! isset( static::$instance ) ) {
-			static::$instance = new static;
-		}
-
-		return static::$instance;
 	}
 
 	/**
@@ -91,6 +83,50 @@ class WC_Bom { // implements WC_Abstract_Bom {
 		$this->load_classes();
 		$settings = WC_Bom_Settings::getInstance();
 		$post     = WC_Bom_Post::getInstance();
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function include_acf() {
+
+
+		if ( function_exists( 'acf_add_options_page' ) ) {
+			acf_add_options_page(
+				[
+					'page_title' => 'Theme General Settings',
+					'menu_title' => 'Theme Settings',
+					'menu_slug'  => 'theme-general-settings',
+					'capability' => 'edit_posts',
+					'redirect'   => false,
+				] );
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 *
+	 */
+	protected function load_classes() {
+
+		include_once __DIR__ . '/classes/class-wc-bom-data.php';
+		include_once __DIR__ . '/classes/class-wc-bom-post.php';
+		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
+	}
+
+	/**
+	 * @return null
+	 */
+	public static function getInstance() {
+
+		if ( null === static::$instance ) {
+			static::$instance = new static;
+		}
+
+		return static::$instance;
 	}
 
 	/**
@@ -191,25 +227,15 @@ class WC_Bom { // implements WC_Abstract_Bom {
 	}
 
 	/**
-	 * @return bool
+	 *
 	 */
-	public function include_acf() {
+	protected function activate() {
 
-
-		if ( function_exists( 'acf_add_options_page' ) ) {
-			acf_add_options_page(
-				[
-					'page_title' => 'Theme General Settings',
-					'menu_title' => 'Theme Settings',
-					'menu_slug'  => 'theme-general-settings',
-					'capability' => 'edit_posts',
-					'redirect'   => false,
-				] );
-
-			return true;
-		}
-
-		return false;
+		$this->create_options();
+		$this->create_settings();
+		$this->is_woo_activated();
+		//$this->is_acf_deactivated();
+		flush_rewrite_rules();
 	}
 
 	/**
@@ -267,28 +293,6 @@ class WC_Bom { // implements WC_Abstract_Bom {
 		} else {
 			return true;
 		}
-	}
-
-	/**
-	 *
-	 */
-	protected function load_classes() {
-
-		include_once __DIR__ . '/classes/class-wc-bom-data.php';
-		include_once __DIR__ . '/classes/class-wc-bom-post.php';
-		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
-	}
-
-	/**
-	 *
-	 */
-	protected function activate() {
-
-		$this->create_options();
-		$this->create_settings();
-		$this->is_woo_activated();
-		//$this->is_acf_deactivated();
-		flush_rewrite_rules();
 	}
 }
 

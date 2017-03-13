@@ -1,33 +1,13 @@
-<?php
+<?php declare( strict_types = 1 );
 /**
- * Copyright (c) 2017  |  Netraa, LLC
- * netraa414@gmail.com  |  https://netraa.us
- *
- * Andrew Gunn  |  Owner
- * https://andrewgunn.org
+ * Copyright (c) 2017.  |  Andrew Gunn
+ * http://andrewgunn.org  |   https://github.com/amg262
+ * andrewmgunn26@gmail.com
  *
  */
 namespace WooBom;
-
 /**
- * PLUGIN SETTINGS PAGE
- */
-/**
- * Class WC_Bom_Settings
  *
- * @package WooBom
- */
-/**
- * Class WC_Bom_Settings
- *
- * @package WooBom
- *
- */
-
-/**
- * Class WC_Bom_Settings
- *
- * @package WooBom
  */
 require_once WC_BOM_ABSTRACT . 'WC_Abstract_Settings.php';
 
@@ -36,16 +16,16 @@ require_once WC_BOM_ABSTRACT . 'WC_Abstract_Settings.php';
  *
  * @package WooBom
  */
-class WC_Bom_Settings implements WC_Abstract_Settings {
+class WC_Bom_Settings {//implements WC_Abstract_Settings {
 
 	/**
 	 * @var null
 	 */
-	private $worker = null;
+	protected static $instance;
 	/**
 	 * @var null
 	 */
-	protected static $instance = null;
+	private $worker;
 
 	/**
 	 * WC_Bom constructor.
@@ -53,18 +33,6 @@ class WC_Bom_Settings implements WC_Abstract_Settings {
 	private function __construct() {
 
 		$this->init();
-	}
-
-	/**
-	 * @return null
-	 */
-	public static function getInstance() {
-
-		if ( ! isset( static::$instance ) ) {
-			static::$instance = new static;
-		}
-
-		return static::$instance;
 	}
 
 	/**
@@ -79,6 +47,18 @@ class WC_Bom_Settings implements WC_Abstract_Settings {
 		$this->worker = new WC_Bom_Worker();
 		add_action( 'admin_menu', [ $this, 'wc_bom_menu' ] );
 		add_action( 'admin_init', [ $this, 'page_init' ] );
+	}
+
+	/**
+	 * @return null
+	 */
+	public static function getInstance() {
+
+		if ( ! isset( static::$instance ) ) {
+			static::$instance = new static;
+		}
+
+		return static::$instance;
 	}
 
 	/**
@@ -122,8 +102,7 @@ class WC_Bom_Settings implements WC_Abstract_Settings {
 			'wc_bom_setting', // ID
 			'wc-bom-settings', // Title
 			[ $this->worker, 'settings_callback' ], // Callback
-			'wc-bom-settings-admin', // Page
-			'wc_bom_settings_section' // Section
+			'wc-bom-settings-admin' // Page
 		);
 	}
 
