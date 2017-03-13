@@ -64,6 +64,18 @@ class WC_Bom { // implements WC_Abstract_Bom {
 	}
 
 	/**
+	 * @return null
+	 */
+	public static function getInstance() {
+
+		if ( ! isset( static::$instance ) ) {
+			static::$instance = new static;
+		}
+
+		return static::$instance;
+	}
+
+	/**
 	 *
 	 */
 	public function init() {
@@ -79,28 +91,6 @@ class WC_Bom { // implements WC_Abstract_Bom {
 		$this->load_classes();
 		$settings = WC_Bom_Settings::getInstance();
 		$post     = WC_Bom_Post::getInstance();
-	}
-
-	/**
-	 *
-	 */
-	protected function load_classes() {
-
-		include_once __DIR__ . '/classes/class-wc-bom-data.php';
-		include_once __DIR__ . '/classes/class-wc-bom-post.php';
-		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
-	}
-
-	/**
-	 * @return null
-	 */
-	public static function getInstance() {
-
-		if ( ! isset( static::$instance ) ) {
-			static::$instance = new static;
-		}
-
-		return static::$instance;
 	}
 
 	/**
@@ -222,19 +212,6 @@ class WC_Bom { // implements WC_Abstract_Bom {
 		return false;
 	}
 
-
-	/**
-	 *
-	 */
-	protected function activate() {
-
-		$this->create_options();
-		$this->create_settings();
-		$this->is_woo_activated();
-		//$this->is_acf_deactivated();
-		flush_rewrite_rules();
-	}
-
 	/**
 	 * @return mixed
 	 */
@@ -290,6 +267,28 @@ class WC_Bom { // implements WC_Abstract_Bom {
 		} else {
 			return true;
 		}
+	}
+
+	/**
+	 *
+	 */
+	protected function load_classes() {
+
+		include_once __DIR__ . '/classes/class-wc-bom-data.php';
+		include_once __DIR__ . '/classes/class-wc-bom-post.php';
+		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
+	}
+
+	/**
+	 *
+	 */
+	protected function activate() {
+
+		$this->create_options();
+		$this->create_settings();
+		$this->is_woo_activated();
+		//$this->is_acf_deactivated();
+		flush_rewrite_rules();
 	}
 }
 
