@@ -72,9 +72,9 @@ class WC_Bom {
 	 */
 	public function init() {
 		include_once __DIR__ . '/classes/class-wc-bom-data.php';
+		//require_once __DIR__ . '/assets/dist/acf/acf.php';
 
 		register_activation_hook( __FILE__, [ $this, 'activate' ] );
-		require_once __DIR__ . '/assets/dist/acf/acf.php';
 		add_action( 'admin_init', [ $this, 'acf_installed' ] );
 		$this->include_acf();
 
@@ -86,27 +86,7 @@ class WC_Bom {
 		$post     = WC_Bom_Post::getInstance();
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function include_acf() {
 
-
-		if ( function_exists( 'acf_add_options_page' ) ) {
-			acf_add_options_page(
-				[
-					'page_title' => 'Theme General Settings',
-					'menu_title' => 'Theme Settings',
-					'menu_slug'  => 'theme-general-settings',
-					'capability' => 'edit_posts',
-					'redirect'   => false,
-				] );
-
-			return true;
-		}
-
-		return false;
-	}
 
 	/**
 	 *
@@ -201,7 +181,7 @@ class WC_Bom {
 	 */
 	public function acf_installed() {
 
-		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+		require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		$acf     = 'advanced-custom-fields/acf.php';
 		$active  = in_array( $acf, apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true );
 		$has_acf = plugin_dir_url( $acf );
@@ -224,6 +204,29 @@ class WC_Bom {
 
 			return true;
 		}
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function include_acf() {
+		require_once __DIR__ . '/assets/dist/acf/acf.php';
+
+
+		if ( function_exists( 'acf_add_options_page' ) ) {
+			acf_add_options_page(
+				[
+					'page_title' => 'Theme General Settings',
+					'menu_title' => 'Theme Settings',
+					'menu_slug'  => 'theme-general-settings',
+					'capability' => 'edit_posts',
+					'redirect'   => false,
+				] );
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
