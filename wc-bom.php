@@ -19,6 +19,11 @@ namespace WooBom;
 
 global $wc_bom_options, $wc_bom_settings;
 
+
+/**
+ *
+ */
+const WC_BOM_VERSION = '1.0.0';
 /**
  *
  */
@@ -71,10 +76,11 @@ class WC_Bom {
 	 *
 	 */
 	public function init() {
-		include_once __DIR__ . '/classes/class-wc-bom-data.php';
+		//include_once __DIR__ . '/classes/class-wc-bom-data.php';
 		//require_once __DIR__ . '/assets/dist/acf/acf.php';
 
 		register_activation_hook( __FILE__, [ $this, 'activate' ] );
+		register_activation_hook( __FILE__, [ $this, 'install' ] );
 		add_action( 'admin_init', [ $this, 'acf_installed' ] );
 		$this->include_acf();
 
@@ -86,7 +92,28 @@ class WC_Bom {
 		$post     = WC_Bom_Post::getInstance();
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function include_acf() {
+		require_once __DIR__ . '/assets/dist/acf/acf.php';
 
+
+		if ( function_exists( 'acf_add_options_page' ) ) {
+			acf_add_options_page(
+				[
+					'page_title' => 'Theme General Settings',
+					'menu_title' => 'Theme Settings',
+					'menu_slug'  => 'theme-general-settings',
+					'capability' => 'edit_posts',
+					'redirect'   => false,
+				] );
+
+			return true;
+		}
+
+		return false;
+	}
 
 	/**
 	 *
@@ -160,12 +187,12 @@ class WC_Bom {
 	 * @return array
 	 */
 	public function plugin_links( $actions, $plugin_file ) {
-
 		static $plugin;
-		if ( ! isset( $plugin ) ) {
+
+		if ( null === plugin ) {
 			$plugin = plugin_basename( __FILE__ );
 		}
-		if ( $plugin == $plugin_file ) {
+		if ( $plugin === $plugin_file ) {
 			$settings = [
 				'settings' => '<a href="admin.php?page=wc-bom-settings">' . __( 'Settings', 'wc-bom' ) . '</a>',
 				'support'  => '<a href="http://andrewgunn.org/support">' . __( 'Support', 'wc-bom' ) . '</a>',
@@ -199,34 +226,59 @@ class WC_Bom {
 			wp_die( $message );
 
 			return false;
-		} else {
-			$this->include_acf();
-
-			return true;
 		}
+
+		return true;
 	}
 
 	/**
-	 * @return bool
+	 *
 	 */
-	public function include_acf() {
-		require_once __DIR__ . '/assets/dist/acf/acf.php';
+	protected function install() {
+		global $wpdb;
+		global $wc_bom_settings;
 
+		var_dump( $wc_bom_settings );
 
-		if ( function_exists( 'acf_add_options_page' ) ) {
-			acf_add_options_page(
-				[
-					'page_title' => 'Theme General Settings',
-					'menu_title' => 'Theme Settings',
-					'menu_slug'  => 'theme-general-settings',
-					'capability' => 'edit_posts',
-					'redirect'   => false,
-				] );
+		$table_name = $wpdb->prefix . 'woo_bom';
 
-			return true;
-		}
+		$charset_collate = $wpdb->get_charset_collate();
 
-		return false;
+		$sql = "CREATE TABLE $table_name (
+		id mediumint(9) NOT NULL AUTO_INCREMENT,
+		time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+		name tinytext NOT NULL,
+		text text NOT NULL,
+		url varchar(55) DEFAULT '' NOT NULL,
+		PRIMARY KEY  (id)
+	) $charset_collate;";
+
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		dbDelta( $sql );
+
+		$wc_bom_settings['db_install'] = true;
+		//add_option( 'wc', $jal_db_version );
+	}
+
+	/**
+	 *
+	 */
+	protected function install_data() {
+		global $wpdb;
+
+		$welcome_name = 'Mr. WordPress';
+		$welcome_text = 'Congratulations, you just completed the installation!';
+
+		$table_name = $wpdb->prefix . 'liveshoutbox';
+
+		$wpdb->insert(
+			$table_name,
+			[
+				'time' => current_time( 'mysql' ),
+				'name' => $welcome_name,
+				'text' => $welcome_text,
+			]
+		);
 	}
 
 	/**
@@ -237,7 +289,6 @@ class WC_Bom {
 		$this->create_options();
 		$this->create_settings();
 		$this->is_woo_activated();
-		$data = WC_Bom_Data::getInstance();
 		//$this->is_acf_deactivated();
 		flush_rewrite_rules();
 	}
@@ -256,6 +307,7 @@ class WC_Bom {
 
 		return $wc_bom_options;
 	}
+
 
 	/**
 	 * @return mixed
