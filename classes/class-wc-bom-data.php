@@ -1,4 +1,5 @@
 <?php declare( strict_types = 1 );
+/** @noinspection ProblematicWhitespace */
 /**
  * Copyright (c) 2017.  |  Andrew Gunn
  * http://andrewgunn.org  |   https://github.com/amg262
@@ -19,9 +20,43 @@ class WC_Bom_Data {
 	private $table;
 
 	/**
-	 * WC_Bom_Assembly constructor.
+	 * @var null
 	 */
-	public function __construct() {
+	protected static $instance;
+	/**
+	 * @var string
+	 */
+	/**
+	 * WC_Bom constructor.
+	 */
+	private function __construct() {
+		$this->init();
+	}
+
+	/**
+	 * @return null
+	 */
+	public static function getInstance() {
+
+		if ( null === static::$instance ) {
+			static::$instance = new static;
+		}
+
+		return static::$instance;
+	}
+
+	/**
+	 *
+	 */
+	public function init() {
+
+		global $wc_bom_settings;
+		var_dump($wc_bom_settings);
+		$key = 'db_install';
+
+		if ($wc_bom_settings[$key] !== 'true') {
+			$this->install();
+		}
 
 	}
 
@@ -29,22 +64,23 @@ class WC_Bom_Data {
 	 *
 	 */
 	public function install() {
+
 		global $wpdb;
 		global $jal_db_version;
 
-		$table_name = $wpdb->prefix . 'liveshoutbox';
+		$table_name = $wpdb->prefix . 'wc_bom';
 
 		$charset_collate = $wpdb->get_charset_collate();
 
 		$sql =
-			"CREATE TABLE $table_name (
+			'CREATE TABLE $table_name (
 			id mediumint(9) NOT NULL AUTO_INCREMENT,
-			time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+			time datetime DEFAULT \'0000-00-00 00:00:00\' NOT NULL,
 			name tinytext NOT NULL,
 			text text NOT NULL,
-			url varchar(55) DEFAULT '' NOT NULL,
+			url varchar(55) DEFAULT \'\' NOT NULL,
 			PRIMARY KEY  (id)
-		) $charset_collate;";
+		) $charset_collate;';
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta( $sql );
@@ -71,5 +107,3 @@ class WC_Bom_Data {
 		);
 	}
 }
-
-$obj = new WC_Bom_Data();

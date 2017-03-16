@@ -71,6 +71,7 @@ class WC_Bom {
 	 *
 	 */
 	public function init() {
+		include_once __DIR__ . '/classes/class-wc-bom-data.php';
 
 		register_activation_hook( __FILE__, [ $this, 'activate' ] );
 		require_once __DIR__ . '/assets/dist/acf/acf.php';
@@ -112,7 +113,6 @@ class WC_Bom {
 	 */
 	protected function load_classes() {
 
-		include_once __DIR__ . '/classes/class-wc-bom-data.php';
 		include_once __DIR__ . '/classes/class-wc-bom-post.php';
 		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
 	}
@@ -234,6 +234,7 @@ class WC_Bom {
 		$this->create_options();
 		$this->create_settings();
 		$this->is_woo_activated();
+		$data = WC_Bom_Data::getInstance();
 		//$this->is_acf_deactivated();
 		flush_rewrite_rules();
 	}

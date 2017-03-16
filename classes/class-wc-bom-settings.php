@@ -7,11 +7,6 @@
  */
 namespace WooBom;
 /**
- *
- */
-require_once WC_BOM_ABSTRACT . 'WC_Abstract_Settings.php';
-
-/**
  * Class WC_Bom_Settings
  *
  * @package WooBom
@@ -157,12 +152,14 @@ class WC_Bom_Settings {//implements WC_Abstract_Settings {
 				//$active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'display_options';
 				?>
 
-				<?php // if ( $obj !== '' ) { ?>
+				<?php // if ( $obj !== '' ) {
+				?>
                 <h2 class="nav-tab-wrapper">
                     <a href="?page=wc-bom-settings&tab=display_options" class="nav-tab">Display Options</a>
                     <a href="?page=wc-bom-settings&tab=social_options" class="nav-tab">Social Options</a>
                 </h2>
-				<?php //} ?>
+				<?php //}
+				?>
 
                 <form method="post" action="options.php">
 
