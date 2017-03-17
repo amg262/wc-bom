@@ -78,9 +78,12 @@ class WC_Bom {
 	public function init() {
 		//include_once __DIR__ . '/classes/class-wc-bom-data.php';
 		//require_once __DIR__ . '/assets/dist/acf/acf.php';
-
-		register_activation_hook( __FILE__, [ $this, 'activate' ] );
+		//add_action( 'admin_init', [ $this, 'is_woo_activated' ] );
+		register_activation_hook( __FILE__, [ $this, 'is_woo_activated' ] );
+		//register_activation_hook( __FILE__, [ $this, 'activate' ] );
+		register_activation_hook( __FILE__, [ $this, 'create_settings' ] );
 		register_activation_hook( __FILE__, [ $this, 'install' ] );
+
 		add_action( 'admin_init', [ $this, 'acf_installed' ] );
 		$this->include_acf();
 
@@ -90,6 +93,9 @@ class WC_Bom {
 		$this->load_classes();
 		$settings = WC_Bom_Settings::getInstance();
 		$post     = WC_Bom_Post::getInstance();
+
+		//flush_rewrite_rules();
+
 	}
 
 	/**
@@ -123,6 +129,7 @@ class WC_Bom {
 		include_once __DIR__ . '/classes/class-wc-bom-post.php';
 		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
 	}
+
 
 	/**
 	 * @return null
@@ -234,36 +241,7 @@ class WC_Bom {
 	/**
 	 *
 	 */
-	protected function install() {
-		global $wpdb;
-		global $wc_bom_settings;
-
-		var_dump( $wc_bom_settings );
-
-		$table_name = $wpdb->prefix . 'woo_bom';
-
-		$charset_collate = $wpdb->get_charset_collate();
-
-		$sql = "CREATE TABLE $table_name (
-		id mediumint(9) NOT NULL AUTO_INCREMENT,
-		time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-		name tinytext NOT NULL,
-		text text NOT NULL,
-		url varchar(55) DEFAULT '' NOT NULL,
-		PRIMARY KEY  (id)
-	) $charset_collate;";
-
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		dbDelta( $sql );
-
-		$wc_bom_settings['db_install'] = true;
-		//add_option( 'wc', $jal_db_version );
-	}
-
-	/**
-	 *
-	 */
-	protected function install_data() {
+	public function install_data() {
 		global $wpdb;
 
 		$welcome_name = 'Mr. WordPress';
@@ -284,14 +262,33 @@ class WC_Bom {
 	/**
 	 *
 	 */
-	protected function activate() {
+	public function install() {
+		global $wpdb;
+		global $wc_bom_settings;
 
-		$this->create_options();
-		$this->create_settings();
-		$this->is_woo_activated();
-		//$this->is_acf_deactivated();
-		flush_rewrite_rules();
+		//var_dump( $wc_bom_settings );
+
+		$table_name = $wpdb->prefix . 'woo_bom';
+
+		$charset_collate = $wpdb->get_charset_collate();
+
+		$sql = "CREATE TABLE $table_name (
+				id mediumint(9) NOT NULL AUTO_INCREMENT,
+				time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+				name tinytext NOT NULL,
+				text text NOT NULL,
+				url varchar(55) DEFAULT '' NOT NULL,
+				PRIMARY KEY  (id)
+				) $charset_collate;";
+
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		$wc_bom_settings['db_install'] = true;
+
+		dbDelta( $sql );
+
+		//add_option( 'wc', $jal_db_version );
 	}
+
 
 	/**
 	 * @return mixed
@@ -353,4 +350,7 @@ class WC_Bom {
 }
 
 $wc_bom = WC_Bom::getInstance();
+//global $wc_bom_settings;
+
+//var_dump( $wc_bom_settings );
 //add_filter('acf/settings/show_admin', '__return_false');
