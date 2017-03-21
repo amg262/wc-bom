@@ -38,14 +38,6 @@ const WC_BOM_OPTIONS = 'wc_bom_options';
  *
  */
 const WC_BOM_SETTINGS = 'wc_bom_settings';
-/**
- *
- */
-const WC_BOM_ACF = __DIR__ . 'assets/dist/acf/acf.php';
-/**
- *
- */
-const WC_BOM_WOO = 'woocommerce/woocommerce.php';
 
 //require_once WC_BOM_ABSTRACT . 'WC_Abstract_Bom.php';
 //require_once __DIR__ . '/assets/dist/acf/acf.php';
@@ -76,18 +68,21 @@ class WC_Bom {
 	 *
 	 */
 	public function init() {
-		//include_once __DIR__ . '/classes/class-wc-bom-data.php';
-		//require_once __DIR__ . '/assets/dist/acf/acf.php';
+
+		$this->load_classes();
+		$this->require_woocommerce();
+		$this->require_acf();
+		$this->create_options();
+		$this->install();
+		$this->install_data();
+		$this->load_assets();
 		//add_action( 'admin_init', [ $this, 'is_woo_activated' ] );
-		register_activation_hook( __FILE__, [ $this, 'is_woo_activated' ] );
-		//register_activation_hook( __FILE__, [ $this, 'activate' ] );
-		register_activation_hook( __FILE__, [ $this, 'create_settings' ] );
-		register_activation_hook( __FILE__, [ $this, 'install' ] );
+		//add_action( 'admin_init', [ $this, 'is_woo_activated' ] );
+		//register_activation_hook( __FILE__, [ $this, 'create_options' ] );
+		//register_activtion_hook( __FILE__, [ $this, 'install' ] );
+		//add_action( 'admin_init', [ $this, 'acf_installed' ] );
+		//$this->include_acf();
 
-		add_action( 'admin_init', [ $this, 'acf_installed' ] );
-		$this->include_acf();
-
-		add_action( 'init', [ $this, 'load_plugin_scripts' ] );
 		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
 
 		$this->load_classes();
@@ -99,122 +94,45 @@ class WC_Bom {
 	}
 
 	/**
-	 * @return bool
-	 */
-	public function include_acf() {
-		require_once __DIR__ . '/assets/dist/acf/acf.php';
-
-
-		if ( function_exists( 'acf_add_options_page' ) ) {
-			acf_add_options_page(
-				[
-					'page_title' => 'Theme General Settings',
-					'menu_title' => 'Theme Settings',
-					'menu_slug'  => 'theme-general-settings',
-					'capability' => 'edit_posts',
-					'redirect'   => false,
-				] );
-
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 *
 	 */
-	protected function load_classes() {
-
+	public function load_classes() {
+		include_once __DIR__ . '/classes/class-wc-bom-data.php';
 		include_once __DIR__ . '/classes/class-wc-bom-post.php';
 		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
 	}
 
-
 	/**
-	 * @return null
+	 * @return bool
 	 */
-	public static function getInstance() {
+	public function require_woocommerce() {
 
-		if ( null === static::$instance ) {
-			static::$instance = new static;
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+		$active        = 'active_plugins';
+		$woo           = 'woocommerce/woocommerce.php';
+		$is_woo_active = in_array( $woo, apply_filters( $active, get_option( $active ) ), true );
+		if ( ! $is_woo_active ) {
+			//if ( plugin_dir_url( WC_BOM_WOO ) ) { activate_plugin( WC_BOM_WOO ); }
+			deactivate_plugins( __FILE__ );
+			$message =
+				'<div style="text-align: center;"><h3>' .
+				'WooCommerce must be installed and activated!</h3>' .
+				'<a href=' . admin_url( 'plugins.php' ) . '>' .
+				'Back to plugins&nbsp;&rarr;</a>' .
+				'</div>';
+			wp_die( $message );
+
+			return false;
 		}
 
-		return static::$instance;
-	}
-
-	/**
-	 *
-	 * //     */
-	public function load_plugin_scripts() {
-
-		$this->load_dist_scripts();
-		$this->load_vendor_scripts();
-	}
-
-	/**
-	 *
-	 */
-	public function load_dist_scripts() {
-
-		$url = 'assets/dist/scripts/';
-		wp_register_script( 'bom_js', plugins_url( $url . 'wc-bom.min.js', __FILE__ ) );
-		wp_register_script( 'bom_adm_js', plugins_url( $url . 'wc-bom-admin.min.js', __FILE__ ) );
-		wp_register_script( 'api_js', plugins_url( $url . 'wc-bom-api.min.js', __FILE__ ) );
-		wp_register_script( 'wp_js', plugins_url( $url . 'wc-bom-wp.min.js', __FILE__ ) );
-		wp_register_style( 'bom_css', plugins_url( $url . 'wc-bom.min.css', __FILE__ ) );
-		wp_enqueue_script( 'bom_js' );
-		wp_enqueue_script( 'bom_adm_js' );
-		//wp_enqueue_script( 'ajax_js' );
-		//wp_enqueue_script( 'api_js' );
-		//wp_enqueue_script( 'wp_js' );
-		wp_enqueue_style( 'bom_css' );
-	}
-
-	/**
-	 *
-	 */
-	public function load_vendor_scripts() {
-
-		wp_enqueue_script(
-			'sweetalertjs', 'https://cdnjs.cloudflare.com/ajax/libs/' .
-			                'sweetalert/1.1.3/sweetalert.min.js' );
-		wp_enqueue_style(
-			'sweetalert_css', 'https://cdnjs.cloudflare.com/ajax/libs/' .
-			                  'sweetalert/1.1.3/sweetalert.min.css' );
-		wp_enqueue_script(
-			'validate_js', 'https://cdnjs.cloudflare.com/ajax/libs/' .
-			               'jquery-validate/1.16.0/jquery.validate.min.js' );
-	}
-
-	/**
-	 * @param $actions
-	 * @param $plugin_file
-	 *
-	 * @return array
-	 */
-	public function plugin_links( $actions, $plugin_file ) {
-		static $plugin;
-
-		if ( null === plugin ) {
-			$plugin = plugin_basename( __FILE__ );
-		}
-		if ( $plugin === $plugin_file ) {
-			$settings = [
-				'settings' => '<a href="admin.php?page=wc-bom-settings">' . __( 'Settings', 'wc-bom' ) . '</a>',
-				'support'  => '<a href="http://andrewgunn.org/support">' . __( 'Support', 'wc-bom' ) . '</a>',
-			];
-			$actions  = array_merge( $settings, $actions );
-		}
-
-		return $actions;
+		return true;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function acf_installed() {
-
+	public function require_acf() {
+		require_once __DIR__ . '/assets/dist/acf/acf.php';
 		require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		$acf     = 'advanced-custom-fields/acf.php';
 		$active  = in_array( $acf, apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true );
@@ -235,28 +153,39 @@ class WC_Bom {
 			return false;
 		}
 
+
+		if ( function_exists( 'acf_add_options_page' ) ) {
+			acf_add_options_page(
+				[
+					'page_title' => 'Theme General Settings',
+					'menu_title' => 'Theme Settings',
+					'menu_slug'  => 'theme-general-settings',
+					'capability' => 'edit_posts',
+					'redirect'   => false,
+				] );
+		}
+
 		return true;
 	}
 
 	/**
-	 *
+	 * @return mixed
 	 */
-	public function install_data() {
-		global $wpdb;
+	public function create_options() {
 
-		$welcome_name = 'Mr. WordPress';
-		$welcome_text = 'Congratulations, you just completed the installation!';
+		global $wc_bom_options;
+		global $wc_bom_settings;
 
-		$table_name = $wpdb->prefix . 'liveshoutbox';
-
-		$wpdb->insert(
-			$table_name,
-			[
-				'time' => current_time( 'mysql' ),
-				'name' => $welcome_name,
-				'text' => $welcome_text,
-			]
-		);
+		$key            = 'init';
+		$wc_bom_options = get_option( WC_BOM_OPTIONS );
+		if ( $wc_bom_options[ $key ] !== true ) {
+			add_option( WC_BOM_OPTIONS, [ $key => true ] );
+		}
+		$key             = 'setup';
+		$wc_bom_settings = get_option( WC_BOM_SETTINGS );
+		if ( $wc_bom_settings[ $key ] !== true ) {
+			add_option( WC_BOM_SETTINGS, [ $key => false ] );
+		}
 	}
 
 	/**
@@ -283,69 +212,94 @@ class WC_Bom {
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		$wc_bom_settings['db_install'] = true;
+		add_option( 'wc_bom_settings', [ 'db_install' => true ] );
 
 		dbDelta( $sql );
 
 		//add_option( 'wc', $jal_db_version );
 	}
 
-
 	/**
-	 * @return mixed
+	 *
 	 */
-	public function create_options() {
+	public function install_data() {
+		global $wpdb;
 
-		global $wc_bom_options;
-		$key            = 'init';
-		$wc_bom_options = get_option( WC_BOM_OPTIONS );
-		if ( $wc_bom_options[ $key ] !== true ) {
-			add_option( WC_BOM_OPTIONS, [ $key => true ] );
-		}
+		$welcome_name = 'Mr. WordPress';
+		$welcome_text = 'Congratulations, you just completed the installation!';
 
-		return $wc_bom_options;
-	}
+		$table_name = $wpdb->prefix . 'liveshoutbox';
 
-
-	/**
-	 * @return mixed
-	 */
-	public function create_settings() {
-
-		global $wc_bom_settings;
-		$key             = 'setup';
-		$wc_bom_settings = get_option( WC_BOM_SETTINGS );
-		if ( $wc_bom_settings[ $key ] !== true ) {
-			add_option( WC_BOM_SETTINGS, [ $key => false ] );
-		}
-
-		return $wc_bom_settings;
+		$wpdb->insert(
+			$table_name,
+			[
+				'time' => current_time( 'mysql' ),
+				'name' => $welcome_name,
+				'text' => $welcome_text,
+			]
+		);
 	}
 
 	/**
-	 * @return bool
+	 *
 	 */
-	public function is_woo_activated() {
+	public function load_assets() {
+		$url = 'assets/dist/scripts/';
+		wp_register_script( 'bom_js', plugins_url( $url . 'wc-bom.min.js', __FILE__ ) );
+		wp_register_script( 'bom_adm_js', plugins_url( $url . 'wc-bom-admin.min.js', __FILE__ ) );
+		wp_register_script( 'api_js', plugins_url( $url . 'wc-bom-api.min.js', __FILE__ ) );
+		wp_register_script( 'wp_js', plugins_url( $url . 'wc-bom-wp.min.js', __FILE__ ) );
+		wp_register_style( 'bom_css', plugins_url( $url . 'wc-bom.min.css', __FILE__ ) );
+		wp_enqueue_script( 'bom_js' );
+		wp_enqueue_script( 'bom_adm_js' );
+		//wp_enqueue_script( 'ajax_js' );
+		//wp_enqueue_script( 'api_js' );
+		//wp_enqueue_script( 'wp_js' );
+		wp_enqueue_style( 'bom_css' );
+		wp_enqueue_script(
+			'sweetalertjs', 'https://cdnjs.cloudflare.com/ajax/libs/' .
+			                'sweetalert/1.1.3/sweetalert.min.js' );
+		wp_enqueue_style(
+			'sweetalert_css', 'https://cdnjs.cloudflare.com/ajax/libs/' .
+			                  'sweetalert/1.1.3/sweetalert.min.css' );
+		wp_enqueue_script(
+			'validate_js', 'https://cdnjs.cloudflare.com/ajax/libs/' .
+			               'jquery-validate/1.16.0/jquery.validate.min.js' );
+	}
 
-		include_once ABSPATH . 'wp-admin/includes/plugin.php';
-		$active        = 'active_plugins';
-		$woo           = 'woocommerce/woocommerce.php';
-		$is_woo        = plugin_dir_url( $woo );
-		$is_woo_active = in_array( $woo, apply_filters( $active, get_option( $active ) ), true );
-		if ( ! $is_woo_active ) {
-			//if ( plugin_dir_url( WC_BOM_WOO ) ) { activate_plugin( WC_BOM_WOO ); }
-			deactivate_plugins( __FILE__ );
-			$message =
-				'<div style="text-align: center;"><h3>' .
-				'WooCommerce must be installed and activated!</h3>' .
-				'<a href=' . admin_url( 'plugins.php' ) . '>' .
-				'Back to plugins&nbsp;&rarr;</a>' .
-				'</div>';
-			wp_die( $message );
+	/**
+	 * @return null
+	 */
+	public static function getInstance() {
 
-			return false;
-		} else {
-			return true;
+		if ( null === static::$instance ) {
+			static::$instance = new static;
 		}
+
+		return static::$instance;
+	}
+
+	/**
+	 * @param $actions
+	 * @param $plugin_file
+	 *
+	 * @return array
+	 */
+	public function plugin_links( $actions, $plugin_file ) {
+		static $plugin;
+
+		if ( null === plugin ) {
+			$plugin = plugin_basename( __FILE__ );
+		}
+		if ( $plugin === $plugin_file ) {
+			$settings = [
+				'settings' => '<a href="admin.php?page=wc-bom-settings">' . __( 'Settings', 'wc-bom' ) . '</a>',
+				'support'  => '<a href="http://andrewgunn.org/support">' . __( 'Support', 'wc-bom' ) . '</a>',
+			];
+			$actions  = array_merge( $settings, $actions );
+		}
+
+		return $actions;
 	}
 }
 
