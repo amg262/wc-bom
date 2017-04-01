@@ -1,10 +1,11 @@
-<?php declare( strict_types = 1 );
+<?php declare( strict_types=1 );
 /**
  * Copyright (c) 2017.  |  Andrew Gunn
  * http://andrewgunn.org  |   https://github.com/amg262
  * andrewmgunn26@gmail.com
  *
  */
+
 namespace WooBom;
 /*
 * Plugin Name: WooBOM
@@ -65,6 +66,18 @@ class WC_Bom {
 	}
 
 	/**
+	 * @return null
+	 */
+	public static function getInstance() {
+
+		if ( null === static::$instance ) {
+			static::$instance = new static;
+		}
+
+		return static::$instance;
+	}
+
+	/**
 	 *
 	 */
 	public function init() {
@@ -73,9 +86,9 @@ class WC_Bom {
 		$this->require_woocommerce();
 		$this->require_acf();
 		$this->create_options();
-		$this->install();
-		$this->install_data();
-		$this->load_assets();
+		//$this->install();
+		//$this->install_data();
+		//$this->load_assets();
 		//add_action( 'admin_init', [ $this, 'is_woo_activated' ] );
 		//add_action( 'admin_init', [ $this, 'is_woo_activated' ] );
 		//register_activation_hook( __FILE__, [ $this, 'create_options' ] );
@@ -268,18 +281,6 @@ class WC_Bom {
 	}
 
 	/**
-	 * @return null
-	 */
-	public static function getInstance() {
-
-		if ( null === static::$instance ) {
-			static::$instance = new static;
-		}
-
-		return static::$instance;
-	}
-
-	/**
 	 * @param $actions
 	 * @param $plugin_file
 	 *
@@ -288,7 +289,7 @@ class WC_Bom {
 	public function plugin_links( $actions, $plugin_file ) {
 		static $plugin;
 
-		if ( null === plugin ) {
+		if ( $plugin == null ) {
 			$plugin = plugin_basename( __FILE__ );
 		}
 		if ( $plugin === $plugin_file ) {
