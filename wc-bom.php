@@ -262,7 +262,7 @@ class WC_Bom {
 	 */
 	public function load_assets() {
 		$url = 'assets/dist/scripts/';
-		$url2 = 'assets/dist/styles';
+		$url2 = 'assets/dist/styles/';
 		wp_register_script( 'bom_js', plugins_url( $url . 'wc-bom.min.js', __FILE__ ) );
 		wp_register_script( 'bom_adm_js', plugins_url( $url . 'wc-bom-admin.min.js', __FILE__ ) );
 		wp_register_script( 'api_js', plugins_url( $url . 'wc-bom-api.min.js', __FILE__ ) );
