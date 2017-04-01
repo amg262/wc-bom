@@ -21,7 +21,6 @@ namespace WooBom;
 global $wc_bom_options, $wc_bom_settings;
 use function add_action;
 use function validate_active_plugins;
-use function var_dump;
 
 
 /**

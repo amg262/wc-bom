@@ -33,12 +33,13 @@ class WC_Bom_Settings {//implements WC_Abstract_Settings {
 	/**
 	 *
 	 */
-	protected function init() {
+	public function init() {
 
-		if ( ! is_admin() ) {
-			wp_die( 'You must be an admin to view this.' );
-		}
+		//if ( ! is_admin() ) {
+		//	wp_die( 'You must be an admin to view this.' );
+		//}
 		include_once __DIR__ . '/class-wc-bom-worker.php';
+
 		$this->worker = new WC_Bom_Worker();
 		add_action( 'admin_menu', [ $this, 'wc_bom_menu' ] );
 		add_action( 'admin_init', [ $this, 'page_init' ] );
