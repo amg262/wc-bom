@@ -86,17 +86,24 @@ class WC_Bom {
 	public function init() {
 
 		$this->load_classes();
-		$this->require_woocommerce();
+		/*$this->require_woocommerce();
 		$this->require_acf();
 		$this->create_options();
 		$this->install();
-		$this->install_data();
+		$this->install_data();*/
 		//$this->load_assets();
+
+
+		add_action('admin_init',[$this,'require_woocommerce']);
+		add_action('admin_init',[$this,'require_acf']);
+		add_action('admin_init',[$this,'create_options']);
+		add_action('admin_init',[$this,'install']);
+		add_action('admin_init',[$this,'install_data']);
+
 		add_action('init',[$this,'load_assets']);
 		//add_action( 'admin_init', [ $this, 'is_woo_activated' ] );
 		//add_action( 'admin_init', [ $this, 'is_woo_activated' ] );
 		//register_activation_hook( __FILE__, [ $this, 'create_options' ] );
-		//register_activtion_hook( __FILE__, [ $this, 'install' ] );
 		//add_action( 'admin_init', [ $this, 'acf_installed' ] );
 		//$this->include_acf();
 
