@@ -86,9 +86,9 @@ class WC_Bom {
 		$this->require_woocommerce();
 		$this->require_acf();
 		$this->create_options();
-		//$this->install();
-		//$this->install_data();
-		//$this->load_assets();
+		$this->install();
+		$this->install_data();
+		$this->load_assets();
 		//add_action( 'admin_init', [ $this, 'is_woo_activated' ] );
 		//add_action( 'admin_init', [ $this, 'is_woo_activated' ] );
 		//register_activation_hook( __FILE__, [ $this, 'create_options' ] );
@@ -96,7 +96,7 @@ class WC_Bom {
 		//add_action( 'admin_init', [ $this, 'acf_installed' ] );
 		//$this->include_acf();
 
-		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
+		//add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
 
 		//$this->load_classes();
 		$settings = WC_Bom_Settings::getInstance();
@@ -241,7 +241,7 @@ class WC_Bom {
 		$welcome_name = 'Mr. WordPress';
 		$welcome_text = 'Congratulations, you just completed the installation!';
 
-		$table_name = $wpdb->prefix . 'liveshoutbox';
+		$table_name = $wpdb->prefix . 'woo_bom';
 
 		$wpdb->insert(
 			$table_name,
