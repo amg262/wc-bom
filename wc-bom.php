@@ -19,6 +19,9 @@ namespace WooBom;
 */
 
 global $wc_bom_options, $wc_bom_settings;
+use function add_action;
+use function validate_active_plugins;
+use function var_dump;
 
 
 /**
@@ -88,7 +91,8 @@ class WC_Bom {
 		$this->create_options();
 		$this->install();
 		$this->install_data();
-		$this->load_assets();
+		//$this->load_assets();
+		add_action('init',[$this,'load_assets']);
 		//add_action( 'admin_init', [ $this, 'is_woo_activated' ] );
 		//add_action( 'admin_init', [ $this, 'is_woo_activated' ] );
 		//register_activation_hook( __FILE__, [ $this, 'create_options' ] );
@@ -103,7 +107,7 @@ class WC_Bom {
 		$post     = WC_Bom_Post::getInstance();
 
 		//flush_rewrite_rules();
-
+//var_dump($settings);
 	}
 
 	/**
@@ -258,11 +262,12 @@ class WC_Bom {
 	 */
 	public function load_assets() {
 		$url = 'assets/dist/scripts/';
+		$url2 = 'assets/dist/styles/';
 		wp_register_script( 'bom_js', plugins_url( $url . 'wc-bom.min.js', __FILE__ ) );
 		wp_register_script( 'bom_adm_js', plugins_url( $url . 'wc-bom-admin.min.js', __FILE__ ) );
 		wp_register_script( 'api_js', plugins_url( $url . 'wc-bom-api.min.js', __FILE__ ) );
 		wp_register_script( 'wp_js', plugins_url( $url . 'wc-bom-wp.min.js', __FILE__ ) );
-		wp_register_style( 'bom_css', plugins_url( $url . 'wc-bom.min.css', __FILE__ ) );
+		wp_register_style( 'bom_css', plugins_url( $url2 . 'wc-bom.min.css', __FILE__ ) );
 		wp_enqueue_script( 'bom_js' );
 		wp_enqueue_script( 'bom_adm_js' );
 		//wp_enqueue_script( 'ajax_js' );
