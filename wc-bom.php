@@ -20,8 +20,6 @@ namespace WooBom;
 
 global $wc_bom_options, $wc_bom_settings;
 use function add_action;
-use function validate_active_plugins;
-use function var_dump;
 
 
 /**
@@ -69,18 +67,6 @@ class WC_Bom {
 	}
 
 	/**
-	 * @return null
-	 */
-	public static function getInstance() {
-
-		if ( static::$instance === null ) {
-			static::$instance = new static;
-		}
-
-		return static::$instance;
-	}
-
-	/**
 	 *
 	 */
 	public function init() {
@@ -94,20 +80,20 @@ class WC_Bom {
 		//$this->load_assets();
 
 
-		add_action('admin_init',[$this,'require_woocommerce']);
-		add_action('admin_init',[$this,'require_acf']);
-		add_action('admin_init',[$this,'create_options']);
-		add_action('admin_init',[$this,'install']);
-		add_action('admin_init',[$this,'install_data']);
+		add_action( 'admin_init', [ $this, 'require_woocommerce' ] );
+		add_action( 'admin_init', [ $this, 'require_acf' ] );
+		add_action( 'admin_init', [ $this, 'create_options' ] );
+		add_action( 'admin_init', [ $this, 'install' ] );
+		add_action( 'admin_init', [ $this, 'install_data' ] );
 
-		add_action('init',[$this,'load_assets']);
+		add_action( 'init', [ $this, 'load_assets' ] );
 		//add_action( 'admin_init', [ $this, 'is_woo_activated' ] );
 		//add_action( 'admin_init', [ $this, 'is_woo_activated' ] );
 		//register_activation_hook( __FILE__, [ $this, 'create_options' ] );
 		//add_action( 'admin_init', [ $this, 'acf_installed' ] );
 		//$this->include_acf();
 
-		//add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
+		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
 
 		//$this->load_classes();
 		$settings = WC_Bom_Settings::getInstance();
@@ -124,6 +110,18 @@ class WC_Bom {
 		//include_once __DIR__ . '/classes/class-wc-bom-data.php';
 		include_once __DIR__ . '/classes/class-wc-bom-post.php';
 		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
+	}
+
+	/**
+	 * @return null
+	 */
+	public static function getInstance() {
+
+		if ( static::$instance === null ) {
+			static::$instance = new static;
+		}
+
+		return static::$instance;
 	}
 
 	/**
@@ -268,7 +266,7 @@ class WC_Bom {
 	 *
 	 */
 	public function load_assets() {
-		$url = 'assets/dist/scripts/';
+		$url  = 'assets/dist/scripts/';
 		$url2 = 'assets/dist/styles/';
 		wp_register_script( 'bom_js', plugins_url( $url . 'wc-bom.min.js', __FILE__ ) );
 		wp_register_script( 'bom_adm_js', plugins_url( $url . 'wc-bom-admin.min.js', __FILE__ ) );
@@ -301,7 +299,7 @@ class WC_Bom {
 	public function plugin_links( $actions, $plugin_file ) {
 		static $plugin;
 
-		if ( $plugin == null ) {
+		if ( $plugin === null ) {
 			$plugin = plugin_basename( __FILE__ );
 		}
 		if ( $plugin === $plugin_file ) {
