@@ -1,0 +1,262 @@
+[
+    {
+        "key": "group_58bec9c065391",
+        "title": "Assembly",
+        "fields": [
+            {
+                "key": "field_58bed89fe21dc",
+                "label": "Basic",
+                "name": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "top",
+                "endpoint": 0
+            },
+            {
+                "key": "field_58bec9cbae35a",
+                "label": "Assembly ID",
+                "name": "assembly_id",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_58bec9d3ae35b",
+                "label": "Assembly No.",
+                "name": "assembly_no",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_58bec9d8ae35c",
+                "label": "Assembly Name",
+                "name": "assembly_name",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_58bed73b66f46",
+                "label": "Assembly Category",
+                "name": "assembly_category",
+                "type": "taxonomy",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "taxonomy": "assembly_category",
+                "field_type": "checkbox",
+                "allow_null": 0,
+                "add_term": 1,
+                "save_terms": 1,
+                "load_terms": 1,
+                "return_format": "object",
+                "multiple": 0
+            },
+            {
+                "key": "field_58bed72466f45",
+                "label": "Assembly Description",
+                "name": "assembly_description",
+                "type": "textarea",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "maxlength": "",
+                "rows": "",
+                "new_lines": "wpautop"
+            },
+            {
+                "key": "field_58bed8b1e21dd",
+                "label": "Materials",
+                "name": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "top",
+                "endpoint": 0
+            },
+            {
+                "key": "field_58bec9fc4dcd4",
+                "label": "Sub-Assemblies",
+                "name": "sub-assemblies",
+                "type": "repeater",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "collapsed": "",
+                "min": 0,
+                "max": 0,
+                "layout": "row",
+                "button_label": "",
+                "sub_fields": [
+                    {
+                        "key": "field_58beca404dcd5",
+                        "label": "Sub-Assembly",
+                        "name": "sub-assembly",
+                        "type": "post_object",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "post_type": [
+                            "assembly",
+                            "part"
+                        ],
+                        "taxonomy": [],
+                        "allow_null": 1,
+                        "multiple": 0,
+                        "return_format": "object",
+                        "ui": 1
+                    },
+                    {
+                        "key": "field_58beca774dcd6",
+                        "label": "Qty",
+                        "name": "qty",
+                        "type": "text",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": "",
+                        "maxlength": ""
+                    }
+                ]
+            },
+            {
+                "key": "field_58bed77ab852a",
+                "label": "Assembly Files",
+                "name": "assembly_files",
+                "type": "file",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "array",
+                "library": "all",
+                "min_size": "",
+                "max_size": "",
+                "mime_types": ""
+            },
+            {
+                "key": "field_58bed7a7b852b",
+                "label": "Assembly Images",
+                "name": "assembly_images",
+                "type": "gallery",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "min": "",
+                "max": "",
+                "insert": "append",
+                "library": "all",
+                "min_width": "",
+                "min_height": "",
+                "min_size": "",
+                "max_width": "",
+                "max_height": "",
+                "max_size": "",
+                "mime_types": ""
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "assembly"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "left",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": 1,
+        "description": ""
+    }
+]
