@@ -234,6 +234,7 @@ class WC_Bom {
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		$wc_bom_settings['db_install'] = true;
+
 		add_option( 'wc_bom_settings', [ 'db_install' => true ] );
 
 		dbDelta( $sql );
