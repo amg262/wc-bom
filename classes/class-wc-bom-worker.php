@@ -122,6 +122,7 @@ class WC_Bom_Worker {
                             <input type="submit" accesskey="p" value="Update"
                                    class="button button-primary button-large"
                                    id="publish" name="publish">
+                            <button class="button button-secondary button-large"
                         </div>
 
                         <div class="clear"></div>
