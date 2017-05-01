@@ -69,6 +69,8 @@ class WC_Bom {
 		$settings = WC_Bom_Settings::getInstance();
 		$post     = WC_Bom_Post::getInstance();
 
+		//include_once 'uninstall.php';
+
 		//flush_rewrite_rules();
 //var_dump($settings);
 	}
