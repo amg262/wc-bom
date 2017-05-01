@@ -99,7 +99,7 @@ class WC_Bom_Post {
 			'public'             => true,
 			'hierarchical'       => true,
 			//'label' => 'Inventory Types',
-			'show_ui'            => true,
+			'show_ui'            => false,
 			'show_in_menu'       => true,
 			'show_in_nav_menus'  => true,
 			'query_var'          => true,
@@ -172,7 +172,7 @@ class WC_Bom_Post {
 			'public'             => true,
 			'hierarchical'       => true,
 			//'label' => 'Inventory Types',
-			'show_ui'            => true,
+			'show_ui'            => false,
 			'show_in_menu'       => true,
 			'show_in_nav_menus'  => true,
 			'query_var'          => true,
@@ -191,13 +191,13 @@ class WC_Bom_Post {
 	public function register_material_tags() {
 
 		$labels = [
-			'name'          => __( 'Part Tags', 'wc-bom' ),
-			'singular_name' => __( 'Part Tag', 'wc-bom' ),
+			'name'          => __( 'Material Tags', 'wc-bom' ),
+			'singular_name' => __( 'Material Tag', 'wc-bom' ),
 			'menu_name'     => __( 'Tags', 'wc-bom' ),
 		];
 
 		$args = [
-			'label'              => __( 'Part Tags', 'wc-bom' ),
+			'label'              => __( 'Material Tags', 'wc-bom' ),
 			'labels'             => $labels,
 			'public'             => true,
 			'hierarchical'       => false,
@@ -210,7 +210,7 @@ class WC_Bom_Post {
 			'show_in_rest'       => true,
 			'show_in_quick_edit' => true,
 		];
-		register_taxonomy( 'part_tags', [ 'part', 'assembly' ], $args );
+		register_taxonomy( 'material-tags', [ 'part', 'assembly' ], $args );
 	}
 
 	/**

@@ -14,7 +14,8 @@
  */
 jQuery(document).ready(function ($) {
 
-  //$("#commentForm").validate();
+
+    //$("#commentForm").validate();
   //var ProgressBar = require('progressbar.js');
 //yesdsfs
 // Assuming we have an empty <div id="container"></div> in

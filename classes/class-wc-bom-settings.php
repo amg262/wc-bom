@@ -9,6 +9,10 @@
 namespace WooBom;
 
 use function add_submenu_page;
+use function esc_html_e;
+use function wp_enqueue_media;
+use function wp_enqueue_script;
+use function wp_enqueue_style;
 
 /**
  * Class WC_Bom_Settings
@@ -146,81 +150,66 @@ class WC_Bom_Settings {//implements WC_Abstract_Settings {
 		global $wc_bom_options, $wc_bom_settings;
 		$wc_bom_settings = get_option( WC_BOM_SETTINGS );
 		$wc_bom_options  = get_option( WC_BOM_OPTIONS );
-		// Set class property
-		?>
+
+		if ( isset( $_GET['tab'] ) ) {
+			$active_tab = $_GET['tab'];
+		} else {
+			$active_tab = 'settings';
+		}
+
+		wp_enqueue_media(); ?>
 
         <div class="wrap">
 
             <div class="wc-bom settings-page">
 
-                <div id="icon-themes" class="icon32"></div>
-                <h2>Bill of Materials</h2>
-				<?php settings_errors(); ?>
+                <h2><?php esc_html_e( the_title(), 'wc-bom' ); ?></h2>
 
-				<?php
-				$name = 'License Key';
-				$str  = str_replace( ' ', '_', $name );
-				$key  = strtolower( $str );
-				$id   = 'wc_bom_settings[' . $key . ']';
-				$desc = 'desc';
-				$obj  = $wc_bom_settings[ $key ];
-				$icon = 'wp-menu-image dashicons-before dashicons-hammer';
+                <div id="icon-themes" class="icon32">&nbps;</div>
 
-				if ( isset( $_GET['tab'] ) ) {
-					$active_tab = $_GET['tab'];
-				} // end if
+				<?php ?>
 
-				//	$active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'display_options';
-				?>
-
-				<?php // if ( $obj !== '' ) {
-				?>
                 <h2 class="nav-tab-wrapper">
                     <a href="?page=wc-bom-settings&tab=settings" class="nav-tab
-                    <?php echo $active_tab == 'settings' ? 'nav-tab-active' : ''; ?>">
+                    <?php echo $active_tab === 'settings' ? 'nav-tab-active' : ''; ?>">
                         Settings
                     </a>
 
-                    <a href="?page=wc-bom-settings&tab=data" class="nav-tab
-                    <?php echo $active_tab == 'data' ? 'nav-tab-active' : ''; ?>">
-                        Data
+                    <a href="?page=wc-bom-settings&tab=actions" class="nav-tab
+                    <?php echo $active_tab === 'actions' ? 'nav-tab-active' : ''; ?>">
+                        Actions
                     </a>
 
                     <a href="?page=wc-bom-settings&tab=support" class="nav-tab
-                    <?php echo $active_tab == 'support' ? 'nav-tab-active' : ''; ?>">
+                    <?php echo $active_tab === 'support' ? 'nav-tab-active' : ''; ?>">
                         Support
                     </a>
 
                 </h2>
-				<?php //}
-				?>
 
-                <form method="post" action="options.php">
-
-					<?php if ( $active_tab === 'settings' || $active_tab === null ) {
-						// This prints out all hidden setting fields
-						//if (check_admin_referer($non, 'wc_non')) {
-						//var_dump($wc_bom_settings);
-						//}
-						//wp_verify_nonce($non, 'wc_non');
-
-						settings_fields( 'wc_bom_settings_group' );
-						do_settings_sections( 'wc-bom-settings-admin' );
-						submit_button( 'Save Options' );
-
-					} elseif ( $active_tab === 'data' ) {
-						//echo 'hi';
-						settings_fields( 'sandbox_theme_social_options' );
-						do_settings_sections( 'sandbox_theme_social_options' );
-						submit_button( 'Save Options' );
-
-					} elseif ( $active_tab === 'support' ) {
+				<?php settings_errors(); ?>
 
 
-					} // end if/else//wc_bom_options_group2
+                <form method="post" name="wc_bom_options" action="options.php">
+                    <div id="poststuff">
 
-					//				submit_button( 'Save Options' );
-					?>
+                        <div id="post-body" class="metabox-holder columns-2">
+
+							<?php if ( $active_tab === 'settings' || $active_tab === null ) {
+
+								settings_fields( 'wc_bom_settings_group' );
+								do_settings_sections( 'wc-bom-settings-admin' );
+
+							} elseif ( $active_tab === 'action' ) {
+								//echo 'hi';
+
+							} elseif ( $active_tab === 'support' ) {
+							} // end if/else//wc_bom_options_group2
+
+							//				submit_button( 'Save Options' );
+							?>
+                        </div>
+                    </div>
 
                 </form>
 
