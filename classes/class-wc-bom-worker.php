@@ -24,7 +24,6 @@ class WC_Bom_Worker {
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', [ $this, 'wco_admin' ] );
 		add_action( 'wp_ajax_wco_ajax', [ $this, 'wco_ajax' ] );
-		add_action( 'admin_footer', [ $this, 'wco_footer' ] );
 		//add_action( 'wp_ajax_nopriv_wco_ajax', [ $this, 'wco_ajax' ] );
 	}
 
@@ -75,15 +74,15 @@ class WC_Bom_Worker {
 	 */
 	public function sanitize( $input ) {
 
-		$new_input = [];
-		if ( isset( $input['license_key'] ) ) {
-			$new_input['license_key'] = sanitize_text_field( $input['license_key'] );
-		}
+		//$new_input = [];
+		//if ( isset( $input['license_key'] ) ) {
+			//$new_input['license_key'] = sanitize_text_field( $input['license_key'] );
+		//}
 
 		//if ( isset( $input[ 'title' ] ) ) {
 		//	$new_input[ 'title' ] = sanitize_text_field( $input[ 'title' ] );
 		//}
-		return $new_input;
+		return $input;
 	}
 
 	/**
@@ -93,11 +92,14 @@ class WC_Bom_Worker {
 
 		global $wc_bom_options, $wc_bom_settings;
 
-		$wc_bom_options = get_option( WC_BOM_OPTIONS );
-		//$wc_bom_settings = get_option( WC_BOM_SETTINGS );
+		//$wc_bom_options  = get_option( 'wc_bom_options' );
+		$wc_bom_settings = get_option( 'wc_bom_settings' );
 		// Enqueue Media Library Use
 		wp_enqueue_media();
-		//var_dump($wc_bom_options);?>
+		///delete_option(WC_BOM_OPTIONS);
+		///delete_option(WC_BOM_SETTINGS);
+
+		var_dump( $wc_bom_settings ); ?>
 
         <div id="postbox-container-1" class="postbox-container">
 
@@ -127,7 +129,6 @@ class WC_Bom_Worker {
                             <input type="submit" accesskey="p" value="Update"
                                    class="button button-primary button-large"
                                    id="publish" name="publish">
-                            &nbps;
                             <button class="button button-secondary button-large">
                                 Reset
                             </button>
@@ -162,20 +163,23 @@ class WC_Bom_Worker {
                             <tbody>
                             <!----------- OPTION ----------->
                             <tr>
-								<?php $label = 'License Key'; ?>
-								<?php $key = $this->format_key( $label ); ?>
-								<?php $opt = 'wc_bom_options'; ?>
-                                <th scope="row">
+								<?php
+								$label = 'License Key';
+								$key   = $this->format_key( $label );
+								$id    = 'wc_bom_settings[' . $key . ']';
+								$obj   = $wc_bom_settings[ $key ]; ?>
+                                <th scope="row">x
 
-                                    <label for="<?php _e( $key ); ?>">
+                                    <label for="<?php _e( $id ); ?>">
 										<?php _e( $label ); ?>
                                     </label>
                                 </th>
                                 <td>
                                     <input type="text"
-                                           id="wc_bom_options[<?php _e( $key ); ?>]"
-                                           name="wc_bom_options[<?php _e( $key ); ?>]"
-                                           value="<?php $opt[]; ?>"/>
+                                           title="wc_bom_settings[<?php _e( $key ); ?>]"
+                                           id="wc_bom_settings[<?php _e( $key ); ?>]"
+                                           name="wc_bom_settings[<?php _e( $key ); ?>]"
+                                           value="<?php echo $wc_bom_settings[ $key ]; ?>"/>
                                 </td>
                             </tr>
 
@@ -184,7 +188,7 @@ class WC_Bom_Worker {
                             <tr>
 								<?php $label = 'Enable Beta'; ?>
 								<?php $key = $this->format_key( $label ); ?>
-								<?php $opt = $wc_bom_options[ $key ]; ?>
+								<?php $opt = $wc_bom_settings[ $key ]; ?>
                                 <th scope=" row">
 
                                     <label for="<?php _e( $key ); ?>">
@@ -193,10 +197,10 @@ class WC_Bom_Worker {
                                 </th>
                                 <td>
                                     <input type="checkbox"
-                                           id="wc_bom_options[<?php _e( $key ); ?>]"
-                                           name="wc_bom_options[<?php _e( $key ); ?>]"
+                                           id="wc_bom_settings[<?php _e( $key ); ?>]"
+                                           name="wc_bom_settings[<?php _e( $key ); ?>]"
                                            value="1"
-										<?php checked( 1, $wc_bom_options[ $key ], true ); ?> />
+										<?php checked( 1, $wc_bom_settings[ $key ], true ); ?> />
                                 </td>
                             </tr>
                             <!----------- OPTION ----------->
@@ -217,21 +221,22 @@ class WC_Bom_Worker {
 
 
                         <span id="yeahbtn" class="button secondary"> Yeah</span>
-                        <span id="feedme">&nbps;</span>
+                        <span id="feedme"><br></span>
 						<?php //submit_button( 'Save Options' ); ?>
                     </div>
                 </div>
 
             </div>
         </div>
-
 	<?php }
 
-	public function format_key( $text = '' ) {
+	protected function format_key( $text ) {
 
-		str_replace( [ '-', ' ' ], '_', $text );
-		$key = (string) strtolower( $text );
+		$str = str_replace( [ '-', ' ' ], '_', $text );
+		$str = strtolower( $str );
 
-		return $key;
+		return $str;
 	}
+
+
 }

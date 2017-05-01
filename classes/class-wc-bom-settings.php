@@ -11,8 +11,6 @@ namespace WooBom;
 use function add_submenu_page;
 use function esc_html_e;
 use function wp_enqueue_media;
-use function wp_enqueue_script;
-use function wp_enqueue_style;
 
 /**
  * Class WC_Bom_Settings
@@ -190,7 +188,7 @@ class WC_Bom_Settings {//implements WC_Abstract_Settings {
 				<?php settings_errors(); ?>
 
 
-                <form method="post" name="wc_bom_options" action="options.php">
+                <form method="post" action="options.php">
                     <div id="poststuff">
 
                         <div id="post-body" class="metabox-holder columns-2">
@@ -199,6 +197,7 @@ class WC_Bom_Settings {//implements WC_Abstract_Settings {
 
 								settings_fields( 'wc_bom_settings_group' );
 								do_settings_sections( 'wc-bom-settings-admin' );
+								submit_button( 'Save Options' );
 
 							} elseif ( $active_tab === 'action' ) {
 								//echo 'hi';

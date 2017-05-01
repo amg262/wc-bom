@@ -174,6 +174,8 @@ class WC_Bom {
 		if ( $wc_bom_settings[ $key ] !== true ) {
 			add_option( WC_BOM_SETTINGS, [ $key => false ] );
 		}
+
+
 	}
 
 
