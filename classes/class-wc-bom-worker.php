@@ -93,8 +93,8 @@ class WC_Bom_Worker {
 
 		global $wc_bom_options, $wc_bom_settings;
 
-		$wc_bom_options  = get_option( WC_BOM_OPTIONS );
-		$wc_bom_settings = get_option( WC_BOM_SETTINGS );
+		$wc_bom_options = get_option( WC_BOM_OPTIONS );
+		//$wc_bom_settings = get_option( WC_BOM_SETTINGS );
 		// Enqueue Media Library Use
 		wp_enqueue_media();
 		//var_dump($wc_bom_options);?>
@@ -156,31 +156,75 @@ class WC_Bom_Worker {
                     <div class="inside acf-fields -left">
 
 
-                    <!----------- COLUMN BREAK -------------->
+                        <!----------- COLUMN BREAK -------------->
 
-					<?php $label = 'License Key'; ?>
-					<?php $key = $this->format_key( $label ); ?>
-                    <div class="acf-field ">
-                        <div class="acf-label wc-label">
-                            <label for="<?php _e( $key ); ?>">
-								<?php _e( $label ); ?>
-                            </label>
-                        </div>
+                        <table class="form-table">
+                            <tbody>
+                            <!----------- OPTION ----------->
+                            <tr>
+								<?php $label = 'License Key'; ?>
+								<?php $key = $this->format_key( $label ); ?>
+								<?php $opt = $wc_bom_options[ $key ]; ?>
+                                <th scope="row">
 
-                        <div class="acf-input wc-field">
-                            <input type="text"
-                                   id="<?php _e( $key ); ?>"
-                                   name="<?php _e( $key ); ?>"
-                                   value="<?php _e( $key ); ?>"/>
-                        </div>
+                                    <label for="<?php _e( $key ); ?>">
+										<?php _e( $label ); ?>
+                                    </label>
+                                </th>
+                                <td>
+                                    <input type="text"
+                                           id="<?php _e( $key ); ?>"
+                                           name="<?php _e( $key ); ?>"
+                                           value="<?php _e( $opt ); ?>"/>
+                                </td>
+                            </tr>
+
+
+                            <!----------- OPTION ----------->
+                            <tr>
+								<?php $label = 'Enable Beta'; ?>
+								<?php $key = $this->format_key( $label ); ?>
+								<?php $opt = $wc_bom_options[ $key ]; ?>
+                                <th scope="row">
+
+                                    <label for="<?php _e( $key ); ?>">
+										<?php _e( $label ); ?>
+                                    </label>
+                                </th>
+                                <td>
+                                    <input type="checkbox"
+                                           id="<?php _e( $key ); ?>"
+                                           name="<?php _e( $key ); ?>"
+                                           value="1"
+										<?php if ( $opt ) {
+											checked( 1, $opt, true );
+										} ?> />
+                                </td>
+                            </tr>
+                            <!----------- OPTION ----------->
+                            <!----------- OPTION ----------->
+                            <!----------- OPTION ----------->
+                            <!----------- OPTION ----------->
+                            <!----------- OPTION ----------->
+                            <!----------- OPTION ----------->
+                            <!----------- OPTION ----------->
+                            <!----------- OPTION ----------->
+                            <!----------- OPTION ----------->
+                            <!----------- OPTION ----------->
+                            <!----------- OPTION ----------->
+                            <!----------- OPTION ----------->
+
+                            </tbody>
+                        </table>
+
+
+                        <span id="yeahbtn" class="button secondary"> Yeah</span>
+                        <span id="feedme">&nbps;</span>
+						<?php //submit_button( 'Save Options' ); ?>
                     </div>
-                    <span id="yeahbtn" class="button secondary"> Yeah</span>
-                    <span id="feedme">&nbps;</span>
-					<?php //submit_button( 'Save Options' ); ?>
                 </div>
-            </div>
 
-        </div>
+            </div>
         </div>
 
 	<?php }
