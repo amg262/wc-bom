@@ -99,15 +99,11 @@ class WC_Bom {
 			$message =
 				'<div style="text-align: center;"><h3>' .
 				'WooCommerce must be installed and activated!</h3>' .
-				'<a href=' . admin_url( 'plugins.php' ) . '>' .
+				'<a href=' . admin_url( 'plugins.php' ) . '>&nbps;' .
 				'Back to plugins&nbsp;&rarr;</a>' .
 				'</div>';
 			wp_die( $message );
-
-			return false;
 		}
-
-		return true;
 	}
 
 	/**
@@ -129,15 +125,10 @@ class WC_Bom {
 				'<div style="text-align: center;"><h3>' .
 				'<strong>ACF</strong> must be deactivated as ACF Pro is required and included in this plugin.' .
 				'You must deactivate it before using this plugin.' .
-				'<a href=' . admin_url( 'plugins.php' ) . '>Back to plugins&nbsp;&rarr;</a></div>';
+				'&nbsp;<a href=' . admin_url( 'plugins.php' ) . '>Back to plugins&nbsp;&rarr;</a></div>';
 			wp_die( $message );
 
-			return false;
 		}
-
-		include __DIR__ . '/includes/bom-fields.php';
-
-
 		if ( function_exists( 'acf_add_options_page' ) ) {
 
 			acf_add_options_page(
@@ -150,7 +141,6 @@ class WC_Bom {
 				] );
 		}
 
-		return true;
 	}
 
 	/**
