@@ -32,7 +32,6 @@
 }
 
 .wc-bom.settings-page {
-    max-width: 70%;
     width: 100%;
 }
 
@@ -40,4 +39,14 @@
     float: right;
     max-width: 30%;
     width: 100%;
+}
+
+.wc-bom-settings .wc-label {
+    width:33%;
+    display: inline-block;
+}
+
+.wc-bom-settings .wc-field {
+
+    display: inline-block;
 }

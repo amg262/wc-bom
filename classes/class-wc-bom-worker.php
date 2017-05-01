@@ -7,6 +7,10 @@
  */
 
 namespace WooBom;
+
+use function str_replace;
+use function strtolower;
+
 /**
  * Class WC_Bom_Worker
  *
@@ -105,6 +109,7 @@ class WC_Bom_Worker {
                         <span class="screen-reader-text">Toggle panel: General</span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
+                    <!----------- COLUMN BREAK -------------->
 
                     <h2 class='hndle'><span>General</span></h2>
 
@@ -114,9 +119,9 @@ class WC_Bom_Worker {
                         fasldkfj;laksjdf
                         asldkfjsa
                     </div>
+                    <!----------- COLUMN BREAK -------------->
 
                     <div id="major-publishing-actions">
-
                         <div id="publishing-action">
                             <span class="spinner"></span>
                             <input type="submit" accesskey="p" value="Update"
@@ -127,14 +132,13 @@ class WC_Bom_Worker {
                                 Reset
                             </button>
                         </div>
-
                         <div class="clear"></div>
-
                     </div>
-
                 </div>
             </div>
         </div>
+        <!----------- COLUMN BREAK -------------->
+        <!----------- COLUMN BREAK -------------->
         <div id="postbox-container-2" class="postbox-container">
 
             <div id="normal-sortables" class="meta-box-sortables">
@@ -145,26 +149,47 @@ class WC_Bom_Worker {
                         <span class="screen-reader-text">Toggle panel: General</span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
+                    <!----------- COLUMN BREAK -------------->
 
                     <h2 class='hndle'><span>General</span></h2>
 
-                    <div class="inside acf-fields -left"">
+                    <div class="inside acf-fields -left">
 
-                    <div class="acf-label">
-                        Andy
+
+                    <!----------- COLUMN BREAK -------------->
+
+					<?php $label = 'License Key'; ?>
+					<?php $key = $this->format_key( $label ); ?>
+                    <div class="acf-field ">
+                        <div class="acf-label wc-label">
+                            <label for="<?php _e( $key ); ?>">
+								<?php _e( $label ); ?>
+                            </label>
+                        </div>
+
+                        <div class="acf-input wc-field">
+                            <input type="text"
+                                   id="<?php _e( $key ); ?>"
+                                   name="<?php _e( $key ); ?>"
+                                   value="<?php _e( $key ); ?>"/>
+                        </div>
                     </div>
-                    <div class="acf-input">
-                        <input type="text"
-                    </div>
-                        <span id="yeahbtn" class="button secondary"> Yeah</span>
-                        <span id="feedme">&nbps;</span>
-						<?php //submit_button( 'Save Options' ); ?>
-                    </div>
+                    <span id="yeahbtn" class="button secondary"> Yeah</span>
+                    <span id="feedme">&nbps;</span>
+					<?php //submit_button( 'Save Options' ); ?>
                 </div>
-
-
             </div>
+
+        </div>
         </div>
 
 	<?php }
+
+	public function format_key( $text = '' ) {
+
+		str_replace( [ '-', ' ' ], '_', $text );
+		$key = strtolower( $text );
+
+		return $key;
+	}
 }
