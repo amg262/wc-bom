@@ -17,19 +17,11 @@ namespace WooBom;
 * Text Domain: wc-bom
 * License: GPL2
 */
-
 global $wc_bom_options, $wc_bom_settings;
-
-
 /**
  *
  */
 const WC_BOM_VERSION = '1.0.0';
-/**
- *
- */
-const WC_BOM_ABSTRACT = __DIR__ . '/abstract/';
-
 /**
  *
  */
@@ -54,12 +46,7 @@ class WC_Bom {
 	 * @var null
 	 */
 	protected static $instance = null;
-	/**
-	 * @var string
-	 */
-	/**
-	 * WC_Bom constructor.
-	 */
+
 	private function __construct() {
 
 		$this->init();
@@ -73,22 +60,9 @@ class WC_Bom {
 		$this->load_classes();
 		$this->require_woocommerce();
 		$this->require_acf();
-		/*$this->require_woocommerce();
-		$this->require_acf();
-		$this->create_options();
-		$this->install();
-		$this->install_data();*/
-		//$this->load_assets();
 
-
-		//add_action( 'admin_init', [ $this, 'require_woocommerce' ] );
-		//add_action( 'admin_init', [ $this, 'require_acf' ] );
 		add_action( 'admin_init', [ $this, 'create_options' ] );
-		//add_action( 'admin_init', [ $this, 'install' ] );
-		//add_action( 'admin_init', [ $this, 'install_data' ] );
-
 		add_action( 'init', [ $this, 'load_assets' ] );
-
 		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
 
 		//$this->load_classes();
@@ -106,18 +80,6 @@ class WC_Bom {
 		//include_once __DIR__ . '/classes/class-wc-bom-data.php';
 		include_once __DIR__ . '/classes/class-wc-bom-post.php';
 		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
-	}
-
-	/**
-	 * @return null
-	 */
-	public static function getInstance() {
-
-		if ( static::$instance === null ) {
-			static::$instance = new static;
-		}
-
-		return static::$instance;
 	}
 
 	/**
@@ -175,15 +137,27 @@ class WC_Bom {
 		if ( function_exists( 'acf_add_options_page' ) ) {
 			acf_add_options_page(
 				[
-					'page_title' => 'Theme General Settings',
-					'menu_title' => 'Theme Settings',
-					'menu_slug'  => 'theme-general-settings',
+					'page_title' => 'BOM Fields',
+					'menu_title' => 'BOM Fields',
+					'menu_slug'  => 'wc-bom-fields',
 					'capability' => 'edit_posts',
 					'redirect'   => false,
 				] );
 		}
 
 		return true;
+	}
+
+	/**
+	 * @return null
+	 */
+	public static function getInstance() {
+
+		if ( static::$instance === null ) {
+			static::$instance = new static;
+		}
+
+		return static::$instance;
 	}
 
 	/**
@@ -206,58 +180,6 @@ class WC_Bom {
 		}
 	}
 
-	/**
-	 *
-	 */
-	public function install() {
-		global $wpdb;
-		global $wc_bom_settings;
-
-		//var_dump( $wc_bom_settings );
-
-		$table_name = $wpdb->prefix . 'woo_bom';
-
-		$charset_collate = $wpdb->get_charset_collate();
-
-		$sql = "CREATE TABLE $table_name (
-				id mediumint(9) NOT NULL AUTO_INCREMENT,
-				time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-				name tinytext NOT NULL,
-				text text NOT NULL,
-				url varchar(55) DEFAULT '' NOT NULL,
-				PRIMARY KEY  (id)
-				) $charset_collate;";
-
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		$wc_bom_settings['db_install'] = true;
-
-		add_option( 'wc_bom_settings', [ 'db_install' => true ] );
-
-		dbDelta( $sql );
-
-		//add_option( 'wc', $jal_db_version );
-	}
-
-	/**
-	 *
-	 */
-	public function install_data() {
-		global $wpdb;
-
-		$welcome_name = 'Mr. WordPress';
-		$welcome_text = 'Congratulations, you just completed the installation!';
-
-		$table_name = $wpdb->prefix . 'woo_bom';
-
-		$wpdb->insert(
-			$table_name,
-			[
-				'time' => current_time( 'mysql' ),
-				'name' => $welcome_name,
-				'text' => $welcome_text,
-			]
-		);
-	}
 
 	/**
 	 *
@@ -302,7 +224,6 @@ class WC_Bom {
 		if ( $plugin === $plugin_file ) {
 			$settings = [
 				'settings' => '<a href="admin.php?page=wc-bom-settings">' . __( 'Settings', 'wc-bom' ) . '</a>',
-				'support'  => '<a href="http://andrewgunn.org/support">' . __( 'Support', 'wc-bom' ) . '</a>',
 			];
 			$actions  = array_merge( $settings, $actions );
 		}

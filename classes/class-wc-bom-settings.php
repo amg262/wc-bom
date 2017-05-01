@@ -116,7 +116,7 @@ class WC_Bom_Settings {//implements WC_Abstract_Settings {
 
 		add_settings_section(
 			'wc_bom_setting', // ID
-			'wc-bom-settings', // Title
+			'', // Title
 			[ $this->worker, 'settings_callback' ], // Callback
 			'wc-bom-settings-admin' // Page
 		);
@@ -154,7 +154,7 @@ class WC_Bom_Settings {//implements WC_Abstract_Settings {
             <div class="wc-bom settings-page">
 
                 <div id="icon-themes" class="icon32"></div>
-                <h2>Sandbox Theme Options</h2>
+                <h2>Bill of Materials</h2>
 				<?php settings_errors(); ?>
 
 				<?php
@@ -166,40 +166,57 @@ class WC_Bom_Settings {//implements WC_Abstract_Settings {
 				$obj  = $wc_bom_settings[ $key ];
 				$icon = 'wp-menu-image dashicons-before dashicons-hammer';
 
-				//if ( isset( $_GET[ 'tab' ] ) ) {
-				// $active_tab = $_GET[ 'tab' ];
-				//} // end if
+				if ( isset( $_GET['tab'] ) ) {
+					$active_tab = $_GET['tab'];
+				} // end if
 
-				//$active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'display_options';
+				//	$active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'display_options';
 				?>
 
 				<?php // if ( $obj !== '' ) {
 				?>
                 <h2 class="nav-tab-wrapper">
-                    <a href="?page=wc-bom-settings&tab=display_options" class="nav-tab">Display Options</a>
-                    <a href="?page=wc-bom-settings&tab=social_options" class="nav-tab">Social Options</a>
+                    <a href="?page=wc-bom-settings&tab=settings" class="nav-tab
+                    <?php echo $active_tab == 'settings' ? 'nav-tab-active' : ''; ?>">
+                        Settings
+                    </a>
+
+                    <a href="?page=wc-bom-settings&tab=data" class="nav-tab
+                    <?php echo $active_tab == 'data' ? 'nav-tab-active' : ''; ?>">
+                        Data
+                    </a>
+
+                    <a href="?page=wc-bom-settings&tab=support" class="nav-tab
+                    <?php echo $active_tab == 'support' ? 'nav-tab-active' : ''; ?>">
+                        Support
+                    </a>
+
                 </h2>
 				<?php //}
 				?>
 
                 <form method="post" action="options.php">
 
-					<?php //if ( $active_tab === 'display_options' ) {
-					// This prints out all hidden setting fields
-					//if (check_admin_referer($non, 'wc_non')) {
-					//var_dump($wc_bom_settings);
-					//}
-					//wp_verify_nonce($non, 'wc_non');
+					<?php if ( $active_tab === 'settings' || $active_tab === null ) {
+						// This prints out all hidden setting fields
+						//if (check_admin_referer($non, 'wc_non')) {
+						//var_dump($wc_bom_settings);
+						//}
+						//wp_verify_nonce($non, 'wc_non');
 
-					settings_fields( 'wc_bom_settings_group' );
-					do_settings_sections( 'wc-bom-settings-admin' );
-					submit_button( 'Save Options' );
+						settings_fields( 'wc_bom_settings_group' );
+						do_settings_sections( 'wc-bom-settings-admin' );
+						submit_button( 'Save Options' );
 
-					//} else {
-					//echo 'hi';
-					//settings_fields( 'sandbox_theme_social_options' );
-					//do_settings_sections( 'sandbox_theme_social_options' );
-					//} // end if/else//wc_bom_options_group2
+					} elseif ( $active_tab === 'reports' ) {
+						//echo 'hi';
+						settings_fields( 'sandbox_theme_social_options' );
+						do_settings_sections( 'sandbox_theme_social_options' );
+						submit_button( 'Save Options' );
+
+					} elseif ( $active_tab === 'support' ) {
+
+					} // end if/else//wc_bom_options_group2
 
 					//				submit_button( 'Save Options' );
 					?>
