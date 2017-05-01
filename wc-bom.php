@@ -133,8 +133,11 @@ class WC_Bom {
 			return false;
 		}
 
+		include __DIR__ . '/includes/bom-fields.php';
+
 
 		if ( function_exists( 'acf_add_options_page' ) ) {
+
 			acf_add_options_page(
 				[
 					'page_title' => 'BOM Fields',

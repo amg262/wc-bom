@@ -208,13 +208,14 @@ class WC_Bom_Settings {//implements WC_Abstract_Settings {
 						do_settings_sections( 'wc-bom-settings-admin' );
 						submit_button( 'Save Options' );
 
-					} elseif ( $active_tab === 'reports' ) {
+					} elseif ( $active_tab === 'data' ) {
 						//echo 'hi';
 						settings_fields( 'sandbox_theme_social_options' );
 						do_settings_sections( 'sandbox_theme_social_options' );
 						submit_button( 'Save Options' );
 
 					} elseif ( $active_tab === 'support' ) {
+
 
 					} // end if/else//wc_bom_options_group2
 
