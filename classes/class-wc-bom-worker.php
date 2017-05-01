@@ -164,7 +164,7 @@ class WC_Bom_Worker {
                             <tr>
 								<?php $label = 'License Key'; ?>
 								<?php $key = $this->format_key( $label ); ?>
-								<?php $opt = $wc_bom_options[ $key ]; ?>
+								<?php $opt = 'wc_bom_options'; ?>
                                 <th scope="row">
 
                                     <label for="<?php _e( $key ); ?>">
@@ -173,9 +173,9 @@ class WC_Bom_Worker {
                                 </th>
                                 <td>
                                     <input type="text"
-                                           id="<?php _e( $key ); ?>"
-                                           name="<?php _e( $key ); ?>"
-                                           value="<?php _e( $opt ); ?>"/>
+                                           id="wc_bom_options[<?php _e( $key ); ?>]"
+                                           name="wc_bom_options[<?php _e( $key ); ?>]"
+                                           value="<?php $opt[]; ?>"/>
                                 </td>
                             </tr>
 
@@ -185,7 +185,7 @@ class WC_Bom_Worker {
 								<?php $label = 'Enable Beta'; ?>
 								<?php $key = $this->format_key( $label ); ?>
 								<?php $opt = $wc_bom_options[ $key ]; ?>
-                                <th scope="row">
+                                <th scope=" row">
 
                                     <label for="<?php _e( $key ); ?>">
 										<?php _e( $label ); ?>
@@ -193,12 +193,10 @@ class WC_Bom_Worker {
                                 </th>
                                 <td>
                                     <input type="checkbox"
-                                           id="<?php _e( $key ); ?>"
-                                           name="<?php _e( $key ); ?>"
+                                           id="wc_bom_options[<?php _e( $key ); ?>]"
+                                           name="wc_bom_options[<?php _e( $key ); ?>]"
                                            value="1"
-										<?php if ( $opt ) {
-											checked( 1, $opt, true );
-										} ?> />
+										<?php checked( 1, $wc_bom_options[ $key ], true ); ?> />
                                 </td>
                             </tr>
                             <!----------- OPTION ----------->
@@ -232,7 +230,7 @@ class WC_Bom_Worker {
 	public function format_key( $text = '' ) {
 
 		str_replace( [ '-', ' ' ], '_', $text );
-		$key = strtolower( $text );
+		$key = (string) strtolower( $text );
 
 		return $key;
 	}
