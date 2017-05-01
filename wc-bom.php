@@ -140,6 +140,7 @@ class WC_Bom {
 				] );
 		}
 
+
 		return true;
 	}
 
@@ -203,6 +204,7 @@ class WC_Bom {
 			'validate_js', 'https://cdnjs.cloudflare.com/ajax/libs/' .
 			               'jquery-validate/1.16.0/jquery.validate.min.js' );
 	}
+
 
 	/**
 	 * @param $actions
