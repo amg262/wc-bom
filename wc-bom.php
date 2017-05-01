@@ -98,7 +98,7 @@ class WC_Bom {
 			deactivate_plugins( __FILE__ );
 			$message =
 				'<div style="text-align: center;"><h3>' .
-				'WooCommerce must be installed and activated!</h3>' .
+				'WooCommerce is required by <strong>WooBOM</strong></h3>' .
 				'<a href=' . admin_url( 'plugins.php' ) . '>&nbps;' .
 				'Back to plugins&nbsp;&rarr;</a>' .
 				'</div>';
@@ -118,13 +118,12 @@ class WC_Bom {
 
 		if ( $has_acf && $active ) {
 
-			//deactivate_plugins( $acf );
-			//deactivate_plugins( __FILE__ );
+			deactivate_plugins( $acf );
+			deactivate_plugins( __FILE__ );
 
 			$message =
 				'<div style="text-align: center;"><h3>' .
-				'<strong>ACF</strong> must be deactivated as ACF Pro is required and included in this plugin.' .
-				'You must deactivate it before using this plugin.' .
+				'ACF Pro is included in <strong>WooBOM</strong>.' .
 				'&nbsp;<a href=' . admin_url( 'plugins.php' ) . '>Back to plugins&nbsp;&rarr;</a></div>';
 			wp_die( $message );
 
@@ -141,6 +140,7 @@ class WC_Bom {
 				] );
 		}
 
+		return true;
 	}
 
 	/**
