@@ -108,7 +108,7 @@ class WC_Bom_Worker {
 
                     <h2 class='hndle'><span>General</span></h2>
 
-                    <div class="inside">
+                    <div class="inside ">
                         alskdjflkasjdfjal;skdfjl;aksjdf
                         asdfkjas;dkfjlasd
                         fasldkfj;laksjdf
@@ -122,7 +122,10 @@ class WC_Bom_Worker {
                             <input type="submit" accesskey="p" value="Update"
                                    class="button button-primary button-large"
                                    id="publish" name="publish">
-                            <button class="button button-secondary button-large"
+                            &nbps;
+                            <button class="button button-secondary button-large">
+                                Reset
+                            </button>
                         </div>
 
                         <div class="clear"></div>
@@ -145,8 +148,14 @@ class WC_Bom_Worker {
 
                     <h2 class='hndle'><span>General</span></h2>
 
-                    <div class="inside">
+                    <div class="inside acf-fields -left"">
 
+                    <div class="acf-label">
+                        Andy
+                    </div>
+                    <div class="acf-input">
+                        <input type="text"
+                    </div>
                         <span id="yeahbtn" class="button secondary"> Yeah</span>
                         <span id="feedme">&nbps;</span>
 						<?php //submit_button( 'Save Options' ); ?>
