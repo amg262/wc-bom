@@ -8,18 +8,17 @@
 
 namespace WooBom;
 /*
-* Plugin Name: WooBOM
-* Plugin URI: https/nextraa.us
+* Plugin Name: WooBOM - WooCommerce Bill of Materials
+* Plugin URI: http://andrewgunn.org
 * Description: Bill of Materials add-on for WooCommerce for raw material tracking, inventory, and production metrics.
-* Version: 1.0
-* Author: Andrew Gunn, Ryan Van Ess
-* Author URI: https/nextraa.us
-* Text Domain: logicbom
+* Version: 1.0.0
+* Author: Andrew Gunn
+* Author URI: https/andrewgunn.org
+* Text Domain: wc-bom
 * License: GPL2
 */
 
 global $wc_bom_options, $wc_bom_settings;
-use function add_action;
 
 
 /**
@@ -72,6 +71,8 @@ class WC_Bom {
 	public function init() {
 
 		$this->load_classes();
+		$this->require_woocommerce();
+		$this->require_acf();
 		/*$this->require_woocommerce();
 		$this->require_acf();
 		$this->create_options();
@@ -80,18 +81,13 @@ class WC_Bom {
 		//$this->load_assets();
 
 
-		add_action( 'admin_init', [ $this, 'require_woocommerce' ] );
-		add_action( 'admin_init', [ $this, 'require_acf' ] );
+		//add_action( 'admin_init', [ $this, 'require_woocommerce' ] );
+		//add_action( 'admin_init', [ $this, 'require_acf' ] );
 		add_action( 'admin_init', [ $this, 'create_options' ] );
-		add_action( 'admin_init', [ $this, 'install' ] );
-		add_action( 'admin_init', [ $this, 'install_data' ] );
+		//add_action( 'admin_init', [ $this, 'install' ] );
+		//add_action( 'admin_init', [ $this, 'install_data' ] );
 
 		add_action( 'init', [ $this, 'load_assets' ] );
-		//add_action( 'admin_init', [ $this, 'is_woo_activated' ] );
-		//add_action( 'admin_init', [ $this, 'is_woo_activated' ] );
-		//register_activation_hook( __FILE__, [ $this, 'create_options' ] );
-		//add_action( 'admin_init', [ $this, 'acf_installed' ] );
-		//$this->include_acf();
 
 		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
 
@@ -162,8 +158,8 @@ class WC_Bom {
 
 		if ( $has_acf && $active ) {
 
-			deactivate_plugins( $acf );
-			deactivate_plugins( __FILE__ );
+			//deactivate_plugins( $acf );
+			//deactivate_plugins( __FILE__ );
 
 			$message =
 				'<div style="text-align: center;"><h3>' .
@@ -271,7 +267,7 @@ class WC_Bom {
 		$url2 = 'assets/dist/styles/';
 		wp_register_script( 'bom_js', plugins_url( $url . 'wc-bom.min.js', __FILE__ ) );
 		wp_register_script( 'bom_adm_js', plugins_url( $url . 'wc-bom-admin.min.js', __FILE__ ) );
-		wp_register_script( 'api_js', plugins_url( $url . 'wc-bom-api.min.js', __FILE__ ) );
+		//wp_register_script( 'api_js', plugins_url( $url . 'wc-bom-api.min.js', __FILE__ ) );
 		wp_register_script( 'wp_js', plugins_url( $url . 'wc-bom-wp.min.js', __FILE__ ) );
 		wp_register_style( 'bom_css', plugins_url( $url2 . 'wc-bom.min.css', __FILE__ ) );
 		wp_enqueue_script( 'bom_js' );

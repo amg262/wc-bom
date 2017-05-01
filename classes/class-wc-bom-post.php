@@ -33,8 +33,8 @@ class WC_Bom_Post {
 
 		add_action( 'init', [ $this, 'register_part' ] );
 		add_action( 'init', [ $this, 'register_assembly' ] );
-		add_action( 'init', [ $this, 'register_inventory' ] );
-		add_action( 'init', [ $this, 'register_ecn' ] );
+		//add_action( 'init', [ $this, 'register_inventory' ] );
+		//add_action( 'init', [ $this, 'register_ecn' ] );
 
 		add_action( 'init', [ $this, 'register_part_cat' ] );
 		add_action( 'init', [ $this, 'register_procurement_type' ] );
@@ -45,7 +45,7 @@ class WC_Bom_Post {
 		add_action( 'init', [ $this, 'register_material_tags' ] );
 
 		add_action( 'init', [ $this, 'register_assembly_cat' ] );
-		add_action( 'init', [ $this, 'register_inventory_cat' ] );
+		//add_action( 'init', [ $this, 'register_inventory_cat' ] );
 
 		//flush_rewrite_rules();
 		//$this->register_part();
@@ -59,8 +59,8 @@ class WC_Bom_Post {
 
 		add_action( 'init', [ $this, 'register_part' ] );
 		add_action( 'init', [ $this, 'register_assembly' ] );
-		add_action( 'init', [ $this, 'register_inventory' ] );
-		add_action( 'init', [ $this, 'register_ecn' ] );
+		//add_action( 'init', [ $this, 'register_inventory' ] );
+		//add_action( 'init', [ $this, 'register_ecn' ] );
 	}
 
 	/**
@@ -77,7 +77,7 @@ class WC_Bom_Post {
 		add_action( 'init', [ $this, 'register_material_tags' ] );
 
 		add_action( 'init', [ $this, 'register_assembly_cat' ] );
-		add_action( 'init', [ $this, 'register_inventory_cat' ] );
+		//add_action( 'init', [ $this, 'register_inventory_cat' ] );
 	}
 
 	/**

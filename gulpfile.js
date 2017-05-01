@@ -70,7 +70,7 @@ gulp.task("uglify", function () {
 gulp.task("serve", function () {
 
     browserSync.init({
-        proxy: "http://www.devnet.dev/wp-admin/"
+        proxy: "http://www.sandbox.dev/wp-admin/"
     });
 
 });

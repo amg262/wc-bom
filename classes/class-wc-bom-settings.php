@@ -1,11 +1,15 @@
-<?php declare( strict_types = 1 );
+<?php declare( strict_types=1 );
 /**
  * Copyright (c) 2017.  |  Andrew Gunn
  * http://andrewgunn.org  |   https://github.com/amg262
  * andrewmgunn26@gmail.com
  *
  */
+
 namespace WooBom;
+
+use function add_submenu_page;
+
 /**
  * Class WC_Bom_Settings
  *
@@ -67,12 +71,28 @@ class WC_Bom_Settings {//implements WC_Abstract_Settings {
 
 		add_menu_page(
 			__( 'WooCommerce BOM', 'wc_bom' ),
-			'Woo BOM',
+			'Bill Materials',
 			'manage_options',
 			'wc-bom-settings',
 			[ $this, 'settings_page' ],
 			'dashicons-clipboard',//plugins_url( 'myplugin/images/icon.png' ),
 			57
+		);
+
+		add_submenu_page(
+			'wc-bom-settings',
+			'Parts',
+			'All Parts',
+			'manage_options',
+			'edit.php?post_type=part'
+		);
+
+		add_submenu_page(
+			'wc-bom-settings',
+			'Assembly',
+			'Assembly',
+			'manage_options',
+			'edit.php?post_type=assembly'
 		);
 	}
 
