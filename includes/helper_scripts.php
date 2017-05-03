@@ -116,7 +116,7 @@ function my_option_group_validate( $input ) {
  * an image is uploaded, automatically.
  */
 
-add_filter( 'add_attachment', 'insert_image_alt_tag', 10, 2 );
+add_filter( 'add_attachment', 'hookus_meet_tookus', 10, 2 );
 
 //add_filter('edit_attachment', 'insert_image_alt_tag', 10, 2);
 
