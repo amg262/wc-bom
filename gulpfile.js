@@ -9,6 +9,8 @@ const clean = require("gulp-clean");
 const rename = require("gulp-rename");
 const browserSync = require("browser-sync").create();
 const cssnano = require("gulp-cssnano");
+const zip = require('gulp-zip');
+
 
 
 var paths = {
@@ -63,6 +65,12 @@ gulp.task("uglify", function () {
         .pipe(uglify())
         .pipe(rename({suffix: ".min"}))
         .pipe(gulp.dest(paths.dist_js));
+});
+
+gulp.task('default', function () {
+    gulp.src('src/*')
+        .pipe(zip('archive.zip'))
+        .pipe(gulp.dest('dist'))
 });
 
 
