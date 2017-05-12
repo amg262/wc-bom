@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "refresh": "npm update && npm rebuild && npm start",
-    "start": "gulp",
+    "start": "npm update && npm install && composer update && composer install",
     "build": "gulp build",
     "clean": "gulp clean",
     "watch": "gulp serve",
-    "postinstall": "composer install && gulp"
+    "postinstall": "gulp"
   },
   "repository": {
     "type": "git",
