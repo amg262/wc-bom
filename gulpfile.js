@@ -71,10 +71,10 @@ gulp.task("uglify", function () {
 });
 
 /*gulp.task('zip', function () {
-    gulp.src('assets/data/')
-        .pipe(zip('archive.zip'))
-        .pipe(gulp.dest('logs'))
-});*/
+ gulp.src('assets/data/')
+ .pipe(zip('archive.zip'))
+ .pipe(gulp.dest('logs'))
+ });*/
 
 
 // Static Server + watching scss/html files

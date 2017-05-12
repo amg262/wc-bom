@@ -12,7 +12,7 @@ namespace WooBom;
 use function fclose;
 use function file_exists;
 use function file_get_contents;
-use function tmpfile;
+use function file_put_contents;
 
 class WC_Bom_Logger {
 
@@ -21,15 +21,17 @@ class WC_Bom_Logger {
 
 
 	public function __construct() {
-		//add_action( 'admin_init', [ $this, 'init' ] );
+		add_action( 'admin_init', [ $this, 'init' ] );
 
-		$this->init();
+		//$this->init();
 
 	}
 
+
 	public function init() {
 		//$this->logger_write();
-		$this->write_file( date('mdy').'_wcbom.log', " SSSBOOBS" );
+
+		$this->write_file( date( 'mdy' ) . '_wcbom.log', " SSSBOOBS" );
 	}
 
 	/**
@@ -46,9 +48,11 @@ class WC_Bom_Logger {
 		$this->filedata = $data;
 		$flag           = 'a+';
 
-		if ( $overwrite === true || ! ( ! file_exists( $this->filepath ) ) ) {
+
+		if ( $overwrite === true || ! file_exists( $this->filepath ) ) {
 			$flag = 'w+';
 		}
+
 
 		//$t = tmpfile();
 

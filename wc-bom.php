@@ -36,7 +36,7 @@ const WC_BOM_FILE = __FILE__;
 
 const WC_BOM_DIR = __DIR__;
 
-const WC_BOM_LOGS = __DIR__ . '/logs/';
+const WC_BOM_LOGS = __DIR__ . '/assets/logs/';
 
 const WC_BOM_TMP = __DIR__ . '/assets/tmp/';
 
