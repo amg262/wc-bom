@@ -39,16 +39,15 @@ gulp.task("purge", function () {
         .pipe(clean());
     gulp.src(paths.dist_css + "*")
         .pipe(clean());
+    gulp.src(paths.dist_img + "*")
+        .pipe(clean());
 });
 
 // Copy all static images
 gulp.task("imagemin", function () {
     gulp.src(paths.lib_img)
-    // Pass in options to the task
         .pipe(imagemin())
         .pipe(gulp.dest(paths.dist_img));
-    gulp.src(paths.dist_img + "images")
-        .pipe(clean());
 });
 
 gulp.task("cssnano", function () {
@@ -80,7 +79,6 @@ gulp.task('zip', function () {
 // Static Server + watching scss/html files
 gulp.task("serve", function () {
 
-    browserSync.
     browserSync.init({
         proxy: "http://www.sandbox.dev/wp-admin/"
     });
