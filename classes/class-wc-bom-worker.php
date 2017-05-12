@@ -188,7 +188,7 @@ class WC_Bom_Worker {
 								<?php $label = 'Enable Beta'; ?>
 								<?php $key = $this->format_key( $label ); ?>
 								<?php $opt = $wc_bom_settings[ $key ]; ?>
-                                <th scope=" row">
+                                <th scope="row">
 
                                     <label for="<?php _e( $key ); ?>">
 										<?php _e( $label ); ?>
@@ -203,6 +203,25 @@ class WC_Bom_Worker {
                                 </td>
                             </tr>
                             <!----------- OPTION ----------->
+                            <!----------- AJAX ----------->
+                            <tr>
+	                            <?php $label = 'Form Update'; ?>
+	                            <?php $key = $this->format_key( $label ); ?>
+	                            <?php $opt = $wc_bom_settings[ $key ]; ?>
+                                <th scope="row">
+
+                                    <label for="<?php _e( $key ); ?>">
+			                            <?php _e( $label ); ?>
+                                    </label>
+                                </th>
+                                <td>
+                                    <input type="checkbox"
+                                           id="wc_bom_settings[<?php _e( $key ); ?>]"
+                                           name="wc_bom_settings[<?php _e( $key ); ?>]"
+                                           value="1"
+			                            <?php checked( 1, $wc_bom_settings[ $key ], true ); ?> />
+                                </td>
+                            </tr>
                             <!----------- OPTION ----------->
                             <!----------- OPTION ----------->
                             <!----------- OPTION ----------->
@@ -219,9 +238,12 @@ class WC_Bom_Worker {
                         </table>
 
 
-                        <span id="yeahbtn" class="button secondary"> Yeah</span>
-                        <span id="feedme"><br></span>
-						<?php //submit_button( 'Save Options' ); ?>
+                        <div class="settings_ajax_wrap">
+                            <span id="yeahbtn" class="button secondary"> Yeah</span>
+                            <span id="feedme"><br></span>
+	                        <?php //submit_button( 'Save Options' ); ?>
+                        </div>
+
                     </div>
                 </div>
 
