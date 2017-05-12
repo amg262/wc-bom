@@ -80,7 +80,7 @@ gulp.task("uglify", function () {
 // Static Server + watching scss/html files
 gulp.task("serve", function () {
 
-    browserSync.browserSync.init({
+    browserSync.init({
         proxy: "http://www.sandbox.dev/wp-admin/"
     });
 
