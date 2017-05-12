@@ -9,11 +9,11 @@
     "build": "gulp build",
     "clean": "gulp clean",
     "watch": "gulp serve",
-    "postinstall": "composer install && gulp clean"
+    "postinstall": "composer install"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/amg262/woobom.git"
+    "url": "https://amg262@bitbucket.org/amg262/wc-bom.git"
   },
   "keywords": [
     "Tags:",
@@ -25,25 +25,24 @@
   "author": "amg262",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/amg262/woobom/issues"
+    "url": "https://amg262@bitbucket.org/amg262/wc-bom.git"
   },
-  "homepage": "https://github.com/amg262/woobom#readme",
+  "homepage": "https://amg262@bitbucket.org/amg262/wc-bom.git",
   "dependencies": {
+    "browser-sync": "^2.18.8",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
     "gulp-concat": "^2.6.1",
     "gulp-cssnano": "^2.1.2",
     "gulp-file": "^0.3.0",
-    "gulp-imagemin": "^3.1.1",
+    "gulp-imagemin": "^3.2.0",
     "gulp-postcss": "^6.3.0",
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^2.0.1",
     "gulp-util": "^3.0.8",
     "gulp-watch": "^4.3.11",
-    "browser-sync": "^2.18.8",
     "wpapi": "^1.0.2"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }

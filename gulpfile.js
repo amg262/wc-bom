@@ -9,8 +9,8 @@ const clean = require("gulp-clean");
 const rename = require("gulp-rename");
 const browserSync = require("browser-sync").create();
 const cssnano = require("gulp-cssnano");
-//const zip = require('gulp-zip');
-const minimatch = require('minimatch')
+const zip = require('gulp-zip');
+const minimatch = require('minimatch');
 
 
 var paths = {
@@ -70,16 +70,17 @@ gulp.task("uglify", function () {
         .pipe(gulp.dest(paths.dist_js));
 });
 
-/*gulp.task('zip', function () {
- gulp.src('assets/data/')
- .pipe(zip('archive.zip'))
- .pipe(gulp.dest('logs'))
- });*/
+gulp.task('zip', function () {
+    gulp.src('assets/data/')
+        .pipe(zip('archive.zip'))
+        .pipe(gulp.dest('logs'))
+});
 
 
 // Static Server + watching scss/html files
 gulp.task("serve", function () {
 
+    browserSync.
     browserSync.init({
         proxy: "http://www.sandbox.dev/wp-admin/"
     });
@@ -95,5 +96,5 @@ gulp.task("watch", function () {
 });
 
 gulp.task("default", ["purge", "imagemin", "cssnano", "uglify", "serve", "watch"]);
-gulp.task("clean", ["purge", "imagemin", "cssnano", "uglify"]);
+gulp.task("clean", ["purge", "imagemin", "cssnano", "uglify", "zip"]);
 gulp.task("live", ["serve", "watch"]);
