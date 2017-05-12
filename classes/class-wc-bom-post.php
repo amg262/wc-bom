@@ -7,8 +7,10 @@
  */
 
 namespace WooBom;
+
+use function add_action;
 use function get_posts;
-use function wp_cache_set;
+use function var_dump;
 
 /**
  * Class WC_Bom_Post
@@ -17,13 +19,11 @@ use function wp_cache_set;
  */
 class WC_Bom_Post {
 
-	private $parts, $assemblies, $products;
-
-
 	/**
 	 * @var null
 	 */
 	protected static $instance;
+	private $parts, $assemblies, $products;
 
 	/**
 	 * WC_Bom_Post_Type constructor.
@@ -45,6 +45,8 @@ class WC_Bom_Post {
 
 		add_action( 'init', [ $this, 'register_material_tags' ] );
 
+		add_action( 'admin_init', [ $this, 'get_parts' ] );
+
 	}
 
 	/**
@@ -59,30 +61,6 @@ class WC_Bom_Post {
 		return static::$instance;
 	}
 
-	public function get_parts() {
-
-		//query_posts()
-		$args = [
-			'post_type'        => 'part',
-			'posts_per_page'   => - 1,
-			'meta_key'         => '',
-			'meta_value'       => '',
-			'author'           => '',
-			'author_name'      => '',
-			'post_status'      => 'publish',
-			'suppress_filters' => true,
-			'category'         => '',
-			'category_name'    => '',
-			'orderby'          => 'date',
-			'order'            => 'DESC',
-		];
-
-		$parts = get_posts($args);
-
-		wp_cache_set('wc_bom_parts', $parts);
-
-
-	}
 
 	/**
 	 *
