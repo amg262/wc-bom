@@ -9,7 +9,7 @@
     "build": "gulp build",
     "clean": "gulp clean",
     "watch": "gulp serve",
-    "postinstall": "composer install"
+    "postinstall": "composer install && gulp"
   },
   "repository": {
     "type": "git",
@@ -40,8 +40,10 @@
     "gulp-postcss": "^6.3.0",
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^2.0.1",
+    "gulp-unzip": "^0.2.0",
     "gulp-util": "^3.0.8",
     "gulp-watch": "^4.3.11",
+    "gulp-zip": "^4.0.0",
     "wpapi": "^1.0.2"
   },
   "devDependencies": {}
