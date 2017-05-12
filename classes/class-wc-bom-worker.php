@@ -5,7 +5,6 @@
  * andrewmgunn26@gmail.com
  *
  */
-
 namespace WooBom;
 
 use function str_replace;

@@ -82,6 +82,7 @@ class WC_Bom {
 		//include_once __DIR__ . '/classes/class-wc-bom-data.php';
 		include_once __DIR__ . '/classes/class-wc-bom-post.php';
 		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
+		include_once __DIR__ . '/includes/bom-fields.php';
 	}
 
 	/**
@@ -154,6 +155,10 @@ class WC_Bom {
 		}
 
 		return static::$instance;
+	}
+
+	public function acf_field_groups() {
+
 	}
 
 	/**
