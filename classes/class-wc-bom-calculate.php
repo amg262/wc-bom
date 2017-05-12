@@ -8,8 +8,11 @@
 
 namespace WooBom;
 
+global $postdata_cache;
 
-use function var_dump;
+
+use function wp_cache_delete;
+use function wp_cache_flush;
 use function wp_cache_set;
 use function wp_parse_args;
 
@@ -22,22 +25,24 @@ class WC_Bom_Calculate {
 	private $post_types = [];
 	private $post_data = [];
 	private $cache_keys = [];
+	private $cache;
 
 	public function __construct() {
 
 		$this->init();
+		//add_action('save_post_{$post->post_type}')
 	}
 
 	/**
 	 *
 	 */
 	public function init() {
-		$this->get_post_objs();
-		var_dump( $this->cache_keys );
-		var_dump( wp_cache_get( $this->cache_keys[0] ) );
+
+		//$this->get_post_objs();
+		//$postdata_cache = $this->get_cache();
 	}
 
-	public function get_post_objs( $query_args ) {
+	public function get_post_objs( $query_args = null ) {
 
 		$defaults = [
 			'post_types'       => [ 'part', 'assembly', 'product' ],
@@ -50,7 +55,11 @@ class WC_Bom_Calculate {
 		];
 
 		// Parse incoming $args into an array and merge it with $defaults
-		$args               = wp_parse_args( $query_args, $defaults );
+		$args = wp_parse_args( $query_args, $defaults );
+
+		if ( $query_args === null ) {
+			$args = $defaults;
+		}
 		$key                = 'wc_bom_postdata';
 		$this->cache_keys[] = $key;
 
@@ -68,17 +77,27 @@ class WC_Bom_Calculate {
 		}
 
 
-		var_dump( $this->post_data );
+		//var_dump( $this->post_data );
 
 		wp_cache_set( $key, $this->post_data );
 
 		return $this->post_data;
 	}
 
+	public function get_cache( $key = 0 ) {
+
+		$this->cache = wp_cache_get( $this->cache_keys[ $key ] );
+
+		return $this->cache;
+	}
+
+	public function flush_cache( $key = 0 ) {//$key = null) {
+
+		wp_cache_delete( $this->cache_keys[ $key ] );
+		wp_cache_flush();
+	}
 
 	public function get_single_assembly( $assembly_ID ) {
-
-
 		$id       = get_field( 'assembly_no', $assembly_ID );
 		$sku      = get_field( 'assembly_sku', $assembly_ID );
 		$sub      = 'sub_assemblies';

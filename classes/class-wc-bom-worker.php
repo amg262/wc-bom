@@ -54,8 +54,17 @@ class WC_Bom_Worker {
 		check_ajax_referer( 'ajax_nonce', 'security' );
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 		}
-		$whatever = $_POST['whatever'];
-		$posts    = get_posts( [ 'post_type' => $whatever ] );
+
+		include_once __DIR__ . '/class-wc-bom-calculate.php';
+		$calc = new WC_Bom_Calculate();
+
+		$postdata = $_POST['postdata'];
+
+		$args  = [
+			'post_type'   => [ 'part', 'assmebly' ],
+			'post_status' => 'publish',
+		];
+		$posts = get_posts( $args );
 		foreach ( $posts as $p ) {
 			echo $p->post_title . '<br>';
 		}
