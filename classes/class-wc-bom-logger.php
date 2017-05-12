@@ -21,7 +21,7 @@ class WC_Bom_Logger {
 
 
 	public function __construct() {
-		add_action( 'admin_init', [ $this, 'init' ] );
+		//add_action( 'admin_init', [ $this, 'init' ] );
 
 
 	}
