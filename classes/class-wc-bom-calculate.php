@@ -9,7 +9,6 @@
 namespace WooBom;
 
 
-use function get_posts;
 
 class WC_Bom_Calculate {
 
@@ -43,7 +42,7 @@ class WC_Bom_Calculate {
 
 
 		$type            = (string) $post_type;
-		$this->meta_args = $meta_args
+		$this->meta_args = $meta_args;
 
 		$args = [
 			'post_type'      => $type,
