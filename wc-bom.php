@@ -15,7 +15,7 @@ namespace WooBom;
 * Author: Andrew Gunn
 * Author URI: https/andrewgunn.org
 * Text Domain: wc-bom
-* License: GPL2
+* License:
 */
 global $wc_bom_options, $wc_bom_settings;
 /**
