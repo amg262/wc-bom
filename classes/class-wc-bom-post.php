@@ -1,17 +1,24 @@
-<?php declare( strict_types = 1 );
+<?php declare( strict_types=1 );
 /**
  * Copyright (c) 2017.  |  Andrew Gunn
  * http://andrewgunn.org  |   https://github.com/amg262
  * andrewmgunn26@gmail.com
  *
  */
+
 namespace WooBom;
+use function get_posts;
+use function wp_cache_set;
+
 /**
  * Class WC_Bom_Post
  *
  * @package WooBom
  */
 class WC_Bom_Post {
+
+	private $parts, $assemblies, $products;
+
 
 	/**
 	 * @var null
@@ -40,7 +47,42 @@ class WC_Bom_Post {
 
 	}
 
+	/**
+	 * @return null
+	 */
+	public static function getInstance() {
 
+		if ( null === static::$instance ) {
+			static::$instance = new static;
+		}
+
+		return static::$instance;
+	}
+
+	public function get_parts() {
+
+		//query_posts()
+		$args = [
+			'post_type'        => 'part',
+			'posts_per_page'   => - 1,
+			'meta_key'         => '',
+			'meta_value'       => '',
+			'author'           => '',
+			'author_name'      => '',
+			'post_status'      => 'publish',
+			'suppress_filters' => true,
+			'category'         => '',
+			'category_name'    => '',
+			'orderby'          => 'date',
+			'order'            => 'DESC',
+		];
+
+		$parts = get_posts($args);
+
+		wp_cache_set('wc_bom_parts', $parts);
+
+
+	}
 
 	/**
 	 *
@@ -211,18 +253,6 @@ class WC_Bom_Post {
 			'show_in_quick_edit' => true,
 		];
 		register_taxonomy( 'material-tags', [ 'part', 'assembly' ], $args );
-	}
-
-	/**
-	 * @return null
-	 */
-	public static function getInstance() {
-
-		if ( null === static::$instance ) {
-			static::$instance = new static;
-		}
-
-		return static::$instance;
 	}
 
 }

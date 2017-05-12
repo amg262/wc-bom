@@ -10,7 +10,7 @@ const rename = require("gulp-rename");
 const browserSync = require("browser-sync").create();
 const cssnano = require("gulp-cssnano");
 const zip = require('gulp-zip');
-
+const minimatch = require('minimatch')
 
 
 var paths = {
@@ -20,6 +20,9 @@ var paths = {
     lib_css: "assets/lib/styles/",
     lib_img: "assets/lib/images/*",
     dist: "assets/dist/",
+    logs: "logs/",
+    data: "assets/data/",
+    archive: "assets/archive/",
     dist_js: "assets/dist/scripts/",
     dist_css: "assets/dist/styles/",
     dist_img: "assets/dist/images/",
@@ -67,10 +70,10 @@ gulp.task("uglify", function () {
         .pipe(gulp.dest(paths.dist_js));
 });
 
-gulp.task('default', function () {
-    gulp.src('src/*')
+gulp.task('zip', function () {
+    gulp.src('assets/data/*')
         .pipe(zip('archive.zip'))
-        .pipe(gulp.dest('dist'))
+        .pipe(gulp.dest('assets/archive'))
 });
 
 
@@ -92,5 +95,5 @@ gulp.task("watch", function () {
 });
 
 gulp.task("default", ["purge", "imagemin", "cssnano", "uglify", "serve", "watch"]);
-gulp.task("clean", ["purge", "imagemin", "cssnano", "uglify"]);
+gulp.task("clean", ["purge", "imagemin", "cssnano", "uglify", "zip"]);
 gulp.task("live", ["serve", "watch"]);
