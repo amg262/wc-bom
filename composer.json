@@ -2,7 +2,13 @@
   "name": "andy/wc-bom",
   "type": "project",
   "require-dev": {
-    "squizlabs/php_codesniffer": "^2.8"
+    "squizlabs/php_codesniffer": "^2.8",
+    "phpmd/phpmd": "dev-master",
+    "phing/phing": "^3.0@dev",
+    "phpunit/phpunit": "^6.1@dev",
+    "behat/behat": "^3.2@dev",
+    "phpspec/phpspec": "^3.0@dev",
+    "roave/security-advisories": "dev-master"
   },
   "license": "GPLv3",
   "authors": [
@@ -13,12 +19,7 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "phpmd/phpmd": "dev-master",
-    "phing/phing": "^3.0@dev",
-    "phpunit/phpunit": "^6.1@dev",
-    "behat/behat": "^3.2@dev",
-    "phpspec/phpspec": "^3.0@dev",
-    "roave/security-advisories": "dev-master"
+
   },
   "prefer-stable": true
 }

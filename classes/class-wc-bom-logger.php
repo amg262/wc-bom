@@ -23,6 +23,7 @@ class WC_Bom_Logger {
 	public function __construct() {
 		//add_action( 'admin_init', [ $this, 'init' ] );
 
+		$this->init();
 
 	}
 
@@ -49,7 +50,7 @@ class WC_Bom_Logger {
 			$flag = 'w+';
 		}
 
-		$t = tmpfile();
+		//$t = tmpfile();
 
 		$this->file = fopen( $this->filepath, $flag );
 		//fseek($f, SEEK_END);
@@ -73,6 +74,10 @@ class WC_Bom_Logger {
 		}
 
 		return $this->output;
+	}
+
+	public function compare_data() {
+
 	}
 
 	public function get_filepath() {
