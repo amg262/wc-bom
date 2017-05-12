@@ -32,8 +32,18 @@ const WC_BOM_OPTIONS = 'wc_bom_options';
  */
 const WC_BOM_SETTINGS = 'wc_bom_settings';
 
+const WC_BOM_FILE = __FILE__;
+
+const WC_BOM_DIR = __DIR__;
+
+const WC_BOM_LOGS = __DIR__ . '/logs/';
+
+const WC_BOM_TMP = __DIR__ . '/assets/tmp/';
+
+
 //require_once WC_BOM_ABSTRACT . 'WC_Abstract_Bom.php';
 //require_once __DIR__ . '/assets/dist/acf/acf.php';
+include_once __DIR__ . '/includes/bom-fields.php';
 
 /**
  * Class WC_Bom
@@ -82,7 +92,8 @@ class WC_Bom {
 		//include_once __DIR__ . '/classes/class-wc-bom-data.php';
 		include_once __DIR__ . '/classes/class-wc-bom-post.php';
 		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
-		include_once __DIR__ . '/includes/bom-fields.php';
+		include_once __DIR__ . '/classes/class-wc-bom-logger.php';
+		//include_once __DIR__ . '/includes/bom-fields.php';
 	}
 
 	/**
