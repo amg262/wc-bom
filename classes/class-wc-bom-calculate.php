@@ -43,6 +43,7 @@ class WC_Bom_Calculate {
 
 		$type            = (string) $post_type;
 		$this->meta_args = $meta_args;
+		$t='1';
 
 		$args = [
 			'post_type'      => $type,
