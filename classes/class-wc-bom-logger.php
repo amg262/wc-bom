@@ -10,28 +10,24 @@ namespace WooBom;
 
 
 use function fclose;
-use const FILE_APPEND;
 use function file_exists;
 use function file_get_contents;
-use function fseek;
-use const SEEK_CUR;
-use function trailingslashit;
 
 class WC_Bom_Logger {
 
-	private $file, $data, $log, $path;
-	private $filename, $filepath, $filedir, $unzipped;
+	private $file, $filedata, $log, $path;
+	private $filename, $filepath, $filedir, $output, $unzipped;
 
 
 	public function __construct() {
-		add_action( 'admin_init', [ $this, 'init' ] );
+		//add_action( 'admin_init', [ $this, 'init' ] );
 
 
 	}
 
 	public function init() {
 		//$this->logger_write();
-		$this->save_file( 'wcbom.txt', " SSSBOOBS"  );
+		//$this->write_file( 'wcbom.log', " SSSBOOBS" );
 	}
 
 	/**
@@ -40,43 +36,74 @@ class WC_Bom_Logger {
 	 *
 	 * @return bool|int|void
 	 */
-	public function save_file( $filename, $data ) {
+	public function write_file( $filename, $data, $overwrite = false ) {
 
 		$this->filename = $filename;
 		$this->filedir  = WC_BOM_LOGS;
-		$flags          = [ FILE_APPEND ];
+		$this->filepath = WC_BOM_LOGS . $filename;
+		$this->filedata = $data;
+		$flag           = 'a+';
 
-		$this->filepath = trailingslashit( $this->filedir ) . $this->filename;
-		$n              = '/n';
-
-
-		$f = fopen(WC_BOM_LOGS.$filename, 'a+');
+		if ( $overwrite === true || ! ( ! file_exists( $this->filepath ) ) ) {
+			$flag = 'w+';
+		}
+		$this->file = fopen( $this->filepath, $flag );
 		//fseek($f, SEEK_END);
-		fwrite($f, '/n');
-		fwrite($f, $data);
-		fclose($f);
-
+		fwrite( $this->file, $this->filedata );
+		fclose( $this->file );
 	}
 
-	public function get_file( $filename ) {
-		$this->file = file_get_contents( $filename );
+	public function return_file( $filename, $array = false ) {
 
+		$this->filename = $filename;
+		$this->filedir  = WC_BOM_LOGS;
+		$this->filepath = WC_BOM_LOGS . $filename;
+
+
+		if ( $array === true ) {
+			$this->output = file_get_contents( $this->filepath );
+
+		} else {
+			$this->output = file( $this->filepath,
+				FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
+		}
+
+		return $this->output;
+	}
+
+	public function get_filepath() {
+		return $this->filepath;
+	}
+
+	public function get_filename() {
+		return $this->filename;
+	}
+
+	public function get_filedata() {
+		return $this->filedata;
+	}
+
+	public function get_file() {
 		return $this->file;
 	}
 
-	public function encrypt( $data ) {
+	public function get_output() {
+		return $this->output;
+	}
+
+	public function scramble( $data ) {
 		return base64_encode( str_rot13( base64_encode( $data ) ) );
 	}
 
-	public function decrypt( $data ) {
+	public function unscramble( $data ) {
 		return base64_decode( str_rot13( base64_decode( $data ) ) );
 	}
 
-	public function zip( $data ) {
+	public function crunch( $data ) {
 		return gzdeflate( base64_encode( str_rot13( $data ) ) );
 	}
 
-	public function unzip( $data ) {
+	public function uncrunch( $data ) {
 		return str_rot13( base64_decode( gzinflate( $data ) ) );
 	}
 }
