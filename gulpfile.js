@@ -71,15 +71,16 @@ gulp.task("uglify", function () {
 });
 
 gulp.task('zip', function () {
-    gulp.src('assets/data/*')
+    gulp.src('assets/data/')
         .pipe(zip('archive.zip'))
-        .pipe(gulp.dest('assets/archive'))
+        .pipe(gulp.dest('logs'))
 });
 
 
 // Static Server + watching scss/html files
 gulp.task("serve", function () {
 
+    browserSync.
     browserSync.init({
         proxy: "http://www.sandbox.dev/wp-admin/"
     });
