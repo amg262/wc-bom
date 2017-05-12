@@ -148,6 +148,8 @@ class WC_Bom_Settings {//implements WC_Abstract_Settings {
 		global $wc_bom_options, $wc_bom_settings;
 		$wc_bom_settings = get_option( WC_BOM_SETTINGS );
 		$wc_bom_options  = get_option( WC_BOM_OPTIONS );
+		include_once __DIR__ . '/class-wc-bom-calculate.php';
+		$calc = new WC_Bom_Calculate();
 
 		if ( isset( $_GET['tab'] ) ) {
 			$active_tab = $_GET['tab'];
@@ -199,10 +201,10 @@ class WC_Bom_Settings {//implements WC_Abstract_Settings {
 								do_settings_sections( 'wc-bom-settings-admin' );
 								submit_button( 'Save Options' );
 
-							} elseif ( $active_tab === 'action' ) {
+							} else if ( $active_tab === 'action' ) {
 								//echo 'hi';
 
-							} elseif ( $active_tab === 'support' ) {
+							} else if ( $active_tab === 'support' ) {
 							} // end if/else//wc_bom_options_group2
 
 							//				submit_button( 'Save Options' );

@@ -9,6 +9,9 @@
 namespace WooBom;
 
 
+use function var_dump;
+use function wp_cache_set;
+use function wp_parse_args;
 
 class WC_Bom_Calculate {
 
@@ -16,7 +19,9 @@ class WC_Bom_Calculate {
 	 * @var null
 	 */
 
-	private $post_type, $meta_args, $posts_objs;
+	private $post_types = [];
+	private $post_data = [];
+	private $cache_keys = [];
 
 	public function __construct() {
 
@@ -27,48 +32,49 @@ class WC_Bom_Calculate {
 	 *
 	 */
 	public function init() {
-
+		$this->get_post_objs();
+		var_dump( $this->cache_keys );
+		var_dump( wp_cache_get( $this->cache_keys[0] ) );
 	}
 
+	public function get_post_objs( $query_args ) {
 
-	public function show() {
-
-		//$p = $this->get_parts();
-		//var_dump( $p );
-	}
-
-
-	public function get_post_objs( $post_type, $meta_args ) {
-
-
-		$type            = (string) $post_type;
-		$this->meta_args = $meta_args;
-		$t='1';
-
-		$args = [
-			'post_type'      => $type,
-			'posts_per_page' => - 1,
-			/*'meta_key'         => '',
-			'meta_value'       => '',
-			'author'           => '',
-			'author_name'      => '',
+		$defaults = [
+			'post_types'       => [ 'part', 'assembly', 'product' ],
+			'meta_keys'        => [ 'key' ],
+			'meta_values'      => [ 'value' ],
+			'posts_per_page'   => - 1,
 			'post_status'      => 'publish',
 			'suppress_filters' => true,
-			'category'         => '',
-			'category_name'    => '',
-			'orderby'          => 'date',
-			'order'            => 'DESC',*/
+
 		];
 
-		$this->posts_objs = get_posts( $args );
+		// Parse incoming $args into an array and merge it with $defaults
+		$args               = wp_parse_args( $query_args, $defaults );
+		$key                = 'wc_bom_postdata';
+		$this->cache_keys[] = $key;
+
+		$this->post_types = (array) $args['post_types'];
+
+		foreach ( $this->post_types as $post_type ) {
+			$post_args = [
+				'post_type'        => $post_type,
+				'posts_per_page'   => $args['posts_per_page'],
+				'post_status'      => $args['post_status'],
+				'suppress_filters' => $args['suppress_filters'],
+			];
+
+			$this->post_data[] = get_posts( $post_args );
+		}
 
 
-		return $this->posts_objs;
-		//var_dump( $parts );
-		//wp_cache_set( 'wc_bom_parts', $parts );
+		var_dump( $this->post_data );
 
+		wp_cache_set( $key, $this->post_data );
 
+		return $this->post_data;
 	}
+
 
 	public function get_single_assembly( $assembly_ID ) {
 
@@ -100,7 +106,7 @@ class WC_Bom_Calculate {
 
 	}
 
-	public function get_single_par( $part_ID ) {
+	public function get_single_part( $part_ID ) {
 
 		$part_data = [];
 

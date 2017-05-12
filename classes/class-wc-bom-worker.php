@@ -5,6 +5,7 @@
  * andrewmgunn26@gmail.com
  *
  */
+
 namespace WooBom;
 
 use function str_replace;
@@ -75,7 +76,7 @@ class WC_Bom_Worker {
 
 		//$new_input = [];
 		//if ( isset( $input['license_key'] ) ) {
-			//$new_input['license_key'] = sanitize_text_field( $input['license_key'] );
+		//$new_input['license_key'] = sanitize_text_field( $input['license_key'] );
 		//}
 
 		//if ( isset( $input[ 'title' ] ) ) {
@@ -205,21 +206,33 @@ class WC_Bom_Worker {
                             <!----------- OPTION ----------->
                             <!----------- AJAX ----------->
                             <tr>
-	                            <?php $label = 'Form Update'; ?>
-	                            <?php $key = $this->format_key( $label ); ?>
-	                            <?php $opt = $wc_bom_settings[ $key ]; ?>
+								<?php $label = 'Form Update'; ?>
+								<?php $key = $this->format_key( $label ); ?>
+								<?php $opt = $wc_bom_settings[ $key ]; ?>
                                 <th scope="row">
 
                                     <label for="<?php _e( $key ); ?>">
-			                            <?php _e( $label ); ?>
+										<?php _e( $label ); ?>
                                     </label>
                                 </th>
                                 <td>
-                                    <input type="checkbox"
-                                           id="wc_bom_settings[<?php _e( $key ); ?>]"
-                                           name="wc_bom_settings[<?php _e( $key ); ?>]"
-                                           value="1"
-			                            <?php checked( 1, $wc_bom_settings[ $key ], true ); ?> />
+
+                                    <span class="button secondary"
+                                          id="form_ajax_update"
+                                          name="wc_bom_settings[<?php _e( $key ); ?>]"
+                                          value="yeah">
+                                        Yeah
+                                    </span>
+                                    <div class="form_update_ouput">
+                                        <p>
+                                            <strong>
+                                                <span id="form_update_ouput">
+                                                    <br>
+                                                </span>
+                                            </strong>
+                                        </p>
+                                    </div>
+
                                 </td>
                             </tr>
                             <!----------- OPTION ----------->
@@ -241,7 +254,7 @@ class WC_Bom_Worker {
                         <div class="settings_ajax_wrap">
                             <span id="yeahbtn" class="button secondary"> Yeah</span>
                             <span id="feedme"><br></span>
-	                        <?php //submit_button( 'Save Options' ); ?>
+							<?php //submit_button( 'Save Options' ); ?>
                         </div>
 
                     </div>
