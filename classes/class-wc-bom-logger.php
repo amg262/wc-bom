@@ -12,7 +12,6 @@ namespace WooBom;
 use function fclose;
 use function file_exists;
 use function file_get_contents;
-use function file_put_contents;
 
 class WC_Bom_Logger {
 
@@ -21,7 +20,7 @@ class WC_Bom_Logger {
 
 
 	public function __construct() {
-		//add_action( 'admin_init', [ $this, 'init' ] );
+		add_action( 'admin_init', [ $this, 'init' ] );
 
 		//$this->init();
 
@@ -31,7 +30,15 @@ class WC_Bom_Logger {
 	public function init() {
 		//$this->logger_write();
 
+		var_dump( $this->make_dir() );
 		$this->write_file( date( 'mdy' ) . '_wcbom.log', " SSSBOOBS" );
+	}
+
+	public function make_dir() {
+		if ( mkdir( WC_BOM_LOGS ) ) {
+			return true;
+		}
+		return false;
 	}
 
 	/**

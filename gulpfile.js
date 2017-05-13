@@ -10,7 +10,9 @@ const rename = require("gulp-rename");
 const browserSync = require("browser-sync").create();
 const cssnano = require("gulp-cssnano");
 const zip = require('gulp-zip');
+const unzip = require('gulp-unzip');
 const minimatch = require('minimatch');
+const mkdirp = require('mkdirp');
 
 
 var paths = {
@@ -56,6 +58,14 @@ gulp.task("cssnano", function () {
         .pipe(rename({suffix: ".min"}))
         .pipe(gulp.dest(paths.dist_css))
 });
+
+
+gulp.task('scripts', function () {
+    return gulp.src(paths.data)
+        .pipe(concat('*'))
+        .pipe(gulp.dest('archive'));
+});
+
 /**
  * Minify compiled JavaScript.
  *
@@ -70,11 +80,17 @@ gulp.task("uglify", function () {
 });
 
 gulp.task('zip', function () {
-    gulp.src('assets/data/')
-        .pipe(zip('archive.zip'))
-        .pipe(gulp.dest('logs'))
+    gulp.src('assets/data/*')
+        .pipe(zip('archive2.zip'))
+        .pipe(gulp.dest('archive'))
 });
 
+
+gulp.task('unzip', function () {
+    gulp.src('archive/*')
+        .pipe(unzip())
+        .pipe(gulp.dest('dist'))
+});
 
 // Static Server + watching scss/html files
 gulp.task("serve", function () {
@@ -96,5 +112,5 @@ gulp.task("watch", function () {
 });
 
 gulp.task("default", ["purge", "imagemin", "cssnano", "uglify", "serve", "watch"]);
-gulp.task("clean", ["purge", "imagemin", "cssnano", "uglify"]);
+gulp.task("clean", ["purge", "imagemin", "cssnano", "uglify", "scripts"]);
 gulp.task("live", ["serve", "watch"]);
