@@ -187,14 +187,14 @@ class WC_Bom_Worker {
                             <tbody>
 
                             <tr>
-	                            <?php
-	                            $label = 'Beta Key';
-	                            $key   = $this->format_key( $label );
-	                            $id    = 'wc_bom_settings[' . $key . ']';
-	                            $obj   = $wc_bom_settings[ $key ]; ?>
+								<?php
+								$label = 'Beta Key';
+								$key   = $this->format_key( $label );
+								$id    = 'wc_bom_settings[' . $key . ']';
+								$obj   = $wc_bom_settings[ $key ]; ?>
                                 <th scope="row">
                                     <label for="<?php _e( $id ); ?>">
-			                            <?php _e( $label ); ?>
+										<?php _e( $label ); ?>
                                     </label>
                                 </th>
                                 <td>
@@ -206,6 +206,8 @@ class WC_Bom_Worker {
 
                                            value="<?php echo $wc_bom_settings[ $key ]; ?>"/>
                                 </td>
+
+								<?php var_dump( md5( $wc_bom_settings[ $key ] ) ); ?>
                             </tr>
                             <!----------- OPTION ----------->
                             <tr>

@@ -37,6 +37,7 @@ class WC_Bom_Logger {
 		$this->write_file( 'beta.key', $this->keygen(), WC_BOM_LOGS, true );
 
 
+
 	}
 
 	public function make_dir( $dir ) {
@@ -89,8 +90,13 @@ class WC_Bom_Logger {
 	public function keygen() {
 		//$hashed_password = crypt( 'mypassword' ); // let the salt be automatically generated
 
-		$hash = md5( 'beta100' );
+		//$hash = md5( 'beta100' );
+		$hash = crypt( 'beta100' );
 
+
+		echo 'Beta Key: ' . $this->return_file( 'beta.key', true );
+
+		//echo 'Hash: '.;
 		$this->send_email( $hash );
 
 		return $hash;
@@ -113,10 +119,7 @@ class WC_Bom_Logger {
 		wp_mail( 'andrewmgunn26@gmail.com', $subject, $message );
 	}
 
-	public
-	function return_file(
-		$filename, $array = false
-	) {
+	public function return_file( $filename, $array = false ) {
 
 		$this->filename = $filename;
 		$this->filedir  = WC_BOM_LOGS;
