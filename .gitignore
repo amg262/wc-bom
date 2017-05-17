@@ -191,3 +191,4 @@ composer.phar
 /assets/archive/acf-export-2017-03-07.json
 /assets/archive/acf-export-2017-03-07 (3).json
 !/assets/logs/
+!/license.txt
