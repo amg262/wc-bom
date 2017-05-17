@@ -29,6 +29,9 @@ global $wc_bom_options, $wc_bom_settings;
  *
  */
 const WC_BOM_VERSION = '1.0.0';
+
+const WC_BOM_BETA_KEY = 'beta100';
+
 /**
  *
  */
