@@ -50,7 +50,7 @@ const WC_BOM_TMP = __DIR__ . '/assets/tmp/';
 
 //require_once WC_BOM_ABSTRACT . 'WC_Abstract_Bom.php';
 //require_once __DIR__ . '/assets/dist/acf/acf.php';
-include_once __DIR__ . '/includes/bom-fields.php';
+//include_once __DIR__ . '/includes/bom-fields.php';
 
 /**
  * Class WC_Bom
@@ -190,15 +190,17 @@ class WC_Bom {
 		$key            = 'init';
 		$wc_bom_options = get_option( WC_BOM_OPTIONS );
 		if ( $wc_bom_options[ $key ] !== true ) {
-			add_option( WC_BOM_OPTIONS, [ $key => true ] );
+			//add_option( WC_BOM_OPTIONS, [ $key => true ] );
 		}
 		$key             = 'setup';
 		$wc_bom_settings = get_option( WC_BOM_SETTINGS );
 		if ( $wc_bom_settings[ $key ] !== true ) {
-			add_option( WC_BOM_SETTINGS, [ $key => false ] );
+			//add_option( WC_BOM_SETTINGS, [ $key => false ] );
 		}
 
 
+		delete_option( 'wc_bom_settings' );
+		delete_option( 'wc_bom_options' );
 	}
 
 
@@ -219,15 +221,7 @@ class WC_Bom {
 		//wp_enqueue_script( 'api_js' );
 		//wp_enqueue_script( 'wp_js' );
 		wp_enqueue_style( 'bom_css' );
-		wp_enqueue_script(
-			'sweetalertjs', 'https://cdnjs.cloudflare.com/ajax/libs/' .
-			                'sweetalert/1.1.3/sweetalert.min.js' );
-		wp_enqueue_style(
-			'sweetalert_css', 'https://cdnjs.cloudflare.com/ajax/libs/' .
-			                  'sweetalert/1.1.3/sweetalert.min.css' );
-		wp_enqueue_script(
-			'validate_js', 'https://cdnjs.cloudflare.com/ajax/libs/' .
-			               'jquery-validate/1.16.0/jquery.validate.min.js' );
+
 	}
 
 

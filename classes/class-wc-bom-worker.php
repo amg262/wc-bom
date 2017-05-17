@@ -30,9 +30,16 @@ class WC_Bom_Worker {
 	public function wco_admin() {
 
 		wp_enqueue_script( 'postbox' );
+
 		wp_enqueue_script(
-			'validate_js', 'https://cdnjs.cloudflare.com/ajax/libs/' .
-			               'jquery-validate/1.16.0/jquery.validate.min.js' );
+			'sweetalertjs', 'https://cdnjs.cloudflare.com/ajax/libs/' .
+			                'sweetalert/1.1.3/sweetalert.min.js' );
+		wp_enqueue_style(
+			'sweetalert_css', 'https://cdnjs.cloudflare.com/ajax/libs/' .
+			                  'sweetalert/1.1.3/sweetalert.min.css' );
+		wp_enqueue_script(
+			'parsely_js', 'https://cdnjs.cloudflare.com/ajax/libs/' .
+			              'parsley.js/2.7.2/parsley.min.js' );
 
 		$ajax_data = [
 			'posts' => [ 'product', 'part', 'assembly' ],
@@ -70,7 +77,7 @@ class WC_Bom_Worker {
 		$posts = $data['posts'];
 
 		$args  = [
-			'post_type'   => ['part', 'assembly', 'product'],
+			'post_type'   => [ 'part', 'assembly', 'product' ],
 			'post_status' => 'publish',
 		];
 		$posts = get_posts( $args );
@@ -84,13 +91,6 @@ class WC_Bom_Worker {
 		wp_die( 'Ajax finished.' );
 	}
 
-	public function format_key( $text ) {
-
-		$str = str_replace( [ '-', ' ' ], '_', $text );
-
-		return strtolower( $str );
-
-	}
 	/**
 	 * Sanitize each setting field as needed
 	 *
@@ -122,8 +122,8 @@ class WC_Bom_Worker {
 		$wc_bom_settings = get_option( 'wc_bom_settings' );
 		// Enqueue Media Library Use
 		wp_enqueue_media();
-		delete_option( WC_BOM_OPTIONS );
-		delete_option( WC_BOM_SETTINGS );
+		//delete_option( WC_BOM_OPTIONS );
+		//delete_option( WC_BOM_SETTINGS );
 
 		var_dump( $wc_bom_settings ); ?>
 
@@ -289,6 +289,14 @@ class WC_Bom_Worker {
             </div>
         </div>
 	<?php }
+
+	public function format_key( $text ) {
+
+		$str = str_replace( [ '-', ' ' ], '_', $text );
+
+		return strtolower( $str );
+
+	}
 
 
 }
