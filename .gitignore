@@ -68,7 +68,8 @@ wp-content/upgrade/
 wp-content/uploads/
 wp-content/wp-cache-config.php
 wp-content/plugins/hello.php
-
+vendor
+debug.log
 /.htaccess
 /license.txt
 /readme.html

@@ -8,9 +8,6 @@
 
 namespace WooBom;
 
-use function str_replace;
-use function strtolower;
-
 /**
  * Class WC_Bom_Worker
  *
@@ -33,12 +30,20 @@ class WC_Bom_Worker {
 	public function wco_admin() {
 
 		wp_enqueue_script( 'postbox' );
+		wp_enqueue_script(
+			'validate_js', 'https://cdnjs.cloudflare.com/ajax/libs/' .
+			               'jquery-validate/1.16.0/jquery.validate.min.js' );
+
+		$ajax_data = [
+			'posts' => [ 'product', 'part', 'assembly' ],
+			'data'  => [],
+		];
 
 		$ajax_object = [
-			'ajax_url' => admin_url( 'admin-ajax.php' ),
-			'nonce'    => wp_create_nonce( 'ajax_nonce' ),
-			'whatever' => 'product',
-			'action'   => [ $this, 'wco_ajax' ]
+			'ajax_url'  => admin_url( 'admin-ajax.php' ),
+			'nonce'     => wp_create_nonce( 'ajax_nonce' ),
+			'ajax_data' => $ajax_data,
+			'action'    => [ $this, 'wco_ajax' ]
 			//'options'  => 'wc_bom_option[opt]',
 		];
 		wp_localize_script( 'bom_adm_js', 'ajax_object', $ajax_object );
@@ -55,10 +60,12 @@ class WC_Bom_Worker {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 		}
 
-		include_once __DIR__ . '/class-wc-bom-calculate.php';
-		$calc = new WC_Bom_Calculate();
+		//include_once __DIR__ . '/class-wc-bom-calculate.php';
+		//$calc = new WC_Bom_Calculate();
 
 		$postdata = $_POST['postdata'];
+
+		$data = $_POST['ajax_data'];
 
 		$args  = [
 			'post_type'   => [ 'part', 'assmebly' ],
@@ -68,12 +75,17 @@ class WC_Bom_Worker {
 		foreach ( $posts as $p ) {
 			echo $p->post_title . '<br>';
 		}
-		//$whatever = intval( $_POST['whatever'] );
-		//$whatever += 10;
-		//echo $whatever;
-		wp_die();
+
+		wp_die( 'Ajax finished.' );
 	}
 
+	public function format_key( $text ) {
+
+		$str = str_replace( [ '-', ' ' ], '_', $text );
+
+		return strtolower( $str );
+
+	}
 	/**
 	 * Sanitize each setting field as needed
 	 *
@@ -101,12 +113,12 @@ class WC_Bom_Worker {
 
 		global $wc_bom_options, $wc_bom_settings;
 
-		//$wc_bom_options  = get_option( 'wc_bom_options' );
+		$wc_bom_options  = get_option( 'wc_bom_options' );
 		$wc_bom_settings = get_option( 'wc_bom_settings' );
 		// Enqueue Media Library Use
 		wp_enqueue_media();
-		///delete_option(WC_BOM_OPTIONS);
-		///delete_option(WC_BOM_SETTINGS);
+		delete_option( WC_BOM_OPTIONS );
+		delete_option( WC_BOM_SETTINGS );
 
 		var_dump( $wc_bom_settings ); ?>
 
@@ -272,14 +284,6 @@ class WC_Bom_Worker {
             </div>
         </div>
 	<?php }
-
-	protected function format_key( $text ) {
-
-		$str = str_replace( [ '-', ' ' ], '_', $text );
-		$str = strtolower( $str );
-
-		return $str;
-	}
 
 
 }

@@ -43,6 +43,8 @@ gulp.task("purge", function () {
         .pipe(clean());
     gulp.src(paths.dist_img + "*")
         .pipe(clean());
+    gulp.src(paths.archive + "*")
+        .pipe(clean());
 });
 
 // Copy all static images
@@ -81,8 +83,8 @@ gulp.task("uglify", function () {
 
 gulp.task('zip', function () {
     gulp.src('assets/data/*')
-        .pipe(zip('archive2.zip'))
-        .pipe(gulp.dest('archive'))
+        .pipe(zip('archive.zip'))
+        .pipe(gulp.dest('assets/archive/'))
 });
 
 
@@ -112,5 +114,5 @@ gulp.task("watch", function () {
 });
 
 gulp.task("default", ["purge", "imagemin", "cssnano", "uglify", "serve", "watch"]);
-gulp.task("clean", ["purge", "imagemin", "cssnano", "uglify", "scripts"]);
+gulp.task("clean", ["purge", "imagemin", "cssnano", "uglify", "zip"]);
 gulp.task("live", ["serve", "watch"]);

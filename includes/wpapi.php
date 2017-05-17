@@ -7,9 +7,8 @@ Author: Jeff Gould
 Version: 0.1
 Author URI: http://deliciousbrains.com
 */
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-} // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) { die('No no no!'); } // Exit if accessed directly
+
 register_activation_hook( __FILE__, 'giar_activate' );
 /**
  *

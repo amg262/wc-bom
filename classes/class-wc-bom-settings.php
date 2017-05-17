@@ -149,7 +149,7 @@ class WC_Bom_Settings {//implements WC_Abstract_Settings {
 		$wc_bom_settings = get_option( WC_BOM_SETTINGS );
 		$wc_bom_options  = get_option( WC_BOM_OPTIONS );
 		include_once __DIR__ . '/class-wc-bom-calculate.php';
-		$calc = new WC_Bom_Calculate();
+		//$calc = new WC_Bom_Calculate();
 
 		if ( isset( $_GET['tab'] ) ) {
 			$active_tab = $_GET['tab'];
