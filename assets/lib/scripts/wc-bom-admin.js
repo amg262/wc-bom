@@ -29,7 +29,9 @@ jQuery(document).ready(function ($) {
             'url': ajax_object.ajax_url,
             'action': 'wco_ajax',
             'security': ajax_object.nonce,
-            'ajax_data': ajax_object.ajax_data
+            'ajax_data': ajax_object.ajax_data,
+            'data': [],
+            'postdata': ['posts']
             //'data':ajax_object     // We pass php values differently!
             //'security':ajax_object.nonce
         };
@@ -56,9 +58,7 @@ jQuery(document).ready(function ($) {
                     });
                     //alert('seRespon ' + response);
                 });
-
             });
-
     });
 
     /*

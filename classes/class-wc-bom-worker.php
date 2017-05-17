@@ -63,18 +63,23 @@ class WC_Bom_Worker {
 		//include_once __DIR__ . '/class-wc-bom-calculate.php';
 		//$calc = new WC_Bom_Calculate();
 
-		$postdata = $_POST['postdata'];
+		//$postdata = $_POST['postdata'];
 
 		$data = $_POST['ajax_data'];
 
+		$posts = $data['posts'];
+
 		$args  = [
-			'post_type'   => [ 'part', 'assmebly' ],
+			'post_type'   => ['part', 'assembly', 'product'],
 			'post_status' => 'publish',
 		];
 		$posts = get_posts( $args );
 		foreach ( $posts as $p ) {
 			echo $p->post_title . '<br>';
 		}
+
+		delete_option( WC_BOM_OPTIONS );
+		delete_option( WC_BOM_SETTINGS );
 
 		wp_die( 'Ajax finished.' );
 	}

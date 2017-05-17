@@ -8,6 +8,10 @@
 
 namespace WooBom;
 
+if ( ! is_admin() ) {
+	wp_die( 'You must be an admin to view this.' );
+}
+
 use function add_submenu_page;
 use function esc_html_e;
 use function wp_enqueue_media;
@@ -41,9 +45,7 @@ class WC_Bom_Settings {//implements WC_Abstract_Settings {
 	 */
 	public function init() {
 
-		//if ( ! is_admin() ) {
-		//	wp_die( 'You must be an admin to view this.' );
-		//}
+
 		include_once __DIR__ . '/class-wc-bom-worker.php';
 
 		$this->worker = new WC_Bom_Worker();
@@ -123,6 +125,27 @@ class WC_Bom_Settings {//implements WC_Abstract_Settings {
 			[ $this->worker, 'settings_callback' ], // Callback
 			'wc-bom-settings-admin' // Page
 		);
+
+		register_setting(
+			'wc_bom_options_group', // Option group
+			'wc_bom_options', // Option name
+			[ $this->worker, 'sanitize' ] // Sanitize
+		);
+
+		add_settings_section(
+			'wc_bom_options_section', // ID
+			'', // Title
+			[ $this, 'options_info' ], // Callback
+			'wc-bom-options-admin' // Page
+		);
+
+		add_settings_section(
+			'wc_bom_option', // ID
+			'', // Title
+			[ $this->worker, 'settings_callback' ], // Callback
+			'wc-bom-options-admin' // Page
+		);
+
 	}
 
 	/**
@@ -141,6 +164,19 @@ class WC_Bom_Settings {//implements WC_Abstract_Settings {
         </div>
 	<?php }
 
+
+	/**
+	 * Print the Section text
+	 */
+	public function options_info() { ?>
+        <div id="plugin-info-header" class="plugin-info header">
+            <div class="plugin-info content">
+                <b>sPitons</b>
+            </div>
+
+        </div>
+	<?php }
+
 	/**
 	 * Options page callback
 	 */
@@ -149,7 +185,7 @@ class WC_Bom_Settings {//implements WC_Abstract_Settings {
 		global $wc_bom_options, $wc_bom_settings;
 		$wc_bom_settings = get_option( WC_BOM_SETTINGS );
 		$wc_bom_options  = get_option( WC_BOM_OPTIONS );
-		include_once __DIR__ . '/class-wc-bom-calculate.php';
+		//include_once __DIR__ . '/class-wc-bom-calculate.php';
 		//$calc = new WC_Bom_Calculate();
 
 		if ( isset( $_GET['tab'] ) ) {
@@ -176,9 +212,9 @@ class WC_Bom_Settings {//implements WC_Abstract_Settings {
                         Settings
                     </a>
 
-                    <a href="?page=wc-bom-settings&tab=actions" class="nav-tab
-                    <?php echo $active_tab === 'actions' ? 'nav-tab-active' : ''; ?>">
-                        Actions
+                    <a href="?page=wc-bom-settings&tab=options" class="nav-tab
+                    <?php echo $active_tab === 'options' ? 'nav-tab-active' : ''; ?>">
+                        Options
                     </a>
 
                     <a href="?page=wc-bom-settings&tab=support" class="nav-tab
@@ -200,10 +236,13 @@ class WC_Bom_Settings {//implements WC_Abstract_Settings {
 
 								settings_fields( 'wc_bom_settings_group' );
 								do_settings_sections( 'wc-bom-settings-admin' );
-								submit_button( 'Save Options' );
+								submit_button( 'Save Settings' );
 
-							} else if ( $active_tab === 'action' ) {
+							} else if ( $active_tab === 'options' ) {
 								//echo 'hi';
+								settings_fields( 'wc_bom_options_group' );
+								do_settings_sections( 'wc-bom-options-admin' );
+								submit_button( 'Save Options' );
 
 							} else if ( $active_tab === 'support' ) {
 							} // end if/else//wc_bom_options_group2
