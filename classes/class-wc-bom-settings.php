@@ -77,14 +77,15 @@ class WC_Bom_Settings {//implements WC_Abstract_Settings {
 			'manage_options',
 			'wc-bom-settings',
 			[ $this, 'settings_page' ],
-			'dashicons-clipboard',//plugins_url( 'myplugin/images/icon.png' ),
+			//plugins_url( 'assets/dist/images/bom30.png', WC_BOM_FILE ),
+			'dashicons-clipboard',
 			57
 		);
 
 		add_submenu_page(
 			'wc-bom-settings',
 			'Parts',
-			'All Parts',
+			'Parts',
 			'manage_options',
 			'edit.php?post_type=part'
 		);

@@ -29,7 +29,7 @@ jQuery(document).ready(function ($) {
             'url': ajax_object.ajax_url,
             'action': 'wco_ajax',
             'security': ajax_object.nonce,
-            'postdata': ajax_object.postdata
+            'ajax_data': ajax_object.ajax_data
             //'data':ajax_object     // We pass php values differently!
             //'security':ajax_object.nonce
         };
