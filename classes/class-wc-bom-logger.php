@@ -20,7 +20,7 @@ class WC_Bom_Logger {
 
 
 	public function __construct() {
-		add_action( 'admin_init', [ $this, 'init' ] );
+		//add_action( 'admin_init', [ $this, 'init' ] );
 
 		//$this->init();
 
@@ -61,7 +61,7 @@ class WC_Bom_Logger {
 		$this->filepath = WC_BOM_LOGS . $filename;
 		$this->filedata = $data;
 		$flag           = 'a+';
-
+		
 
 		if ( $overwrite === true || ! file_exists( $this->filepath ) ) {
 			$flag = 'w+';

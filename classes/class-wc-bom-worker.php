@@ -240,9 +240,10 @@ class WC_Bom_Worker {
                                            value="<?php echo $wc_bom_settings[ $key ]; ?>"/>
                                 </td>
 								<?php $key2 = $logger->return_file( 'license.key' );
+
 								//var_dump( $logger );
 
-								if ( $key2 === md5( $wc_bom_settings[ $key ] ) ) {
+								if ( $key2 === $wc_bom_settings[ $key ] ) {
 									echo '<b>SUCCESS</b>';
 								}
 								?>
