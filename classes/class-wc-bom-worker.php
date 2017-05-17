@@ -119,6 +119,8 @@ class WC_Bom_Worker {
 		$wc_bom_settings = get_option( 'wc_bom_settings' );
 		// Enqueue Media Library Use
 		wp_enqueue_media();
+		include_once __DIR__ . '/class-wc-bom-logger.php';
+		$logger = new WC_Bom_Logger();
 		//delete_option( WC_BOM_OPTIONS );
 		//delete_option( WC_BOM_SETTINGS );
 
@@ -207,6 +209,13 @@ class WC_Bom_Worker {
                                            value="<?php echo $wc_bom_settings[ $key ]; ?>"/>
                                 </td>
 
+								<?php $betakey = $logger->return_file( 'beta.key' );
+								//var_dump( $logger );
+
+								if ( $betakey === md5( $wc_bom_settings[ $key ] ) ) {
+									echo 'time for icceama';
+								}
+								?>
 								<?php var_dump( md5( $wc_bom_settings[ $key ] ) ); ?>
                             </tr>
                             <!----------- OPTION ----------->
@@ -230,6 +239,23 @@ class WC_Bom_Worker {
                                            style="width:100%;max-width:500px;"
                                            value="<?php echo $wc_bom_settings[ $key ]; ?>"/>
                                 </td>
+								<?php $key2 = $logger->return_file( 'license.key' );
+								//var_dump( $logger );
+
+								if ( $key2 === md5( $wc_bom_settings[ $key ] ) ) {
+									echo '<b>SUCCESS</b>';
+								}
+								?>
+								<?php var_dump( $key2 ); ?>
+
+								<?php /*$betakey = $logger->return_file( 'license.key' );
+	                            //var_dump( $logger );
+
+	                            if ( $betakey === $wc_bom_settings[ $key ] )  {
+		                            echo 'SUCCESS!';
+	                            }
+	                            ?>
+	                            <?php echo wc_bom_settings[ $key ]; );*/ ?>
                             </tr>
 
 
@@ -334,6 +360,7 @@ class WC_Bom_Worker {
 		wp_enqueue_media();
 		//delete_option( WC_BOM_OPTIONS );
 		//delete_option( WC_BOM_SETTINGS );
+
 
 		var_dump( $wc_bom_options ); ?>
 
