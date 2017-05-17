@@ -142,7 +142,7 @@ class WC_Bom_Settings {//implements WC_Abstract_Settings {
 		add_settings_section(
 			'wc_bom_option', // ID
 			'', // Title
-			[ $this->worker, 'settings_callback' ], // Callback
+			[ $this->worker, 'options_callback' ], // Callback
 			'wc-bom-options-admin' // Page
 		);
 
@@ -185,6 +185,7 @@ class WC_Bom_Settings {//implements WC_Abstract_Settings {
 		global $wc_bom_options, $wc_bom_settings;
 		$wc_bom_settings = get_option( WC_BOM_SETTINGS );
 		$wc_bom_options  = get_option( WC_BOM_OPTIONS );
+
 		//include_once __DIR__ . '/class-wc-bom-calculate.php';
 		//$calc = new WC_Bom_Calculate();
 

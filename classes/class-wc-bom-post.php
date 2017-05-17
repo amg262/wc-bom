@@ -47,6 +47,8 @@ class WC_Bom_Post {
 
 		add_action( 'admin_init', [ $this, 'get_parts' ] );
 
+
+
 	}
 
 	/**

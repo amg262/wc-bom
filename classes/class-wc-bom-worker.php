@@ -31,15 +31,12 @@ class WC_Bom_Worker {
 
 		wp_enqueue_script( 'postbox' );
 
-		wp_enqueue_script(
-			'sweetalertjs', 'https://cdnjs.cloudflare.com/ajax/libs/' .
-			                'sweetalert/1.1.3/sweetalert.min.js' );
-		wp_enqueue_style(
-			'sweetalert_css', 'https://cdnjs.cloudflare.com/ajax/libs/' .
-			                  'sweetalert/1.1.3/sweetalert.min.css' );
-		wp_enqueue_script(
-			'parsely_js', 'https://cdnjs.cloudflare.com/ajax/libs/' .
-			              'parsley.js/2.7.2/parsley.min.js' );
+		wp_enqueue_script( 'sweetalertjs', 'https://cdnjs.cloudflare.com/ajax/libs/' .
+		                                   'sweetalert/1.1.3/sweetalert.min.js' );
+		wp_enqueue_style( 'sweetalert_css', 'https://cdnjs.cloudflare.com/ajax/libs/' .
+		                                    'sweetalert/1.1.3/sweetalert.min.css' );
+		wp_enqueue_script( 'parsely_js', 'https://cdnjs.cloudflare.com/ajax/libs/' .
+		                                 'parsley.js/2.7.2/parsley.min.js' );
 
 		$ajax_data = [
 			'posts' => [ 'product', 'part', 'assembly' ],
@@ -125,6 +122,7 @@ class WC_Bom_Worker {
 		//delete_option( WC_BOM_OPTIONS );
 		//delete_option( WC_BOM_SETTINGS );
 
+
 		var_dump( $wc_bom_settings ); ?>
 
         <div id="postbox-container-1" class="postbox-container">
@@ -187,6 +185,28 @@ class WC_Bom_Worker {
 
                         <table class="form-table">
                             <tbody>
+
+                            <tr>
+	                            <?php
+	                            $label = 'Beta Key';
+	                            $key   = $this->format_key( $label );
+	                            $id    = 'wc_bom_settings[' . $key . ']';
+	                            $obj   = $wc_bom_settings[ $key ]; ?>
+                                <th scope="row">
+                                    <label for="<?php _e( $id ); ?>">
+			                            <?php _e( $label ); ?>
+                                    </label>
+                                </th>
+                                <td>
+                                    <input type="password"
+                                           title="wc_bom_settings[<?php _e( $key ); ?>]"
+                                           id="wc_bom_settings[<?php _e( $key ); ?>]"
+                                           name="wc_bom_settings[<?php _e( $key ); ?>]"
+                                           style="width:100%;max-width:100px;"
+
+                                           value="<?php echo $wc_bom_settings[ $key ]; ?>"/>
+                                </td>
+                            </tr>
                             <!----------- OPTION ----------->
                             <tr>
 								<?php
@@ -205,6 +225,7 @@ class WC_Bom_Worker {
                                            title="wc_bom_settings[<?php _e( $key ); ?>]"
                                            id="wc_bom_settings[<?php _e( $key ); ?>]"
                                            name="wc_bom_settings[<?php _e( $key ); ?>]"
+                                           style="width:100%;max-width:500px;"
                                            value="<?php echo $wc_bom_settings[ $key ]; ?>"/>
                                 </td>
                             </tr>
@@ -297,6 +318,165 @@ class WC_Bom_Worker {
 		return strtolower( $str );
 
 	}
+
+	/**
+	 * Get the settings option array and print one of its values
+	 */
+	public function options_callback() {
+
+		global $wc_bom_options, $wc_bom_settings;
+
+		$wc_bom_options  = get_option( 'wc_bom_options' );
+		$wc_bom_settings = get_option( 'wc_bom_settings' );
+		// Enqueue Media Library Use
+		wp_enqueue_media();
+		//delete_option( WC_BOM_OPTIONS );
+		//delete_option( WC_BOM_SETTINGS );
+
+		var_dump( $wc_bom_options ); ?>
+
+        <div id="postbox-container-1" class="postbox-container">
+
+            <div id="normal-sortables" class="meta-box-sortables">
+
+                <div id="postbox" class="postbox">
+
+                    <button type="button" class="handlediv button-link" aria-expanded="true">
+                        <span class="screen-reader-text">Toggle panel: General</span>
+                        <span class="toggle-indicator" aria-hidden="true"></span>
+                    </button>
+                    <!----------- COLUMN BREAK -------------->
+
+                    <h2 class='hndle'><span>General</span></h2>
+
+                    <div class="inside ">
+                        alskdjflkasjdfjal;skdfjl;aksjdf
+                        asdfkjas;dkfjlasd
+                        fasldkfj;laksjdf
+                        asldkfjsa
+                    </div>
+                    <!----------- COLUMN BREAK -------------->
+
+                    <div id="major-publishing-actions">
+                        <div id="publishing-action">
+                            <span class="spinner"></span>
+                            <input type="submit" accesskey="p" value="Update"
+                                   class="button button-primary button-large"
+                                   id="publish" name="publish">
+                            <button class="button button-secondary button-large">
+                                Reset
+                            </button>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!----------- COLUMN BREAK -------------->
+        <!----------- COLUMN BREAK -------------->
+        <div id="postbox-container-2" class="postbox-container">
+
+            <div id="normal-sortables" class="meta-box-sortables">
+
+                <div id="postbox" class="postbox">
+
+                    <button type="button" class="handlediv button-link" aria-expanded="true">
+                        <span class="screen-reader-text">Toggle panel: General</span>
+                        <span class="toggle-indicator" aria-hidden="true"></span>
+                    </button>
+                    <!----------- COLUMN BREAK -------------->
+
+                    <h2 class='hndle'><span>General</span></h2>
+
+                    <div class="inside acf-fields -left">
+
+
+                        <!----------- COLUMN BREAK -------------->
+
+                        <table class="form-table">
+                            <tbody>
+                            <!----------- OPTION ----------->
+                            <tr>
+								<?php
+								$label = 'License Key';
+								$key   = $this->format_key( $label );
+								$id    = 'wc_bom_options[' . $key . ']';
+								$obj   = $wc_bom_options[ $key ]; ?>
+                                <th scope="row">x
+
+                                    <label for="<?php _e( $id ); ?>">
+										<?php _e( $label ); ?>
+                                    </label>
+                                </th>
+                                <td>
+                                    <input type="text"
+                                           title="wc_bom_options[<?php _e( $key ); ?>]"
+                                           id="wc_bom_options[<?php _e( $key ); ?>]"
+                                           name="wc_bom_options[<?php _e( $key ); ?>]"
+                                           value="<?php echo $wc_bom_options[ $key ]; ?>"/>
+                                </td>
+                            </tr>
+
+                            <!----------- OPTION ----------->
+                            <!----------- AJAX ----------->
+                            <tr>
+								<?php $label = 'Form Update'; ?>
+								<?php $key = $this->format_key( $label ); ?>
+								<?php $opt = $wc_bom_options[ $key ]; ?>
+                                <th scope="row">
+
+                                    <label for="<?php _e( $key ); ?>">
+										<?php _e( $label ); ?>
+                                    </label>
+                                </th>
+                                <td>
+
+                                    <span class="button secondary"
+                                          id="form_ajax_update"
+                                          name="wc_bom_options[<?php _e( $key ); ?>]"
+                                          value="yeah">
+                                        Yeah
+                                    </span>
+                                    <div class="form_update_ouput">
+                                        <p>
+                                            <strong>
+                                                <span id="form_update_ouput">
+                                                    <br>
+                                                </span>
+                                            </strong>
+                                        </p>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <!----------- OPTION ----------->
+                            <!----------- OPTION ----------->
+                            <!----------- OPTION ----------->
+                            <!----------- OPTION ----------->
+                            <!----------- OPTION ----------->
+                            <!----------- OPTION ----------->
+                            <!----------- OPTION ----------->
+                            <!----------- OPTION ----------->
+                            <!----------- OPTION ----------->
+                            <!----------- OPTION ----------->
+                            <!----------- OPTION ----------->
+
+                            </tbody>
+                        </table>
+
+
+                        <div class="settings_ajax_wrap">
+                            <span id="yeahbtn" class="button secondary"> Yeah</span>
+                            <span id="feedme"><br></span>
+							<?php //submit_button( 'Save Options' ); ?>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+	<?php }
 
 
 }

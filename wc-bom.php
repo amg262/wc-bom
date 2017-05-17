@@ -47,6 +47,13 @@ const WC_BOM_LOGS = __DIR__ . '/assets/logs/';
 
 const WC_BOM_TMP = __DIR__ . '/assets/tmp/';
 
+const WC_BOM_DIST = __DIR__ . '/assets/dist/';
+
+
+const WC_BOM_ADMIN = 'Andrew Gunn';
+
+const WC_BOM_ADMIN_EMAIL = 'andrewmgunn26@gmail.com';
+
 
 //require_once WC_BOM_ABSTRACT . 'WC_Abstract_Bom.php';
 //require_once __DIR__ . '/assets/dist/acf/acf.php';
@@ -87,8 +94,8 @@ class WC_Bom {
 		$post     = WC_Bom_Post::getInstance();
 
 		//include_once 'uninstall.php';
-
 		//flush_rewrite_rules();
+		//
 //var_dump($settings);
 	}
 
@@ -190,17 +197,17 @@ class WC_Bom {
 		$key            = 'init';
 		$wc_bom_options = get_option( WC_BOM_OPTIONS );
 		if ( $wc_bom_options[ $key ] !== true ) {
-			//add_option( WC_BOM_OPTIONS, [ $key => true ] );
+			add_option( WC_BOM_OPTIONS, [ $key => true ] );
 		}
 		$key             = 'setup';
 		$wc_bom_settings = get_option( WC_BOM_SETTINGS );
 		if ( $wc_bom_settings[ $key ] !== true ) {
-			//add_option( WC_BOM_SETTINGS, [ $key => false ] );
+			add_option( WC_BOM_SETTINGS, [ $key => false ] );
 		}
 
 
-		delete_option( 'wc_bom_settings' );
-		delete_option( 'wc_bom_options' );
+		//delete_option( 'wc_bom_settings' );
+		//delete_option( 'wc_bom_options' );
 	}
 
 

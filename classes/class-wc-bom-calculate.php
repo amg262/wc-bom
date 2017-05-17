@@ -38,8 +38,7 @@ class WC_Bom_Calculate {
 	 */
 	public function init() {
 
-		//$this->get_post_objs();
-		//$postdata_cache = $this->get_cache();
+		//wc_cache_get('wc_bom_posts');
 	}
 
 	public function get_post_objs( $query_args = null ) {
@@ -79,7 +78,7 @@ class WC_Bom_Calculate {
 
 		//var_dump( $this->post_data );
 
-		wp_cache_set( $key, $this->post_data );
+		wp_cache_set( 'wc_bom_posts', $this->post_data );
 
 		return $this->post_data;
 	}
@@ -88,6 +87,7 @@ class WC_Bom_Calculate {
 
 		$this->cache = wp_cache_get( $this->cache_keys[ $key ] );
 
+		var_dump($this->cache);
 		return $this->cache;
 	}
 
