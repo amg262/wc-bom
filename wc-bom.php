@@ -8,6 +8,13 @@
 
 namespace WooBom;
 /*
+ * Exit if accessed directly
+ */
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'No no no!' );
+}
+
+/*
 * Plugin Name: WooBOM - WooCommerce Bill of Materials
 * Plugin URI: http://andrewgunn.org
 * Description: Bill of Materials add-on for WooCommerce for raw material tracking, inventory, and production metrics.
