@@ -11,6 +11,7 @@ namespace WooBom;
 
 use function base64_encode;
 use function fclose;
+use function file_exists;
 use function file_get_contents;
 use function str_rot13;
 use function uniqid;
@@ -22,7 +23,7 @@ class WC_Bom_Logger {
 
 
 	public function __construct() {
-		//add_action( 'admin_init', [ $this, 'init' ] );
+		add_action( 'admin_init', [ $this, 'init' ] );
 
 		//$this->init();
 
@@ -34,7 +35,11 @@ class WC_Bom_Logger {
 
 		$this->make_dir( WC_BOM_LOGS );
 		//$this->write_file( date( 'mdy' ) . '_wcbom.log', " SSSBOOBS" );
-		$this->write_file( 'beta.key', $this->keygen(), WC_BOM_LOGS, true );
+
+		if ( ! file_exists( WC_BOM_LOGS . 'beta.key' ) ) {
+			$this->write_file( 'beta.key', $this->keygen(), WC_BOM_LOGS, true );
+		} else {
+		}
 
 	}
 

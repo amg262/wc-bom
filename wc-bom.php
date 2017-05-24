@@ -11,6 +11,8 @@ namespace WooBom;
 /*
  * Exit if accessed directly
  */
+use const WC_BOM_PASS;
+use function define;
 use function wp_enqueue_style;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -34,12 +36,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 *
 */
 global $wc_bom_options, $wc_bom_settings;
+
+define( 'WC_BOM_PASS', uniqid( 'wcb', true ) );
+
+define( 'WC_BOM_BETA_KEY', md5( WC_BOM_PASS ) );
 /**
  *
  */
 const WC_BOM_VERSION = '1.0.0';
-
-const WC_BOM_BETA_KEY = 'beta10';
 
 const WC_BOM_TABLE = 'woocommerce_bom';
 /**
@@ -79,14 +83,16 @@ const WC_BOM_ADMIN_EMAIL = 'andrewmgunn26@gmail.com';
  */
 class WC_Bom {
 
+	const WC_BOM_BETA_KEY = 'beta1';
 	/**
 	 * @var null
 	 */
 	protected static $instance = null;
 
 	private function __construct() {
-
 		$this->init();
+		//$this->delete_db();
+
 	}
 
 	/**
@@ -151,6 +157,8 @@ class WC_Bom {
 	public function install() {
 
 		global $wpdb;
+		global $wc_bom_settings;
+		$wc_bom_settings = ( 'wc_bom_settings' );
 
 		$table_name = $wpdb->prefix . WC_BOM_TABLE;
 
@@ -166,6 +174,10 @@ class WC_Bom {
 				);";
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+		if ( $wc_bom_settings['db_version'] === null ) {
+			update_option( 'wc_bom_settings', [ 'db_version' => WC_BOM_VERSION ] );
+		}
 		dbDelta( $sql );
 	}
 
@@ -271,6 +283,16 @@ class WC_Bom {
 		}
 
 		return static::$instance;
+	}
+
+	public function delete_db() {
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . 'woocommerce_bom';
+
+		$wpdb->query( "DROP TABLE IF EXISTS " . $table_name . "" );
+
+		//update_option( 'wc_bom_settings', [ 'db_version' => null ] );
 	}
 
 	public function acf_field_groups() {

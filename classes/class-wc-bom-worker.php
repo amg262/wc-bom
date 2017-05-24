@@ -8,6 +8,7 @@
 
 namespace WooBom;
 
+use function settings_errors;
 use function var_dump;
 
 /**
@@ -141,8 +142,9 @@ class WC_Bom_Worker {
 		include_once __DIR__ . '/class-wc-bom-logger.php';
 		$logger = new WC_Bom_Logger();
 		$opts   = null;
-		delete_option( WC_BOM_OPTIONS );
-		delete_option( WC_BOM_SETTINGS );
+
+		//delete_option( WC_BOM_OPTIONS );
+		//delete_option( WC_BOM_SETTINGS );
 
 
 		var_dump( $wc_bom_settings ); ?>
@@ -203,6 +205,9 @@ class WC_Bom_Worker {
                     <div class="inside acf-fields -left">
 
 
+                        <div>
+							<?php settings_errors(); ?>
+                        </div>
                         <!----------- COLUMN BREAK -------------->
 
                         <table class="form-table">
@@ -220,7 +225,7 @@ class WC_Bom_Worker {
                                     </label>
                                 </th>
                                 <td>
-                                    <input type="password"
+                                    <input type="text"
                                            title="wc_bom_settings[<?php _e( $key ); ?>]"
                                            id="wc_bom_settings[<?php _e( $key ); ?>]"
                                            name="wc_bom_settings[<?php _e( $key ); ?>]"
@@ -231,14 +236,23 @@ class WC_Bom_Worker {
 
 								<?php $betakey = $logger->return_file( 'beta.key' );
 								//var_dump( $logger );
+								var_dump( $betakey );
+								var_dump( $wc_bom_settings[ $key ] );
 
-								if ( $betakey === md5( $wc_bom_settings[ $key ] ) ) {
+								if ( $betakey === $wc_bom_settings[ $key ] ) {
 									echo 'time for icceama';
+									update_option( 'wc_bom_settings', [ $key => $wc_bom_settings[ $key ] ] );
+								} else {
+									settings_errors( 'Beta Key must be entered' );
+									update_option( 'wc_bom_settings', [ 'beta_key' => null ] );
+
+									//return;
 								}
 								?>
-								<?php var_dump( md5( $wc_bom_settings[ $key ] ) ); ?>
+								<?php //var_dump( md5( $wc_bom_settings[ $key ] ) ); ?>
                             </tr>
                             <!----------- OPTION ----------->
+
                             <tr>
 								<?php
 								$label = 'License Key';
@@ -257,7 +271,7 @@ class WC_Bom_Worker {
                                            id="wc_bom_settings[<?php _e( $key ); ?>]"
                                            name="wc_bom_settings[<?php _e( $key ); ?>]"
                                            style="width:100%;max-width:500px;"
-                                           value="<?php echo $wc_bom_settings[ $key ]; ?>"/>
+                                           value="<?php echo md5( $wc_bom_settings['beta_key'] ); ?>"/>
                                 </td>
 								<?php $key2 = $logger->return_file( 'license.key' );
 

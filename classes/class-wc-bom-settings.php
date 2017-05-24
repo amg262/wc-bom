@@ -225,7 +225,7 @@ class WC_Bom_Settings {//implements WC_Abstract_Settings {
 
                 </h2>
 
-				<?php settings_errors(); ?>
+				<?php  ?>
 
 
                 <form method="post" action="options.php">
