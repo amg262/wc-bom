@@ -31,17 +31,20 @@ class WC_Bom_Worker {
 
 		wp_enqueue_script( 'postbox' );
 
-		wp_enqueue_script( 'sweetalertjs', 'https://cdnjs.cloudflare.com/ajax/libs/' .
-		                                   'sweetalert/1.1.3/sweetalert.min.js' );
-		wp_enqueue_style( 'sweetalert_css', 'https://cdnjs.cloudflare.com/ajax/libs/' .
-		                                    'sweetalert/1.1.3/sweetalert.min.css' );
-		wp_enqueue_script( 'parsely_js', 'https://cdnjs.cloudflare.com/ajax/libs/' .
-		                                 'parsley.js/2.7.2/parsley.min.js' );
+		//wp_enqueue_script( 'sweetalertjs', 'https://cdnjs.cloudflare.com/ajax/libs/' .
+		//                                 'sweetalert/1.1.3/sweetalert.min.js' );
+		//wp_enqueue_style( 'sweetalert_css', 'https://cdnjs.cloudflare.com/ajax/libs/' .
+		//                                'sweetalert/1.1.3/sweetalert.min.css' );
+		//wp_enqueue_script( 'parsely_js', 'https://cdnjs.cloudflare.com/ajax/libs/' .
+		//                               'parsley.js/2.7.2/parsley.min.js' );
+		wp_enqueue_style( 'select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css' .
+		                             'sweetalert/1.1.3/sweetalert.min.css' );
+		//https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.js
+		//wp_enqueue_script( 'select222', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.js' );
+		wp_enqueue_script( 'select222', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.min.js' );
 
-		$ajax_data = [
-			'posts' => [ 'product', 'part', 'assembly' ],
-			'data'  => [],
-		];
+
+		$ajax_data = $this->get_data();
 
 		$ajax_object = [
 			'ajax_url'  => admin_url( 'admin-ajax.php' ),
@@ -52,6 +55,23 @@ class WC_Bom_Worker {
 		];
 		wp_localize_script( 'bom_adm_js', 'ajax_object', $ajax_object );
 		/* Output empty div. */
+	}
+
+	public function get_data() {
+
+		$args = [
+			'post_type'   => 'product',
+			'post_status' => 'publish',
+		];
+
+		$out   = [];
+		$posts = get_posts( $args );
+		foreach ( $posts as $p ) {
+			$out[] = [ 'id' => $p->ID, 'text' => $p->post_title ];
+		}
+		$json = json_encode($out);
+
+		return $json;
 	}
 
 	/**
@@ -125,7 +145,7 @@ class WC_Bom_Worker {
 		//delete_option( WC_BOM_SETTINGS );
 
 
-		var_dump( $wc_bom_settings ); ?>
+		//var_dump( $wc_bom_settings ); ?>
 
         <div id="postbox-container-1" class="postbox-container">
 
@@ -308,6 +328,14 @@ class WC_Bom_Worker {
                                             </strong>
                                         </p>
                                     </div>
+                                   <div>
+                                       <span class="button primary" id="button_hit" name="button_hit">
+                                           Generate Data
+                                       </span>
+                                        <div>
+                                            <span id="button_out"><hr></span>
+                                        </div>
+                                   </div>
 
                                 </td>
                             </tr>

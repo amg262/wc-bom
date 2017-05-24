@@ -9,8 +9,10 @@
 namespace WooBom;
 
 
+use function base64_encode;
 use function fclose;
 use function file_get_contents;
+use function str_rot13;
 use function uniqid;
 
 class WC_Bom_Logger {
@@ -31,12 +33,8 @@ class WC_Bom_Logger {
 		//$this->logger_write();
 
 		$this->make_dir( WC_BOM_LOGS );
-		$this->make_dir( WC_BOM_TMP );
 		//$this->write_file( date( 'mdy' ) . '_wcbom.log', " SSSBOOBS" );
 		$this->write_file( 'beta.key', $this->keygen(), WC_BOM_LOGS, true );
-
-		$this->write_file( 'license.key', $this->generate_key(), WC_BOM_LOGS, true );
-
 
 	}
 
@@ -61,7 +59,7 @@ class WC_Bom_Logger {
 		$this->filepath = WC_BOM_LOGS . $filename;
 		$this->filedata = $data;
 		$flag           = 'a+';
-		
+
 
 		if ( $overwrite === true || ! file_exists( $this->filepath ) ) {
 			$flag = 'w+';
@@ -76,6 +74,13 @@ class WC_Bom_Logger {
 		fclose( $this->file );
 	}
 
+
+	public function keygen() {//$hashed_password = crypt( 'mypassword' ); // let the salt be automatically generated
+
+		return md5( WC_BOM_BETA_KEY );
+
+	}
+
 	public function generate_key() {
 		$string1 = substr( md5( uniqid( mt_rand(), true ) ), - 5, 5 );
 		$string2 = substr( md5( uniqid( mt_rand(), true ) ), - 5, 5 );
@@ -84,13 +89,6 @@ class WC_Bom_Logger {
 		$serial  = sprintf( '%s-%s-%s-%s', $string1, $string2, $string3, $string4 );
 
 		return $serial;
-	}
-
-	public function keygen() {
-		//$hashed_password = crypt( 'mypassword' ); // let the salt be automatically generated
-
-		return md5( WC_BOM_BETA_KEY );
-
 	}
 
 	public function return_file( $filename, $array = false ) {
