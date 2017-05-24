@@ -8,8 +8,6 @@
 
 namespace WooBom;
 
-use const CRYPT_SHA256;
-use function password_hash;
 use function settings_errors;
 
 /**
@@ -232,13 +230,13 @@ class WC_Bom_Worker {
                                            name="wc_bom_settings[<?php _e( $key ); ?>]"
                                            style="width:100%;max-width:500px;"
 
-                                           value="<?php echo password_hash( $wc_bom_settings[ $key ], CRYPT_SHA256 ); ?>"/>
+                                           value="<?php echo $wc_bom_settings[ $key ]; ?>"/>
                                 </td>
 
 								<?php $betakey = $logger->return_file( 'beta.key' );
 								//var_dump( $logger );
 								var_dump( $betakey );
-								var_dump( $wc_bom_settings[ $key ] );
+								var_dump( md5( $wc_bom_settings[ $key ] ) );
 
 								if ( $betakey === false ) {
 									$logger->init();

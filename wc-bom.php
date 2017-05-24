@@ -91,7 +91,7 @@ class WC_Bom {
 
 	private function __construct() {
 		$this->init();
-		//$this->delete_db();
+		$this->delete_db();
 
 	}
 
@@ -139,14 +139,6 @@ class WC_Bom {
 		if ( $wc_bom_settings[ $key ] !== true ) {
 			add_option( WC_BOM_SETTINGS, [ $key => false ] );
 		}
-
-		$key             = 'db_version';
-		$wc_bom_settings = get_option( WC_BOM_SETTINGS );
-		if ( $wc_bom_settings[ $key ] !== true ) {
-			add_option( WC_BOM_SETTINGS, [ $key => WC_BOM_VERSION ] );
-		}
-
-
 		//delete_option( 'wc_bom_settings' );
 		//delete_option( 'wc_bom_options' );
 	}
@@ -158,24 +150,24 @@ class WC_Bom {
 
 		global $wpdb;
 		global $wc_bom_settings;
-		$wc_bom_settings = ( 'wc_bom_settings' );
+		$wc_bom_settings = get_option( 'wc_bom_settings' );
 
-		$table_name = $wpdb->prefix . WC_BOM_TABLE;
+		$table_name = $wpdb->prefix . 'woocommerce_bom';
 
 		$charset_collate = $wpdb->get_charset_collate();
 
 		$sql = "CREATE TABLE IF NOT EXISTS $table_name (
-					id mediumint(9) NOT NULL AUTO_INCREMENT,
+					id int(11) NOT NULL AUTO_INCREMENT,
 					time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 					name tinytext NOT NULL,
-					text text NOT NULL,
-					url varchar(100) DEFAULT '' NOT NULL,
+					data text NOT NULL,
+					url varchar(255) DEFAULT '' NOT NULL,
 					PRIMARY KEY  (id)
 				);";
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-		if ( $wc_bom_settings['db_version'] === null ) {
+		if ( null === $wc_bom_settings['db_version'] ) {
 			update_option( 'wc_bom_settings', [ 'db_version' => WC_BOM_VERSION ] );
 		}
 		dbDelta( $sql );
@@ -196,6 +188,7 @@ class WC_Bom {
 			$table_name,
 			[
 				'time' => current_time( 'mysql' ),
+				'name' => $welcome_name,
 				'data' => $welcome_name . ' ' . $welcome_text,
 				'url'  => 'http://andrewgunn.org',
 			]
@@ -273,6 +266,18 @@ class WC_Bom {
 		return true;
 	}
 
+	public function delete_db() {
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . 'woocommerce_bom';
+
+		$wpdb->query( "DROP TABLE IF EXISTS " . $table_name . "" );
+
+		delete_option( 'wc_bom_settings' );
+		delete_option( 'wc_bom_options' );
+		//update_option( 'wc_bom_settings', [ 'db_version' => null ] );
+	}
+
 	/**
 	 * @return null
 	 */
@@ -283,16 +288,6 @@ class WC_Bom {
 		}
 
 		return static::$instance;
-	}
-
-	public function delete_db() {
-		global $wpdb;
-
-		$table_name = $wpdb->prefix . 'woocommerce_bom';
-
-		$wpdb->query( "DROP TABLE IF EXISTS " . $table_name . "" );
-
-		//update_option( 'wc_bom_settings', [ 'db_version' => null ] );
 	}
 
 	public function acf_field_groups() {
@@ -309,21 +304,23 @@ class WC_Bom {
 
 		if ( $wc_bom_settings[ $key ] !== WC_BOM_VERSION ) {
 
-			$table_name = $wpdb->prefix . WC_BOM_TABLE;
+			$table_name = $wpdb->prefix . 'woocommerce_bom';
 
 			$sql = "CREATE TABLE IF NOT EXISTS $table_name (
-					id mediumint(9) NOT NULL AUTO_INCREMENT,
+					id int(11) NOT NULL AUTO_INCREMENT,
 					time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 					name tinytext NOT NULL,
-					text text NOT NULL,
-					url varchar(100) DEFAULT '' NOT NULL,
+					data text NOT NULL,
+					url varchar(255) DEFAULT '' NOT NULL,
 					PRIMARY KEY  (id)
 				);";
 
 			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+			update_option( WC_BOM_SETTINGS, [ $key => WC_BOM_VERSION ] );
+
+
 			dbDelta( $sql );
 
-			update_option( WC_BOM_SETTINGS, [ 'db_version' => $wc_bom_settings[ $key ] ] );
 		}
 	}
 
