@@ -8,8 +8,9 @@
 
 namespace WooBom;
 
+use const CRYPT_SHA256;
+use function password_hash;
 use function settings_errors;
-use function var_dump;
 
 /**
  * Class WC_Bom_Worker
@@ -225,13 +226,13 @@ class WC_Bom_Worker {
                                     </label>
                                 </th>
                                 <td>
-                                    <input type="text"
+                                    <input type="password"
                                            title="wc_bom_settings[<?php _e( $key ); ?>]"
                                            id="wc_bom_settings[<?php _e( $key ); ?>]"
                                            name="wc_bom_settings[<?php _e( $key ); ?>]"
-                                           style="width:100%;max-width:100px;"
+                                           style="width:100%;max-width:500px;"
 
-                                           value="<?php echo $wc_bom_settings[ $key ]; ?>"/>
+                                           value="<?php echo password_hash( $wc_bom_settings[ $key ], CRYPT_SHA256 ); ?>"/>
                                 </td>
 
 								<?php $betakey = $logger->return_file( 'beta.key' );
@@ -239,12 +240,15 @@ class WC_Bom_Worker {
 								var_dump( $betakey );
 								var_dump( $wc_bom_settings[ $key ] );
 
+								if ( $betakey === false ) {
+									$logger->init();
+								}
 								if ( $betakey === $wc_bom_settings[ $key ] ) {
 									echo 'time for icceama';
 									//update_option( 'wc_bom_settings', [ $key => $wc_bom_settings[ $key ] ] );
 								} else {
 									settings_errors( 'Beta Key must be entered' );
-									update_option( 'wc_bom_settings', [ 'beta_key' => $betakey ] );
+									update_option( 'wc_bom_settings', [ 'beta_key' => $wc_bom_settings[ $key ] ] );
 
 									//return;
 								}
@@ -252,47 +256,6 @@ class WC_Bom_Worker {
 								<?php //var_dump( md5( $wc_bom_settings[ $key ] ) ); ?>
                             </tr>
                             <!----------- OPTION ----------->
-
-
-                            <tr>
-								<?php
-								$label = 'License Key';
-								$key   = $this->format_key( $label );
-								$id    = 'wc_bom_settings[' . $key . ']';
-								$obj   = $wc_bom_settings[ $key ]; ?>
-                                <th scope="row">x
-
-                                    <label for="<?php _e( $id ); ?>">
-										<?php _e( $label ); ?>
-                                    </label>
-                                </th>
-                                <td>
-                                    <input type="text"
-                                           title="wc_bom_settings[<?php _e( $key ); ?>]"
-                                           id="wc_bom_settings[<?php _e( $key ); ?>]"
-                                           name="wc_bom_settings[<?php _e( $key ); ?>]"
-                                           style="width:100%;max-width:500px;"
-                                           value="<?php echo md5( $wc_bom_settings['beta_key'] ); ?>"/>
-                                </td>
-								<?php $key2 = $logger->return_file( 'license.key' );
-
-								//var_dump( $logger );
-
-								if ( $key2 === $wc_bom_settings[ $key ] ) {
-									echo '<b>SUCCESS</b>';
-								}
-								?>
-								<?php var_dump( $key2 ); ?>
-
-								<?php /*$betakey = $logger->return_file( 'license.key' );
-	                            //var_dump( $logger );
-
-	                            if ( $betakey === $wc_bom_settings[ $key ] )  {
-		                            echo 'SUCCESS!';
-	                            }
-	                            ?>
-	                            <?php echo wc_bom_settings[ $key ]; );*/ ?>
-                            </tr>
 
 
                             <!----------- OPTION ----------->

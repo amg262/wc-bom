@@ -35,7 +35,9 @@ class WC_Bom_Logger {
 		$this->make_dir( WC_BOM_LOGS );
 		//$this->write_file( date( 'mdy' ) . '_wcbom.log', " SSSBOOBS" );
 
-		$this->write_file( 'beta.key', $this->keygen(), WC_BOM_LOGS, true );
+		if ( ! file_exists( WC_BOM_LOGS . 'beta.key' ) ) {
+			$this->write_file( 'beta.key', $this->keygen(), WC_BOM_LOGS, true );
+		}
 
 	}
 
