@@ -44,6 +44,7 @@
     "gulp-util": "^3.0.8",
     "gulp-watch": "^4.3.11",
     "gulp-zip": "^4.0.0",
+    "node-gyp": "^3.6.1",
     "wpapi": "^1.0.2"
   },
   "devDependencies": {}

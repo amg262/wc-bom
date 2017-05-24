@@ -116,3 +116,4 @@ gulp.task("watch", function () {
 gulp.task("default", ["purge", "imagemin", "cssnano", "uglify", "serve", "watch"]);
 gulp.task("clean", ["purge", "imagemin", "cssnano", "uglify", "zip"]);
 gulp.task("live", ["serve", "watch"]);
+

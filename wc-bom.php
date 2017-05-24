@@ -7,14 +7,20 @@
  */
 
 namespace WooBom;
+
 /*
  * Exit if accessed directly
  */
+use function wp_enqueue_style;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'No no no!' );
 }
 
 /*
+*
+*
+*
 * Plugin Name: WooBOM - WooCommerce Bill of Materials
 * Plugin URI: http://andrewgunn.org
 * Description: Bill of Materials add-on for WooCommerce for raw material tracking, inventory, and production metrics.
@@ -23,6 +29,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 * Author URI: https/andrewgunn.org
 * Text Domain: wc-bom
 * License: license.txt
+*
+*
+*
 */
 global $wc_bom_options, $wc_bom_settings;
 /**
@@ -32,6 +41,7 @@ const WC_BOM_VERSION = '1.0.0';
 
 const WC_BOM_BETA_KEY = 'beta10';
 
+const WC_BOM_TABLE = 'woocommerce_bom';
 /**
  *
  */
@@ -84,11 +94,14 @@ class WC_Bom {
 	 */
 	public function init() {
 
+		$this->create_options();
+		$this->install();
+		$this->install_data();
 		$this->load_classes();
 		$this->require_woocommerce();
 		$this->require_acf();
 
-		add_action( 'admin_init', [ $this, 'create_options' ] );
+		//add_action( 'admin_init', [ $this, 'create_options' ] );
 		add_action( 'init', [ $this, 'load_assets' ] );
 		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
 
@@ -100,6 +113,81 @@ class WC_Bom {
 		//flush_rewrite_rules();
 		//
 //var_dump($settings);
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function create_options() {
+
+		global $wc_bom_options;
+		global $wc_bom_settings;
+
+		$key            = 'init';
+		$wc_bom_options = get_option( WC_BOM_OPTIONS );
+		if ( $wc_bom_options[ $key ] !== true ) {
+			add_option( WC_BOM_OPTIONS, [ $key => true ] );
+		}
+		$key             = 'setup';
+		$wc_bom_settings = get_option( WC_BOM_SETTINGS );
+		if ( $wc_bom_settings[ $key ] !== true ) {
+			add_option( WC_BOM_SETTINGS, [ $key => false ] );
+		}
+
+		$key             = 'db_version';
+		$wc_bom_settings = get_option( WC_BOM_SETTINGS );
+		if ( $wc_bom_settings[ $key ] !== true ) {
+			add_option( WC_BOM_SETTINGS, [ $key => WC_BOM_VERSION ] );
+		}
+
+
+		//delete_option( 'wc_bom_settings' );
+		//delete_option( 'wc_bom_options' );
+	}
+
+	/**
+	 *
+	 */
+	public function install() {
+
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . WC_BOM_TABLE;
+
+		$charset_collate = $wpdb->get_charset_collate();
+
+		$sql = "CREATE TABLE IF NOT EXISTS $table_name (
+					id mediumint(9) NOT NULL AUTO_INCREMENT,
+					time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+					name tinytext NOT NULL,
+					text text NOT NULL,
+					url varchar(100) DEFAULT '' NOT NULL,
+					PRIMARY KEY  (id)
+				);";
+
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		dbDelta( $sql );
+	}
+
+	/**
+	 *
+	 */
+	public function install_data() {
+		global $wpdb;
+
+		$welcome_name = 'Mr. WordPress';
+		$welcome_text = 'Congratulations, you just completed the installation!';
+
+		$table_name = $wpdb->prefix . WC_BOM_TABLE;
+
+		$wpdb->insert(
+			$table_name,
+			[
+				'time' => current_time( 'mysql' ),
+				'data' => $welcome_name . ' ' . $welcome_text,
+				'url'  => 'http://andrewgunn.org',
+			]
+		);
 	}
 
 	/**
@@ -189,30 +277,33 @@ class WC_Bom {
 
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function create_options() {
-
-		global $wc_bom_options;
+	public function upgrade_data() {
+		global $wpdb;
 		global $wc_bom_settings;
+		global $wc_bom_options;
 
-		$key            = 'init';
-		$wc_bom_options = get_option( WC_BOM_OPTIONS );
-		if ( $wc_bom_options[ $key ] !== true ) {
-			add_option( WC_BOM_OPTIONS, [ $key => true ] );
-		}
-		$key             = 'setup';
+		$key             = 'db_version';
 		$wc_bom_settings = get_option( WC_BOM_SETTINGS );
-		if ( $wc_bom_settings[ $key ] !== true ) {
-			add_option( WC_BOM_SETTINGS, [ $key => false ] );
+
+		if ( $wc_bom_settings[ $key ] !== WC_BOM_VERSION ) {
+
+			$table_name = $wpdb->prefix . WC_BOM_TABLE;
+
+			$sql = "CREATE TABLE IF NOT EXISTS $table_name (
+					id mediumint(9) NOT NULL AUTO_INCREMENT,
+					time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+					name tinytext NOT NULL,
+					text text NOT NULL,
+					url varchar(100) DEFAULT '' NOT NULL,
+					PRIMARY KEY  (id)
+				);";
+
+			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+			dbDelta( $sql );
+
+			update_option( WC_BOM_SETTINGS, [ 'db_version' => $wc_bom_settings[ $key ] ] );
 		}
-
-
-		//delete_option( 'wc_bom_settings' );
-		//delete_option( 'wc_bom_options' );
 	}
-
 
 	/**
 	 *
@@ -225,8 +316,20 @@ class WC_Bom {
 		//wp_register_script( 'api_js', plugins_url( $url . 'wc-bom-api.min.js', __FILE__ ) );
 		wp_register_script( 'wp_js', plugins_url( $url . 'wc-bom-wp.min.js', __FILE__ ) );
 		wp_register_style( 'bom_css', plugins_url( $url2 . 'wc-bom.min.css', __FILE__ ) );
+		wp_register_script( 'chosen_js',
+			'https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.jquery.min.js' );
+		wp_register_style( 'chosen_css',
+			'https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.min.css' );
+
+		wp_enqueue_script( 'postbox' );
+
+		wp_enqueue_script( 'sweetalertjs', 'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js' );
+		wp_enqueue_style( 'sweetalert_css', 'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css' );
+
 		wp_enqueue_script( 'bom_js' );
 		wp_enqueue_script( 'bom_adm_js' );
+		wp_enqueue_script( 'chosen_js' );
+		wp_enqueue_style( 'chosen_css' );
 		//wp_enqueue_script( 'ajax_js' );
 		//wp_enqueue_script( 'api_js' );
 		//wp_enqueue_script( 'wp_js' );
@@ -241,7 +344,10 @@ class WC_Bom {
 	 *
 	 * @return array
 	 */
-	public function plugin_links( $actions, $plugin_file ) {
+	public
+	function plugin_links(
+		$actions, $plugin_file
+	) {
 		static $plugin;
 
 		if ( $plugin === null ) {

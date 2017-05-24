@@ -12,6 +12,12 @@
 /**
  * Created by andy on 2/9/17.
  */
+
+var product = null;
+var data = null;
+var val = null;
+var id = null;
+
 jQuery(document).ready(function ($) {
 
 
@@ -22,15 +28,50 @@ jQuery(document).ready(function ($) {
 // HTML
     //var bar = new ProgressBar.Line('#container', {easing: 'easeInOut'});
     //bar.animate(1);  // Value from 0.0 to 1.0
+    $(".chosen-select").chosen();
 
-    var data = {
-        'url': ajax_object.ajax_url,
-        'action': 'wco_ajax',
-        'security': ajax_object.nonce,
-        'ajax_data': ajax_object.ajax_data
-        //'data':ajax_object     // We pass php values differently!
-        //'security':ajax_object.nonce
-    };
+    $("#prod-select").change(function () {
+        val = $("#prod-select").val();
+        $('#prod_select_chosen').attr('value', val);
+        console.log($('#prod_select_chosen').val());
+        console.log(val);
+    });
+
+    //$("#form_field").chosen().change( … );
+    //$("#form_field").trigger("chosen:updated");
+
+    $('#button_hit').click(function () {
+        var data = {
+            'url': ajax_object.ajax_url,
+            'action': 'wco_ajax',
+            'security': ajax_object.nonce,
+            'product': val
+        };
+
+        console.log(data);
+
+        sweetAlert({
+                title: "Export Product's BOM?",
+                text: "Submit to run ajax request",
+                type: "info",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true,
+            },
+            function () {
+
+                // We can also pass the url value separately from ajaxurl for front end AJAX implementations
+                jQuery.post(ajax_object.ajax_url, data, function (response) {
+
+                    $('#prod_output').html(response)
+                    setTimeout(function () {
+                        swal("Finished");
+                    });
+                    //alert('seRespon ' + response);
+                });
+            });
+
+    });
 
     $('#form_ajax_update').click(function (e) {
         var data = {
@@ -38,15 +79,12 @@ jQuery(document).ready(function ($) {
             'action': 'wco_ajax',
             'security': ajax_object.nonce,
             'ajax_data': ajax_object.ajax_data,
-            'data': [],
-            'postdata': ['posts']
-            //'data':ajax_object     // We pass php values differently!
-            //'security':ajax_object.nonce
+
         };
 
         console.log(data);
 
-        /*sweetAlert({
+        sweetAlert({
                 title: "Ajax request example",
                 text: "Submit to run ajax request",
                 type: "info",
@@ -66,7 +104,7 @@ jQuery(document).ready(function ($) {
                     });
                     //alert('seRespon ' + response);
                 });
-            });*/
+            });
     });
     /*$('#form_ajax_update').click(function (e) {
      var data = {
