@@ -8,7 +8,6 @@
 
 namespace WooBom;
 
-use function settings_errors;
 
 /**
  * Class WC_Bom_Worker
@@ -138,9 +137,9 @@ class WC_Bom_Worker {
 		$wc_bom_settings = get_option( 'wc_bom_settings' );
 		// Enqueue Media Library Use
 		wp_enqueue_media();
-		include_once __DIR__ . '/class-wc-bom-logger.php';
-		$logger = new WC_Bom_Logger();
-		$opts   = null;
+		//include_once __DIR__ . '/class-wc-bom-logger.php';
+		//$logger = new WC_Bom_Logger();
+		//$opts   = null;
 
 		//delete_option( WC_BOM_OPTIONS );
 		//delete_option( WC_BOM_SETTINGS );
@@ -212,48 +211,7 @@ class WC_Bom_Worker {
                         <table class="form-table">
                             <tbody>
 
-                            <tr>
-								<?php
-								$label = 'Beta Key';
-								$key   = $this->format_key( $label );
-								$id    = 'wc_bom_settings[' . $key . ']';
-								$obj   = $wc_bom_settings[ $key ]; ?>
-                                <th scope="row">
-                                    <label for="<?php _e( $id ); ?>">
-										<?php _e( $label ); ?>
-                                    </label>
-                                </th>
-                                <td>
-                                    <input type="password"
-                                           title="wc_bom_settings[<?php _e( $key ); ?>]"
-                                           id="wc_bom_settings[<?php _e( $key ); ?>]"
-                                           name="wc_bom_settings[<?php _e( $key ); ?>]"
-                                           style="width:100%;max-width:500px;"
 
-                                           value="<?php echo $wc_bom_settings[ $key ]; ?>"/>
-                                </td>
-
-								<?php $betakey = $logger->return_file( 'beta.key' );
-								//var_dump( $logger );
-								var_dump( $betakey );
-								var_dump( md5( $wc_bom_settings[ $key ] ) );
-
-								if ( $betakey === false ) {
-									$logger->init();
-								}
-								if ( $betakey === $wc_bom_settings[ $key ] ) {
-									echo 'time for icceama';
-									//update_option( 'wc_bom_settings', [ $key => $wc_bom_settings[ $key ] ] );
-								} else {
-									settings_errors( 'Beta Key must be entered' );
-									update_option( 'wc_bom_settings', [ 'beta_key' => $wc_bom_settings[ $key ] ] );
-
-									//return;
-								}
-								?>
-								<?php //var_dump( md5( $wc_bom_settings[ $key ] ) ); ?>
-                            </tr>
-                            <!----------- OPTION ----------->
 
 
                             <!----------- OPTION ----------->

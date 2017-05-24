@@ -12,7 +12,6 @@ namespace WooBom;
  * Exit if accessed directly
  */
 use const WC_BOM_PASS;
-use function define;
 use function wp_enqueue_style;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -37,9 +36,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 */
 global $wc_bom_options, $wc_bom_settings;
 
-define( 'WC_BOM_PASS', uniqid( 'wcb', true ) );
-
-define( 'WC_BOM_BETA_KEY', md5( WC_BOM_PASS ) );
+const WC_BOM_BETA_KEY = 'beta1';
 /**
  *
  */
@@ -91,7 +88,7 @@ class WC_Bom {
 
 	private function __construct() {
 		$this->init();
-		$this->delete_db();
+		//$this->delete_db();
 
 	}
 

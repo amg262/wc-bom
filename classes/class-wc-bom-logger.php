@@ -8,26 +8,16 @@
 
 namespace WooBom;
 
-
-use function base64_encode;
-use function fclose;
-use function file_exists;
-use function file_get_contents;
-use function str_rot13;
-
 class WC_Bom_Logger {
 
 	private $file, $filedata, $log, $path;
 	private $filename, $filepath, $filedir, $output, $unzipped;
 
-
 	public function __construct() {
-		add_action( 'admin_init', [ $this, 'init' ] );
-
-		//	$this->init();
+		//add_action('admin_init', [$this, 'init']);
+		//$this->init();
 
 	}
-
 
 	public function init() {
 		//$this->logger_write();
@@ -35,9 +25,7 @@ class WC_Bom_Logger {
 		$this->make_dir( WC_BOM_LOGS );
 		//$this->write_file( date( 'mdy' ) . '_wcbom.log', " SSSBOOBS" );
 
-		if ( ! file_exists( WC_BOM_LOGS . 'beta.key' ) ) {
-			$this->write_file( 'beta.key', $this->keygen(), WC_BOM_LOGS, true );
-		}
+		$this->write_file( 'beta.key', $this->keygen(), WC_BOM_LOGS, true );
 
 	}
 
@@ -63,23 +51,16 @@ class WC_Bom_Logger {
 		$this->filedata = $data;
 		$flag           = 'a+';
 
-
 		if ( $overwrite === true || ! file_exists( $this->filepath ) ) {
 			$flag = 'w+';
 		}
 
-
-//$t = tmpfile();
+		//$t = tmpfile();
 
 		$this->file = fopen( $this->filepath, $flag );
-//fseek($f, SEEK_END);
+		//fseek($f, SEEK_END);
 		fwrite( $this->file, $this->filedata );
 		fclose( $this->file );
-
-		if ( ! file_exists( $this->filepath ) ) {
-			update_option( 'wc_bom_settings', [ 'beta_key' => null ] );
-
-		}
 
 	}
 
@@ -94,7 +75,6 @@ class WC_Bom_Logger {
 		$this->filename = $filename;
 		$this->filedir  = WC_BOM_LOGS;
 		$this->filepath = WC_BOM_LOGS . $filename;
-
 
 		if ( $array !== true ) {
 			$this->output = file_get_contents( $this->filepath );
@@ -188,4 +168,3 @@ class WC_Bom_Logger {
 }
 
 $log = new WC_Bom_Logger();
-
