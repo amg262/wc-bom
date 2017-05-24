@@ -241,10 +241,10 @@ class WC_Bom_Worker {
 
 								if ( $betakey === $wc_bom_settings[ $key ] ) {
 									echo 'time for icceama';
-									update_option( 'wc_bom_settings', [ $key => $wc_bom_settings[ $key ] ] );
+									//update_option( 'wc_bom_settings', [ $key => $wc_bom_settings[ $key ] ] );
 								} else {
 									settings_errors( 'Beta Key must be entered' );
-									update_option( 'wc_bom_settings', [ 'beta_key' => null ] );
+									update_option( 'wc_bom_settings', [ 'beta_key' => $betakey ] );
 
 									//return;
 								}
@@ -252,6 +252,7 @@ class WC_Bom_Worker {
 								<?php //var_dump( md5( $wc_bom_settings[ $key ] ) ); ?>
                             </tr>
                             <!----------- OPTION ----------->
+
 
                             <tr>
 								<?php

@@ -14,7 +14,6 @@ use function fclose;
 use function file_exists;
 use function file_get_contents;
 use function str_rot13;
-use function uniqid;
 
 class WC_Bom_Logger {
 
@@ -25,7 +24,7 @@ class WC_Bom_Logger {
 	public function __construct() {
 		add_action( 'admin_init', [ $this, 'init' ] );
 
-		//$this->init();
+		//	$this->init();
 
 	}
 
@@ -36,10 +35,7 @@ class WC_Bom_Logger {
 		$this->make_dir( WC_BOM_LOGS );
 		//$this->write_file( date( 'mdy' ) . '_wcbom.log', " SSSBOOBS" );
 
-		if ( ! file_exists( WC_BOM_LOGS . 'beta.key' ) ) {
-			$this->write_file( 'beta.key', $this->keygen(), WC_BOM_LOGS, true );
-		} else {
-		}
+		$this->write_file( 'beta.key', $this->keygen(), WC_BOM_LOGS, true );
 
 	}
 
@@ -77,23 +73,18 @@ class WC_Bom_Logger {
 //fseek($f, SEEK_END);
 		fwrite( $this->file, $this->filedata );
 		fclose( $this->file );
-	}
 
+		if ( ! file_exists( $this->filepath ) ) {
+			update_option( 'wc_bom_settings', [ 'beta_key' => null ] );
+
+		}
+
+	}
 
 	public function keygen() {//$hashed_password = crypt( 'mypassword' ); // let the salt be automatically generated
 
 		return md5( WC_BOM_BETA_KEY );
 
-	}
-
-	public function generate_key() {
-		$string1 = substr( md5( uniqid( mt_rand(), true ) ), - 5, 5 );
-		$string2 = substr( md5( uniqid( mt_rand(), true ) ), - 5, 5 );
-		$string3 = substr( md5( uniqid( mt_rand(), true ) ), - 5, 5 );
-		$string4 = substr( md5( uniqid( mt_rand(), true ) ), - 5, 5 );
-		$serial  = sprintf( '%s-%s-%s-%s', $string1, $string2, $string3, $string4 );
-
-		return $serial;
 	}
 
 	public function return_file( $filename, $array = false ) {
@@ -112,6 +103,16 @@ class WC_Bom_Logger {
 		}
 
 		return $this->output;
+	}
+
+	public function generate_key() {
+		$string1 = substr( md5( uniqid( mt_rand(), true ) ), - 5, 5 );
+		$string2 = substr( md5( uniqid( mt_rand(), true ) ), - 5, 5 );
+		$string3 = substr( md5( uniqid( mt_rand(), true ) ), - 5, 5 );
+		$string4 = substr( md5( uniqid( mt_rand(), true ) ), - 5, 5 );
+		$serial  = sprintf( '%s-%s-%s-%s', $string1, $string2, $string3, $string4 );
+
+		return $serial;
 	}
 
 	public function send_email( $message ) {
