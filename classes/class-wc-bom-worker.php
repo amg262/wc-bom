@@ -145,7 +145,8 @@ class WC_Bom_Worker {
 		//delete_option( WC_BOM_SETTINGS );
 
 
-		var_dump( $wc_bom_settings ); ?>
+		var_dump( $wc_bom_settings );
+        var_dump( $wc_bom_options ); ?>
 
         <div id="postbox-container-1" class="postbox-container">
 
@@ -216,13 +217,13 @@ class WC_Bom_Worker {
 
                             <!----------- OPTION ----------->
                             <tr>
-								<?php $label = 'Enable Beta'; ?>
-								<?php $key = $this->format_key( $label ); ?>
-								<?php $opt = $wc_bom_settings[ $key ]; ?>
+	                            <?php $label = 'Enable Beta'; ?>
+	                            <?php $key = $this->format_key( $label ); ?>
+	                            <?php $opt = $wc_bom_settings[ $key ]; ?>
                                 <th scope="row">
 
                                     <label for="<?php _e( $key ); ?>">
-										<?php _e( $label ); ?>
+			                            <?php _e( $label ); ?>
                                     </label>
                                 </th>
                                 <td>
@@ -230,7 +231,26 @@ class WC_Bom_Worker {
                                            id="wc_bom_settings[<?php _e( $key ); ?>]"
                                            name="wc_bom_settings[<?php _e( $key ); ?>]"
                                            value="1"
-										<?php checked( 1, $wc_bom_settings[ $key ], true ); ?> />
+			                            <?php checked( 1, $wc_bom_settings[ $key ], true ); ?> />
+                                </td>
+                            </tr>
+                            <!----------- OPTION ----------->
+                            <tr>
+	                            <?php $label = 'Enable Beta2'; ?>
+	                            <?php $key = $this->format_key( $label ); ?>
+	                            <?php $opt = $wc_bom_settings[ $key ]; ?>
+                                <th scope="row">
+
+                                    <label for="<?php _e( $key ); ?>">
+			                            <?php _e( $label ); ?>
+                                    </label>
+                                </th>
+                                <td>
+                                    <input type="checkbox"
+                                           id="wc_bom_settings[<?php _e( $key ); ?>]"
+                                           name="wc_bom_settings[<?php _e( $key ); ?>]"
+                                           value="1"
+			                            <?php checked( 1, $wc_bom_settings[ $key ], true ); ?> />
                                 </td>
                             </tr>
                             <!----------- OPTION ----------->

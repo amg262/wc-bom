@@ -9,7 +9,6 @@
 namespace WooBom;
 
 
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'No no no!' );
 }
@@ -114,17 +113,13 @@ class WC_Bom {
 	}
 
 
-
 	/**
 	 *
 	 */
 	public function install() {
 
 		global $wpdb;
-		global $wc_bom_settings;
-		$wc_bom_settings = get_option( 'wc_bom_settings' );
-
-		$table_name = $wpdb->prefix . 'woocommerce_bom';
+	$table_name = $wpdb->prefix . 'woocommerce_bom';
 
 		$charset_collate = $wpdb->get_charset_collate();
 
@@ -139,32 +134,9 @@ class WC_Bom {
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-		if ( $wc_bom_settings['db_version'] ) {
-			update_option( 'wc_bom_settings', [ 'db_version' => WC_BOM_VERSION ] );
-		}
+		add_option( 'wc_bom_options', [ 'db' => WC_BOM_VERSION, 'init'=>true]);
+
 		dbDelta( $sql );
-	}
-
-	/**
-	 *
-	 */
-	public function install_data() {
-		global $wpdb;
-
-		$welcome_name = 'Mr. WordPress';
-		$welcome_text = 'Congratulations, you just completed the installation!';
-
-		$table_name = $wpdb->prefix . WC_BOM_TABLE;
-
-		$wpdb->insert(
-			$table_name,
-			[
-				'time' => current_time( 'mysql' ),
-				'name' => $welcome_name,
-				'data' => $welcome_name . ' ' . $welcome_text,
-				'url'  => 'http://andrewgunn.org',
-			]
-		);
 	}
 
 	/**
@@ -238,18 +210,6 @@ class WC_Bom {
 		return true;
 	}
 
-	public function delete_db() {
-		global $wpdb;
-
-		$table_name = $wpdb->prefix . 'woocommerce_bom';
-
-		$wpdb->query( "DROP TABLE IF EXISTS " . $table_name . "" );
-
-		delete_option( 'wc_bom_settings' );
-		delete_option( 'wc_bom_options' );
-		//update_option( 'wc_bom_settings', [ 'db_version' => null ] );
-	}
-
 	/**
 	 * @return null
 	 */
@@ -260,6 +220,40 @@ class WC_Bom {
 		}
 
 		return static::$instance;
+	}
+
+	/**
+	 *
+	 */
+	public function install_data() {
+		global $wpdb;
+
+		$welcome_name = 'Mr. WordPress';
+		$welcome_text = 'Congratulations, you just completed the installation!';
+
+		$table_name = $wpdb->prefix . WC_BOM_TABLE;
+
+		$wpdb->insert(
+			$table_name,
+			[
+				'time' => current_time( 'mysql' ),
+				'name' => $welcome_name,
+				'data' => $welcome_name . ' ' . $welcome_text,
+				'url'  => 'http://andrewgunn.org',
+			]
+		);
+	}
+
+	public function delete_db() {
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . 'woocommerce_bom';
+
+		$wpdb->query( "DROP TABLE IF EXISTS " . $table_name . "" );
+
+		delete_option( 'wc_bom_settings' );
+		delete_option( 'wc_bom_options' );
+		//update_option( 'wc_bom_settings', [ 'db_version' => null ] );
 	}
 
 	public function acf_field_groups() {
