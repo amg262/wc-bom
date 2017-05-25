@@ -75,10 +75,7 @@ const WC_BOM_ADMIN_EMAIL = 'andrewmgunn26@gmail.com';
  */
 class WC_Bom {
 
-	const WC_BOM_BETA_KEY = 'beta1';
-	/**
-	 * @var null
-	 */
+
 	protected static $instance = null;
 
 	private function __construct() {
@@ -93,6 +90,7 @@ class WC_Bom {
 	public function init() {
 
 		$this->install();
+		$this->upgrade_data();
 		//$this->install_data();
 		$this->load_classes();
 		$this->require_woocommerce();
@@ -106,10 +104,7 @@ class WC_Bom {
 		$settings = WC_Bom_Settings::getInstance();
 		$post     = WC_Bom_Post::getInstance();
 
-		//include_once 'uninstall.php';
-		//flush_rewrite_rules();
-		//
-//var_dump($settings);
+
 	}
 
 
@@ -134,7 +129,7 @@ class WC_Bom {
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-		add_option( 'wc_bom_options', [ 'db' => WC_BOM_VERSION, 'init'=>true]);
+		add_option( 'wc_bom_options', [ 'db_version' => WC_BOM_VERSION, 'init'=>true]);
 
 		dbDelta( $sql );
 	}
@@ -262,13 +257,12 @@ class WC_Bom {
 
 	public function upgrade_data() {
 		global $wpdb;
-		global $wc_bom_settings;
 		global $wc_bom_options;
 
 		$key             = 'db_version';
-		$wc_bom_settings = get_option( 'wc_bom_settings' );
+		$wc_bom_options = get_option( 'wc_bom_options' );
 
-		if ( $wc_bom_settings[ $key ] !== WC_BOM_VERSION ) {
+		if ( $wc_bom_options[ $key ] !== WC_BOM_VERSION ) {
 
 			$table_name = $wpdb->prefix . 'woocommerce_bommah';
 
