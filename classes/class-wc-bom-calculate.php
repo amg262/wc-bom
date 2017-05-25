@@ -11,10 +11,8 @@ namespace WooBom;
 global $postdata_cache;
 
 
-use function wp_cache_delete;
-use function wp_cache_flush;
-use function wp_cache_set;
-use function wp_parse_args;
+use function get_sub_field;
+use function json_encode;
 
 class WC_Bom_Calculate {
 
@@ -22,10 +20,8 @@ class WC_Bom_Calculate {
 	 * @var null
 	 */
 
-	private $post_types = [];
-	private $post_data = [];
-	private $cache_keys = [];
-	private $cache;
+	private $posts = [];
+	private $json = [];
 
 	public function __construct() {
 
@@ -41,60 +37,42 @@ class WC_Bom_Calculate {
 		//wc_cache_get('wc_bom_posts');
 	}
 
-	public function get_post_objs( $query_args = null ) {
+	public function get_single_product( $prod_ID ) {
 
-		$defaults = [
-			'post_types'       => [ 'part', 'assembly', 'product' ],
-			'meta_keys'        => [ 'key' ],
-			'meta_values'      => [ 'value' ],
+		$prod = $this->get_post_objs( $prod_ID, 'product' );
+		$objs = [];
+		if ( have_rows( 'material' ) ):
+
+			while ( have_rows( 'material' ) ) : the_row();
+
+				$objs[] = [ 'obj' => get_sub_field( 'assembly' ), 'qty' => get_sub_field( 'qty' ) ];
+
+			endwhile;
+
+		endif;
+
+		return $objs;
+
+
+	}
+
+	public function get_post_objs( $id, $type, $title = null ) {
+
+		$args = [
+			'ID'               => $id,
+			'post_title'       => $title,
+			'post_types'       => $type,
 			'posts_per_page'   => - 1,
 			'post_status'      => 'publish',
 			'suppress_filters' => true,
-
 		];
 
-		// Parse incoming $args into an array and merge it with $defaults
-		$args = wp_parse_args( $query_args, $defaults );
+		$posts = get_posts( $args );
 
-		if ( $query_args === null ) {
-			$args = $defaults;
-		}
-		$key                = 'wc_bom_postdata';
-		$this->cache_keys[] = $key;
+		$this->posts = $posts;
+		$this->json  = json_encode( $posts );
 
-		$this->post_types = (array) $args['post_types'];
-
-		foreach ( $this->post_types as $post_type ) {
-			$post_args = [
-				'post_type'        => $post_type,
-				'posts_per_page'   => $args['posts_per_page'],
-				'post_status'      => $args['post_status'],
-				'suppress_filters' => $args['suppress_filters'],
-			];
-
-			$this->post_data[] = get_posts( $post_args );
-		}
-
-
-		//var_dump( $this->post_data );
-
-		wp_cache_set( 'wc_bom_posts', $this->post_data );
-
-		return $this->post_data;
-	}
-
-	public function get_cache( $key = 0 ) {
-
-		$this->cache = wp_cache_get( $this->cache_keys[ $key ] );
-
-		var_dump($this->cache);
-		return $this->cache;
-	}
-
-	public function flush_cache( $key = 0 ) {//$key = null) {
-
-		wp_cache_delete( $this->cache_keys[ $key ] );
-		wp_cache_flush();
+		return $this->posts;
 	}
 
 	public function get_single_assembly( $assembly_ID ) {
