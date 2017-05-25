@@ -8,11 +8,7 @@
 
 namespace WooBom;
 
-/*
- * Exit if accessed directly
- */
-use const WC_BOM_PASS;
-use function wp_enqueue_style;
+
 
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'No no no!' );
@@ -97,9 +93,8 @@ class WC_Bom {
 	 */
 	public function init() {
 
-		$this->create_options();
 		$this->install();
-		$this->install_data();
+		//$this->install_data();
 		$this->load_classes();
 		$this->require_woocommerce();
 		$this->require_acf();
@@ -118,27 +113,7 @@ class WC_Bom {
 //var_dump($settings);
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function create_options() {
 
-		global $wc_bom_options;
-		global $wc_bom_settings;
-
-		$key            = 'init';
-		$wc_bom_options = get_option( WC_BOM_OPTIONS );
-		if ( $wc_bom_options[ $key ] !== true ) {
-			add_option( WC_BOM_OPTIONS, [ $key => true ] );
-		}
-		$key             = 'setup';
-		$wc_bom_settings = get_option( WC_BOM_SETTINGS );
-		if ( $wc_bom_settings[ $key ] !== true ) {
-			add_option( WC_BOM_SETTINGS, [ $key => false ] );
-		}
-		//delete_option( 'wc_bom_settings' );
-		//delete_option( 'wc_bom_options' );
-	}
 
 	/**
 	 *
@@ -164,7 +139,7 @@ class WC_Bom {
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-		if ( null === $wc_bom_settings['db_version'] ) {
+		if ( $wc_bom_settings['db_version'] ) {
 			update_option( 'wc_bom_settings', [ 'db_version' => WC_BOM_VERSION ] );
 		}
 		dbDelta( $sql );
@@ -297,11 +272,11 @@ class WC_Bom {
 		global $wc_bom_options;
 
 		$key             = 'db_version';
-		$wc_bom_settings = get_option( WC_BOM_SETTINGS );
+		$wc_bom_settings = get_option( 'wc_bom_settings' );
 
 		if ( $wc_bom_settings[ $key ] !== WC_BOM_VERSION ) {
 
-			$table_name = $wpdb->prefix . 'woocommerce_bom';
+			$table_name = $wpdb->prefix . 'woocommerce_bommah';
 
 			$sql = "CREATE TABLE IF NOT EXISTS $table_name (
 					id int(11) NOT NULL AUTO_INCREMENT,
@@ -313,7 +288,6 @@ class WC_Bom {
 				);";
 
 			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-			update_option( WC_BOM_SETTINGS, [ $key => WC_BOM_VERSION ] );
 
 
 			dbDelta( $sql );
