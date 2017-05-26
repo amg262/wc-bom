@@ -276,7 +276,7 @@ class WC_Bom {
 
 			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-			update_option('wc_bom_options',['db_version'=>WC_BOM_VERSION]);
+			update_option( 'wc_bom_options', [ 'db_version' => WC_BOM_VERSION ] );
 
 
 			dbDelta( $sql );

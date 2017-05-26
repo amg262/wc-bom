@@ -1,0 +1,388 @@
+[
+    {
+        "key": "group_58be21633a48e",
+        "title": "Components",
+        "fields": [
+            {
+                "key": "field_58bed3428e47c",
+                "label": "Basic",
+                "name": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "top",
+                "endpoint": 0
+            },
+            {
+                "key": "field_592871aec119c",
+                "label": "Type",
+                "name": "type",
+                "type": "select",
+                "instructions": "",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "Part": "Part",
+                    "Assembly": "Assembly"
+                },
+                "default_value": [],
+                "allow_null": 0,
+                "multiple": 0,
+                "ui": 1,
+                "ajax": 1,
+                "return_format": "value",
+                "placeholder": ""
+            },
+            {
+                "key": "field_58be224180f49",
+                "label": "Part No.",
+                "name": "part_no",
+                "type": "text",
+                "instructions": "Unique identifier of part",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_58be2211b049f",
+                "label": "Part Sku",
+                "name": "part_sku",
+                "type": "text",
+                "instructions": "SKU number for part",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_58bed5eb041ea",
+                "label": "Part Category",
+                "name": "part_category",
+                "type": "taxonomy",
+                "instructions": "Categorize parts to create groupings",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "taxonomy": "part-category",
+                "field_type": "checkbox",
+                "allow_null": 1,
+                "add_term": 1,
+                "save_terms": 1,
+                "load_terms": 1,
+                "return_format": "object",
+                "multiple": 0
+            },
+            {
+                "key": "field_58be26e874984",
+                "label": "Part Cost",
+                "name": "part_cost",
+                "type": "number",
+                "instructions": "Unit price of part",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "0.00",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "min": 0,
+                "max": "",
+                "step": ""
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "value": "part"
+                }
+            ],
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "assembly"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "left",
+        "instruction_placement": "label",
+        "hide_on_screen": [
+            "custom_fields",
+            "comments",
+            "revisions",
+            "author",
+            "send-trackbacks"
+        ],
+        "active": 1,
+        "description": "Part object used in process of manufacturing assemblies or products."
+    },
+    {
+        "key": "group_590779985a45c",
+        "title": "Components",
+        "fields": [
+            {
+                "key": "field_5907799d06cf9",
+                "label": "Components",
+                "name": "components",
+                "type": "repeater",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "collapsed": "",
+                "min": 0,
+                "max": 0,
+                "layout": "block",
+                "button_label": "Add Row",
+                "sub_fields": [
+                    {
+                        "key": "field_590779b206cfa",
+                        "label": "Component",
+                        "name": "component",
+                        "type": "post_object",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "post_type": [
+                            "part",
+                            "assembly"
+                        ],
+                        "taxonomy": [],
+                        "allow_null": 0,
+                        "multiple": 0,
+                        "return_format": "object",
+                        "ui": 1
+                    },
+                    {
+                        "key": "field_592876d6a0fbb",
+                        "label": "Qty",
+                        "name": "qty",
+                        "type": "number",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": 1,
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": "",
+                        "min": 0,
+                        "max": "",
+                        "step": 1
+                    },
+                    {
+                        "key": "field_592876d60fc8e",
+                        "label": "Qty",
+                        "name": "qty",
+                        "type": "text",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": [
+                            [
+                                {
+                                    "field": "",
+                                    "operator": "=="
+                                }
+                            ]
+                        ],
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": 1,
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": "",
+                        "maxlength": 0
+                    }
+                ]
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "product"
+                }
+            ],
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "product"
+                }
+            ],
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "product"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "left",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": 1,
+        "description": "Relation between Products and the parts & assemblies they use"
+    },
+    {
+        "key": "group_590789593ae7c",
+        "title": "Components",
+        "fields": [
+            {
+                "key": "field_59078de084b6f",
+                "label": "Components",
+                "name": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "Component",
+                    "id": "component"
+                },
+                "placement": "top",
+                "endpoint": 0
+            },
+            {
+                "key": "field_59078baf42e11",
+                "label": "Password",
+                "name": "password",
+                "type": "password",
+                "instructions": "Part\r\nAssembly",
+                "required": 1,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "",
+                            "operator": "=="
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "placeholder": "Password",
+                "prepend": "",
+                "append": 0,
+                "readonly": 0,
+                "disabled": 0
+            },
+            {
+                "key": "field_590789c94f0b3",
+                "label": "Super Users",
+                "name": "super_users",
+                "type": "user",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "65",
+                    "class": "",
+                    "id": ""
+                },
+                "role": [
+                    "administrator",
+                    "shop_manager"
+                ],
+                "allow_null": 0,
+                "multiple": 1
+            },
+            {
+                "key": "field_59078bd12d18e",
+                "label": "URL",
+                "name": "url",
+                "type": "url",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "http:\/\/domain.com"
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "options_page",
+                    "operator": "==",
+                    "value": "wc-bom-fields"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "left",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": 1,
+        "description": ""
+    }
+]
