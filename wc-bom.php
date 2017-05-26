@@ -89,12 +89,12 @@ class WC_Bom {
 	 */
 	public function init() {
 
-		$this->install();
-		$this->upgrade_data();
+		//$this->install();
+	//	$this->upgrade_data();
 		//$this->install_data();
 		$this->load_classes();
-		$this->require_woocommerce();
-		$this->require_acf();
+	//	$this->require_woocommerce();
+		//$this->require_acf();
 
 		//add_action( 'admin_init', [ $this, 'create_options' ] );
 		add_action( 'init', [ $this, 'load_assets' ] );
