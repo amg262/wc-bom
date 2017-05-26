@@ -89,12 +89,12 @@ class WC_Bom {
 	 */
 	public function init() {
 
-		//$this->install();
-	//	$this->upgrade_data();
+		$this->install();
+		$this->upgrade_data();
 		//$this->install_data();
 		$this->load_classes();
-	//	$this->require_woocommerce();
-		//$this->require_acf();
+		$this->require_woocommerce();
+		$this->require_acf();
 
 		//add_action( 'admin_init', [ $this, 'create_options' ] );
 		add_action( 'init', [ $this, 'load_assets' ] );
@@ -114,7 +114,7 @@ class WC_Bom {
 	public function install() {
 
 		global $wpdb;
-	$table_name = $wpdb->prefix . 'woocommerce_bom';
+		$table_name = $wpdb->prefix . 'woocommerce_bom';
 
 		$charset_collate = $wpdb->get_charset_collate();
 
@@ -129,7 +129,7 @@ class WC_Bom {
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-		add_option( 'wc_bom_options', [ 'db_version' => WC_BOM_VERSION, 'init'=>true]);
+		add_option( 'wc_bom_options', [ 'db_version' => WC_BOM_VERSION, 'init' => true ] );
 
 		dbDelta( $sql );
 	}
@@ -258,10 +258,10 @@ class WC_Bom {
 		global $wpdb;
 		global $wc_bom_options;
 
-		$key             = 'db_version';
+		$key            = 'db_version';
 		$wc_bom_options = get_option( 'wc_bom_options' );
 
-		if ( $wc_bom_options['db_version' ] !== WC_BOM_VERSION ) {
+		if ( $wc_bom_options['db_version'] !== WC_BOM_VERSION ) {
 
 			$table_name = $wpdb->prefix . 'woocommerce_bommah';
 
@@ -275,6 +275,8 @@ class WC_Bom {
 				);";
 
 			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+			update_option('wc_bom_options',['db_version'=>WC_BOM_VERSION]);
 
 
 			dbDelta( $sql );
@@ -321,10 +323,7 @@ class WC_Bom {
 	 *
 	 * @return array
 	 */
-	public
-	function plugin_links(
-		$actions, $plugin_file
-	) {
+	public function plugin_links( $actions, $plugin_file ) {
 		static $plugin;
 
 		if ( $plugin === null ) {

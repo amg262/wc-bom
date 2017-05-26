@@ -8,9 +8,7 @@
 
 namespace WooBom;
 
-if ( ! is_admin() ) {
-	wp_die( 'You must be an admin to view this.' );
-}
+
 
 use function add_submenu_page;
 use function esc_html_e;
@@ -98,6 +96,13 @@ class WC_Bom_Settings {//implements WC_Abstract_Settings {
 			'Assembly',
 			'manage_options',
 			'edit.php?post_type=assembly'
+		);
+		add_submenu_page(
+			'wc-bom-settings',
+			'Inventory',
+			'Inventory',
+			'manage_options',
+			'edit.php?post_type=inventory'
 		);
 	}
 
