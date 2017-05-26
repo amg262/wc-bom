@@ -141,7 +141,6 @@ class WC_Bom {
 		//include_once __DIR__ . '/classes/class-wc-bom-data.php';
 		include_once __DIR__ . '/classes/class-wc-bom-post.php';
 		include_once __DIR__ . '/classes/class-wc-bom-settings.php';
-		include_once __DIR__ . '/classes/class-wc-bom-logger.php';
 		//include_once __DIR__ . '/includes/bom-fields.php';
 	}
 
@@ -262,7 +261,7 @@ class WC_Bom {
 		$key             = 'db_version';
 		$wc_bom_options = get_option( 'wc_bom_options' );
 
-		if ( $wc_bom_options[ $key ] !== WC_BOM_VERSION ) {
+		if ( $wc_bom_options['db_version' ] !== WC_BOM_VERSION ) {
 
 			$table_name = $wpdb->prefix . 'woocommerce_bommah';
 

@@ -41,11 +41,10 @@ class WC_Bom_Post {
 		add_action( 'init', [ $this, 'register_part' ] );
 		add_action( 'init', [ $this, 'register_assembly' ] );
 		add_action( 'init', [ $this, 'register_part_cat' ] );
-		add_action( 'init', [ $this, 'register_assembly_cat' ] );
+		//add_action( 'init', [ $this, 'register_assembly_cat' ] );
 
 		add_action( 'init', [ $this, 'register_material_tags' ] );
 
-		add_action( 'admin_init', [ $this, 'get_parts' ] );
 
 
 
@@ -103,6 +102,40 @@ class WC_Bom_Post {
 			],
 		];
 		register_post_type( 'assembly', $args );
+
+			/**
+			 * Post Type: Inventory.
+			 */
+
+			$labels = array(
+				"name" => __( 'Inventory', 'storefront' ),
+				"singular_name" => __( 'Inventory', 'storefront' ),
+			);
+
+			$args = array(
+				"label" => __( 'Inventory', 'storefront' ),
+				"labels" => $labels,
+				"description" => "",
+				"public" => true,
+				"publicly_queryable" => true,
+				"show_ui" => true,
+				"show_in_rest" => true,
+				"rest_base" => "",
+				"has_archive" => true,
+				"show_in_menu" => true,
+				"exclude_from_search" => false,
+				"capability_type" => "post",
+				"map_meta_cap" => true,
+				"hierarchical" => false,
+				"rewrite" => array( "slug" => "inventory", "with_front" => true ),
+				"query_var" => true,
+				"supports" => array( "title", "thumbnail", "revisions" ),
+			);
+
+			register_post_type( "inventory", $args );
+
+
+
 	}
 
 	/**
