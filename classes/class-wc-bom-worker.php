@@ -86,7 +86,9 @@ class WC_Bom_Worker {
 
 		foreach ( $prods as $p ) {
 			if ( $p->ID === $prod ) {
-				echo $p->post_title;
+				//var_dump( get_post_meta_by_id( $p->ID ) );
+				var_dump( get_field( 'components', $p->ID ) );
+				//var_dump($p);
 			}
 		}
 		/*$args  = [

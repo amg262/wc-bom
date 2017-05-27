@@ -68,7 +68,7 @@ jQuery(document).ready(function ($) {
 
                     $('#prod_output').html(response);
                     setTimeout(function () {
-                        swal(response);
+                        swal('yeah');
                     });
                     //alert('seRespon ' + response);
                 });
