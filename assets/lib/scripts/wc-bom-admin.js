@@ -20,7 +20,15 @@ var id = null;
 
 jQuery(document).ready(function ($) {
 
+    var data = {
+        'url': ajax_object.ajax_url,
+        'action': 'wco_ajax',
+        'security': ajax_object.nonce,
+        'product': val,
+        'id': id
+    };
 
+    console.log(data);
     //$("#commentForm").validate();
     //var ProgressBar = require('progressbar.js');
 //yesdsfs
@@ -31,24 +39,24 @@ jQuery(document).ready(function ($) {
     $(".chosen-select").chosen();
 
     $("#prod-select").change(function () {
-        val = $("#prod-select").val();
+
+        console.log(this);
+        val = $(this).text();
+        id = $(this).val();
+
         $('#prod_select_chosen').attr('value', val);
         console.log($('#prod_select_chosen').val());
+
         console.log(val);
+
+        console.log(id;
     });
 
     //$("#form_field").chosen().change( … );
     //$("#form_field").trigger("chosen:updated");
 
     $('#button_hit').click(function () {
-        var data = {
-            'url': ajax_object.ajax_url,
-            'action': 'wco_ajax',
-            'security': ajax_object.nonce,
-            'product': val
-        };
 
-        console.log(data);
 
         sweetAlert({
                 title: "Export Product's BOM?",
@@ -63,7 +71,7 @@ jQuery(document).ready(function ($) {
                 // We can also pass the url value separately from ajaxurl for front end AJAX implementations
                 jQuery.post(ajax_object.ajax_url, data, function (response) {
 
-                    $('#prod_output').html(response)
+                    $('#prod_output').html(response);
                     setTimeout(function () {
                         swal("Finished");
                     });

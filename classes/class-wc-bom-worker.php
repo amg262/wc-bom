@@ -77,17 +77,17 @@ class WC_Bom_Worker {
 		//$postdata = $_POST['postdata'];
 		$prod = $_POST['product'];
 
-		var_dump( $_POST );
 		$args = [
 			'post_type'   => 'product',
-			'post_title'  => $prod,
 			'post_status' => 'publish',
 		];
 
 		$prod = get_posts( $args );
 
 		foreach ( $prod as $p ) {
-			echo $p->post_title;
+			if ( $p->ID === $prod ) {
+				var_dump( $p );
+			}
 		}
 		/*$args  = [
 			'post_type'   => [ 'part', 'assembly', 'product' ],
@@ -146,7 +146,7 @@ class WC_Bom_Worker {
 
 
 		var_dump( $wc_bom_settings );
-        var_dump( $wc_bom_options ); ?>
+		var_dump( $wc_bom_options ); ?>
 
         <div id="postbox-container-1" class="postbox-container">
 
@@ -213,17 +213,15 @@ class WC_Bom_Worker {
                             <tbody>
 
 
-
-
                             <!----------- OPTION ----------->
                             <tr>
-	                            <?php $label = 'Enable Beta'; ?>
-	                            <?php $key = $this->format_key( $label ); ?>
-	                            <?php $opt = $wc_bom_settings[ $key ]; ?>
+								<?php $label = 'Enable Beta'; ?>
+								<?php $key = $this->format_key( $label ); ?>
+								<?php $opt = $wc_bom_settings[ $key ]; ?>
                                 <th scope="row">
 
                                     <label for="<?php _e( $key ); ?>">
-			                            <?php _e( $label ); ?>
+										<?php _e( $label ); ?>
                                     </label>
                                 </th>
                                 <td>
@@ -231,18 +229,18 @@ class WC_Bom_Worker {
                                            id="wc_bom_settings[<?php _e( $key ); ?>]"
                                            name="wc_bom_settings[<?php _e( $key ); ?>]"
                                            value="1"
-			                            <?php checked( 1, $wc_bom_settings[ $key ], true ); ?> />
+										<?php checked( 1, $wc_bom_settings[ $key ], true ); ?> />
                                 </td>
                             </tr>
                             <!----------- OPTION ----------->
                             <tr>
-	                            <?php $label = 'Enable Beta2'; ?>
-	                            <?php $key = $this->format_key( $label ); ?>
-	                            <?php $opt = $wc_bom_settings[ $key ]; ?>
+								<?php $label = 'Enable Beta2'; ?>
+								<?php $key = $this->format_key( $label ); ?>
+								<?php $opt = $wc_bom_settings[ $key ]; ?>
                                 <th scope="row">
 
                                     <label for="<?php _e( $key ); ?>">
-			                            <?php _e( $label ); ?>
+										<?php _e( $label ); ?>
                                     </label>
                                 </th>
                                 <td>
@@ -250,7 +248,7 @@ class WC_Bom_Worker {
                                            id="wc_bom_settings[<?php _e( $key ); ?>]"
                                            name="wc_bom_settings[<?php _e( $key ); ?>]"
                                            value="1"
-			                            <?php checked( 1, $wc_bom_settings[ $key ], true ); ?> />
+										<?php checked( 1, $wc_bom_settings[ $key ], true ); ?> />
                                 </td>
                             </tr>
                             <!----------- OPTION ----------->
@@ -300,8 +298,8 @@ class WC_Bom_Worker {
 
 													$id   = $arr['id'];
 													$text = $arr['text'];
-													$opts .= '<option id="' . $id . '" ' .
-													         'value="' . $text . '"">' .
+													$opts .= '<option id=' . $id . ' ' .
+													         'value="' . $id . '"">' .
 													         $text .
 													         '</option>';
 
