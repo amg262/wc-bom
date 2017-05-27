@@ -1,10 +1,11 @@
-<?php declare( strict_types = 1 );
+<?php declare( strict_types=1 );
 /**
  * Copyright (c) 2017.  |  Andrew Gunn
  * http://andrewgunn.org  |   https://github.com/amg262
  * andrewmgunn26@gmail.com
  *
  */
+
 namespace WooBom;
 /**
  * Class WC_Bom_API

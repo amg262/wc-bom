@@ -9,8 +9,6 @@
 namespace WooBom;
 
 use function add_action;
-use function get_posts;
-use function var_dump;
 
 /**
  * Class WC_Bom_Post
@@ -44,8 +42,6 @@ class WC_Bom_Post {
 		//add_action( 'init', [ $this, 'register_assembly_cat' ] );
 
 		add_action( 'init', [ $this, 'register_material_tags' ] );
-
-
 
 
 	}
@@ -103,37 +99,36 @@ class WC_Bom_Post {
 		];
 		register_post_type( 'assembly', $args );
 
-			/**
-			 * Post Type: Inventory.
-			 */
+		/**
+		 * Post Type: Inventory.
+		 */
 
-			$labels = array(
-				"name" => __( 'Inventory', 'storefront' ),
-				"singular_name" => __( 'Inventory', 'storefront' ),
-			);
+		$labels = [
+			"name"          => __( 'Inventory', 'storefront' ),
+			"singular_name" => __( 'Inventory', 'storefront' ),
+		];
 
-			$args = array(
-				"label" => __( 'Inventory', 'storefront' ),
-				"labels" => $labels,
-				"description" => "",
-				"public" => true,
-				"publicly_queryable" => true,
-				"show_ui" => true,
-				"show_in_rest" => true,
-				"rest_base" => "",
-				"has_archive" => true,
-				"show_in_menu" => true,
-				"exclude_from_search" => false,
-				"capability_type" => "post",
-				"map_meta_cap" => true,
-				"hierarchical" => false,
-				"rewrite" => array( "slug" => "inventory", "with_front" => true ),
-				"query_var" => true,
-				"supports" => array( "title", "thumbnail", "revisions" ),
-			);
+		$args = [
+			"label"               => __( 'Inventory', 'storefront' ),
+			"labels"              => $labels,
+			"description"         => "",
+			"public"              => true,
+			"publicly_queryable"  => true,
+			"show_ui"             => true,
+			"show_in_rest"        => true,
+			"rest_base"           => "",
+			"has_archive"         => true,
+			"show_in_menu"        => true,
+			"exclude_from_search" => false,
+			"capability_type"     => "post",
+			"map_meta_cap"        => true,
+			"hierarchical"        => false,
+			"rewrite"             => [ "slug" => "inventory", "with_front" => true ],
+			"query_var"           => true,
+			"supports"            => [ "title", "thumbnail", "revisions" ],
+		];
 
-			register_post_type( "inventory", $args );
-
+		register_post_type( "inventory", $args );
 
 
 	}
