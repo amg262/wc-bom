@@ -20,15 +20,7 @@ var id = null;
 
 jQuery(document).ready(function ($) {
 
-    var data = {
-        'url': ajax_object.ajax_url,
-        'action': 'wco_ajax',
-        'security': ajax_object.nonce,
-        'product': val,
-        'id': id
-    };
 
-    console.log(data);
     //$("#commentForm").validate();
     //var ProgressBar = require('progressbar.js');
 //yesdsfs
@@ -40,16 +32,11 @@ jQuery(document).ready(function ($) {
 
     $("#prod-select").change(function () {
 
-        console.log(this);
-        val = $(this).text();
+
         id = $(this).val();
 
-        $('#prod_select_chosen').attr('value', val);
-        console.log($('#prod_select_chosen').val());
 
-        console.log(val);
-
-        console.log(id;
+        console.log(id);
     });
 
     //$("#form_field").chosen().change( … );
@@ -57,7 +44,15 @@ jQuery(document).ready(function ($) {
 
     $('#button_hit').click(function () {
 
+        var data = {
+            'url': ajax_object.ajax_url,
+            'action': 'wco_ajax',
+            'security': ajax_object.nonce,
+            'product': id,
+            'id': id
+        };
 
+        console.log(data);
         sweetAlert({
                 title: "Export Product's BOM?",
                 text: "Submit to run ajax request",
@@ -73,7 +68,7 @@ jQuery(document).ready(function ($) {
 
                     $('#prod_output').html(response);
                     setTimeout(function () {
-                        swal("Finished");
+                        swal(response);
                     });
                     //alert('seRespon ' + response);
                 });

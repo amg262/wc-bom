@@ -75,18 +75,18 @@ class WC_Bom_Worker {
 		//$calc = new WC_Bom_Calculate();
 
 		//$postdata = $_POST['postdata'];
-		$prod = $_POST['product'];
+		$prod = (int) $_POST['product'];
 
 		$args = [
 			'post_type'   => 'product',
 			'post_status' => 'publish',
 		];
 
-		$prod = get_posts( $args );
+		$prods = get_posts( $args );
 
-		foreach ( $prod as $p ) {
+		foreach ( $prods as $p ) {
 			if ( $p->ID === $prod ) {
-				var_dump( $p );
+				echo $p->post_title;
 			}
 		}
 		/*$args  = [
