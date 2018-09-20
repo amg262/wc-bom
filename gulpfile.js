@@ -16,7 +16,7 @@ const mkdirp = require('mkdirp');
 
 var paths = {
   assets: 'assets/',
-  home: 'wc-bill-materials.php',
+  home: 'wc-bom.php',
   js: 'assets/',
   css: 'assets/',
   img: 'assets/images/',
