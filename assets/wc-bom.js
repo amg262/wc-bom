@@ -7,7 +7,7 @@
  */
 jQuery(document).ready(function($) {
 
-  swal('hi');
+  //swal('hi');
   //}
   //swal(a);
   /*console.log(evendort);

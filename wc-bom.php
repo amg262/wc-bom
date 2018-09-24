@@ -139,8 +139,8 @@ class WC_Bom {
 
 
 		require __DIR__ . '/includes/class-wcb-post.php';
-		require __DIR__ . '/class.settings-api.php';
-		require __DIR__ . '/oop-example.php';
+		require __DIR__ . '/includes/class.settings-api.php';
+		require __DIR__ . '/includes/oop-example.php';
 
 		$t = new WeDevs_Settings_API_Test();
 		$p = WCB_Post::getInstance();
@@ -179,13 +179,10 @@ class WC_Bom {
 
 		//wp_enqueue_script( 'valjs', $val );
 
-		wp_register_script( 'bom_adm_js', plugins_url( 'wc-bom.js', __FILE__ ), [ 'jquery' ] );
+		wp_register_script( 'bom_adm_js', plugins_url( 'assets/wc-bom.js', __FILE__ ), [ 'jquery' ] );
 		//wp_register_script( 'bom_adm_min_js', plugins_url( $url . 'wc-bom-admin.min.js', __FILE__ ), [ 'jquery' ] );
 
 		wp_enqueue_script( 'bom_adm_js' );
-		//wp_enqueue_script( 'bom_adm_min_js' );
-//		//}
-//
 //		//	if ( file_exists( __DIR__ . '/dist/wc-bom.min.css' ) ) {
 //		wp_register_style( 'bom_css', plugins_url( $url . 'wc-bom.css', __FILE__ ) );
 //		wp_register_style( 'bom_min_css', plugins_url( $url . 'wc-bom.min.css', __FILE__ ) );

@@ -50,10 +50,10 @@ gulp.task('cssnano', function() {
       pipe(rename({suffix: '.min'})).
       pipe(gulp.dest(paths.dist_css));
 });
-
-gulp.task('scripts', function() {
-  return gulp.src(paths.data).pipe(concat('*')).pipe(gulp.dest('archive'));
-});
+//
+//gulp.task('scripts', function() {
+//  return gulp.src(paths.data).pipe(concat('*')).pipe(gulp.dest('archive'));
+//});
 
 /**
  * Minify compiled JavaScript.
@@ -67,22 +67,22 @@ gulp.task('uglify', function() {
       pipe(rename({suffix: '.min'})).
       pipe(gulp.dest(paths.dist_js));
 });
+//
+//gulp.task('zip', function() {
+//  gulp.src('assets/data/*').
+//      pipe(zip('archive.zip')).
+//      pipe(gulp.dest('assets/'));
+//});
 
-gulp.task('zip', function() {
-  gulp.src('assets/data/*').
-      pipe(zip('archive.zip')).
-      pipe(gulp.dest('assets/'));
-});
-
-gulp.task('unzip', function() {
-  gulp.src('archive/*').pipe(unzip()).pipe(gulp.dest('dist'));
-});
+//gulp.task('unzip', function() {
+//  gulp.src('archive/*').pipe(unzip()).pipe(gulp.dest('dist'));
+//});
 
 // Static Server + watching scss/html files
 gulp.task('serve', function() {
 
   browserSync.init({
-    proxy: 'http://localhost/wp/wp-admin/',
+    proxy: 'http://localhost/webhost/wp-admin/',
   });
 
 });
@@ -98,8 +98,8 @@ gulp.task('watch', function() {
   gulp.watch(paths.includes).on('add', browserSync.reload);
 });
 
-gulp.task('default',
-    ['purge', 'imagemin', 'cssnano', 'uglify', 'serve', 'watch']);
+gulp.task('go',
+    [ 'cssnano', 'uglify', 'serve', 'watch']);
 gulp.task('clean', ['purge', 'imagemin', 'cssnano', 'uglify', 'zip']);
 gulp.task('live', ['serve', 'watch']);
 
