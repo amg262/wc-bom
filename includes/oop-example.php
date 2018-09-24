@@ -27,12 +27,14 @@ if ( ! class_exists( 'WeDevs_Settings_API_Test' ) ):
 			//initialize settings
 			$this->settings_api->admin_init();
 
-		//	var_dump( get_option( 'wedevs_basics' ) );
+			var_dump( get_option( 'wedevs_basics' ) );
 		}
 
 		function admin_menu() {
 
-			add_options_page( 'Settings API', 'Settings API', 'delete_posts', 'settings_api_test', [
+
+			echo '';
+			add_options_page( 'Settings API', 'Settings API', 'manage_options', 'settings_api_test', [
 				$this,
 				'plugin_page',
 			] );

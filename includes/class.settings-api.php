@@ -488,6 +488,11 @@ if ( ! class_exists( 'WeDevs_Settings_API' ) ):
 			echo $html;
 		}
 
+
+
+
+		// Hello echo
+
 		/**
 		 * Show the section settings forms
 		 *
@@ -505,6 +510,7 @@ if ( ! class_exists( 'WeDevs_Settings_API' ) ):
 					  do_action( 'wsa_form_bottom_' . $form['id'], $form );
 					  ?>
                     <div style="padding-left: 10px">
+
 						<?php submit_button(); ?>
                     </div>
                   </form>

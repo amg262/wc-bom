@@ -157,8 +157,6 @@ class WC_Bom {
 		$p = WCB_Post::getInstance();
 
 		add_action( 'init', [ $this, 'load_assets' ] );
-		add_action( 'admin_init', [ $this, 'upgrade_data' ] );
-		add_action( 'admin_init', [ $this, 'install_data' ] );
 
 		//add_action( 'init', [ $this, 'check_acf' ] );
 		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
@@ -183,7 +181,7 @@ class WC_Bom {
 
 		wp_register_script( 'bom_adm_js', plugins_url( 'assets/wc-bom.js', __FILE__ ), [ 'jquery' ] );
 		//wp_register_script( 'bom_adm_min_js', plugins_url( $url . 'wc-bom-admin.min.js', __FILE__ ), [ 'jquery' ] );
-		wp_register_script( 'bom_adm_a_js', plugins_url( 'assets/wc-bom-admin.js', __FILE__ ), [ 'jquery' ] );
+		//wp_register_script( 'bom_adm_a_js', plugins_url( 'assets/wc-bom-admin.js', __FILE__ ), [ 'jquery' ] );
 		//wp_register_script( 'bom_adm_min_js', plugins_url( $url . 'wc-bom-admin.min.js', __FILE__ ), [ 'jquery' ] );
 
 		wp_enqueue_script( 'bom_adm_js' );
@@ -198,56 +196,6 @@ class WC_Bom {
 		wp_enqueue_script( 'chosen_js' );
 		wp_enqueue_style( 'chosen_css' );
 		//wp_enqueue_style( 'bom_css' );
-	}
-
-	public function install_data() {
-
-		global $wpdb;
-
-		$welcome_name = 'Mr. WordPress';
-		$welcome_text = 'Congratulations, you just completed the installation!';
-
-		$table_name = $wpdb->prefix . 'wc_bom';
-
-		$wpdb->insert( $table_name, [
-			'time'    => current_time( 'mysql' ),
-			'post_id' => 1,
-			'data'    => $welcome_text,
-			//'url'  => 'http://cloudground.net/',
-		] );
-	}
-
-	public function upgrade_data() {
-
-		global $wpdb;
-
-		global $wcb_data;
-
-
-		$table_name = $wpdb->prefix . 'wc_bom';
-
-		$sql = "CREATE TABLE IF NOT EXISTS $table_name (
-					id int(11) NOT NULL AUTO_INCREMENT,
-					post_id int(11),
-					data text ,
-					time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-					active tinyint(1) DEFAULT -1 NOT NULL,
-					PRIMARY KEY  (id)
-				);";
-
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		dbDelta( $sql );
-
-	}
-
-	public function delete_db() {
-
-		global $wpdb;
-
-		$table_name = $wpdb->prefix . WCB_TBL;
-
-		//$q = "SELECT * FROM " . $table_name . " WHERE id > 0  ;";
-		$wpdb->query( "DROP TABLE IF EXISTS " . $table_name . "" );
 	}
 
 

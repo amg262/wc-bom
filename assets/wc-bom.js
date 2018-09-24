@@ -7,6 +7,8 @@
  */
 jQuery(document).ready(function($) {
 
+  $('.chosen-select').chosen();
+
   //swal('hi');
   //}
   //swal(a);

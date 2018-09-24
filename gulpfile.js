@@ -19,7 +19,7 @@ var paths = {
   home: 'wc-bom.php',
   js: 'assets/',
   css: 'assets/',
-  img: 'assets/images/',
+  img: 'assets/images/*',
   dist: 'dist/',
   logs: 'logs/',
   data: 'assets/data/',
@@ -27,7 +27,7 @@ var paths = {
   dist_js: 'dist/',
   dist_css: 'dist/',
   dist_img: 'dist/images/',
-  includes: 'includes/',
+  includes: 'includes/*',
   classes: 'classes/*.php',
 };
 
@@ -94,12 +94,13 @@ gulp.task('watch', function() {
   gulp.watch('gulpfile.js').on('change', browserSync.reload);
   gulp.watch(paths.assets + '*').on('change', browserSync.reload);
   //gulp.watch(paths.assets).on("", browserSync.reload);
-  gulp.watch(paths.classes).on('change', browserSync.reload);
-  gulp.watch(paths.includes).on('add', browserSync.reload);
+  //gulp.watch(paths.classes).on('change', browserSync.reload);
+  gulp.watch(paths.includes).on('change', browserSync.reload);
 });
-
 gulp.task('go',
-    [ 'cssnano', 'uglify', 'serve', 'watch']);
+    ['purge','imagemin','cssnano','uglify','serve','watch']);
+//gulp.task('go',
+//    ['purge', 'imagemin', 'cssnano', 'uglify', 'serve', 'watch']);
 gulp.task('clean', ['purge', 'imagemin', 'cssnano', 'uglify', 'zip']);
 gulp.task('live', ['serve', 'watch']);
 
