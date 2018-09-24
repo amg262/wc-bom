@@ -26,6 +26,8 @@ if ( ! class_exists( 'WeDevs_Settings_API_Test' ) ):
 
 			//initialize settings
 			$this->settings_api->admin_init();
+
+		//	var_dump( get_option( 'wedevs_basics' ) );
 		}
 
 		function admin_menu() {

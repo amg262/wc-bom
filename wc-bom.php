@@ -34,13 +34,24 @@ if ( ! function_exists( 'is_plugin_active' ) ) {
 }
 
 /* Checks to see if the acf pro plugin is activated  */
+if ( ! is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
+	/* load the plugin and anything else you want to do */
+
+	echo '<h1>woo</h1>';
+}
+
+/* Checks to see if the acf pro plugin is activated  */
 if ( ! is_plugin_active( 'advanced-custom-fields-pro/acf.php' ) ) {
 	/* load the plugin and anything else you want to do */
+
+	echo '<h1>Pro</h1>';
 }
 
 /* Checks to see if the acf plugin is activated  */
 if ( ! is_plugin_active( 'advanced-custom-fields/acf.php' ) ) {
 	/* load the plugin and anything else you want to do */
+	//echo '<h1>acf</h1>';
+
 }
 /** Start: Detect ACF Pro plugin. Include if not present. */
 if ( ! class_exists( 'acf' ) ) { // if ACF Pro plugin does not currently exist
@@ -146,9 +157,11 @@ class WC_Bom {
 		$p = WCB_Post::getInstance();
 
 		add_action( 'init', [ $this, 'load_assets' ] );
+		add_action( 'admin_init', [ $this, 'upgrade_data' ] );
+		add_action( 'admin_init', [ $this, 'install_data' ] );
 
 		//add_action( 'init', [ $this, 'check_acf' ] );
-		//add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
+		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
 
 
 	}
@@ -168,39 +181,77 @@ class WC_Bom {
 	 */
 	public function load_assets() {
 
-		$url  = 'assets/';
-		$url2 = 'assets/';
-
-		//$val = 'http://cdnjs.cloudflare.com/ajax/libs/validate.js/0.12.0/validate.min.js';
-		//wp_enqueue_script( 'sweetalertjs', 'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js' );
-		//wp_enqueue_style( 'sweetalert_css', 'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css' );
-		//wp_register_script( 'bom_adm_js', plugins_url( $url . 'wc-bom-admin.js', __FILE__ ), [ 'jquery' ] );
-		//wp_register_style( 'bom_css', plugins_url( $url2 . 'wc-bom.css', __FILE__ ) );
-
-		//wp_enqueue_script( 'valjs', $val );
-
 		wp_register_script( 'bom_adm_js', plugins_url( 'assets/wc-bom.js', __FILE__ ), [ 'jquery' ] );
+		//wp_register_script( 'bom_adm_min_js', plugins_url( $url . 'wc-bom-admin.min.js', __FILE__ ), [ 'jquery' ] );
+		wp_register_script( 'bom_adm_a_js', plugins_url( 'assets/wc-bom-admin.js', __FILE__ ), [ 'jquery' ] );
 		//wp_register_script( 'bom_adm_min_js', plugins_url( $url . 'wc-bom-admin.min.js', __FILE__ ), [ 'jquery' ] );
 
 		wp_enqueue_script( 'bom_adm_js' );
-//		//	if ( file_exists( __DIR__ . '/dist/wc-bom.min.css' ) ) {
-//		wp_register_style( 'bom_css', plugins_url( $url . 'wc-bom.css', __FILE__ ) );
-//		wp_register_style( 'bom_min_css', plugins_url( $url . 'wc-bom.min.css', __FILE__ ) );
-//
-//		wp_enqueue_style( 'bom_css' );
+		//wp_enqueue_script( 'bom_adm_a_js' );
+
 		wp_enqueue_script( 'sweetalertjs', 'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js' );
 		wp_enqueue_style( 'sweetalert_css', 'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css' );
 
 		wp_register_script( 'chosen_js', 'https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.jquery.min.js', [ 'jquery' ] );
 		wp_register_style( 'chosen_css', 'https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.min.css' );
-		wp_enqueue_script( 'postbox' );
 		//wp_enqueue_script( 'bom_adm_js' );
 		wp_enqueue_script( 'chosen_js' );
 		wp_enqueue_style( 'chosen_css' );
 		//wp_enqueue_style( 'bom_css' );
 	}
 
-	protected function plugin_links( $actions, $plugin_file ) {
+	public function install_data() {
+
+		global $wpdb;
+
+		$welcome_name = 'Mr. WordPress';
+		$welcome_text = 'Congratulations, you just completed the installation!';
+
+		$table_name = $wpdb->prefix . 'wc_bom';
+
+		$wpdb->insert( $table_name, [
+			'time'    => current_time( 'mysql' ),
+			'post_id' => 1,
+			'data'    => $welcome_text,
+			//'url'  => 'http://cloudground.net/',
+		] );
+	}
+
+	public function upgrade_data() {
+
+		global $wpdb;
+
+		global $wcb_data;
+
+
+		$table_name = $wpdb->prefix . 'wc_bom';
+
+		$sql = "CREATE TABLE IF NOT EXISTS $table_name (
+					id int(11) NOT NULL AUTO_INCREMENT,
+					post_id int(11),
+					data text ,
+					time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+					active tinyint(1) DEFAULT -1 NOT NULL,
+					PRIMARY KEY  (id)
+				);";
+
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		dbDelta( $sql );
+
+	}
+
+	public function delete_db() {
+
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . WCB_TBL;
+
+		//$q = "SELECT * FROM " . $table_name . " WHERE id > 0  ;";
+		$wpdb->query( "DROP TABLE IF EXISTS " . $table_name . "" );
+	}
+
+
+	public function plugin_links( $actions, $plugin_file ) {
 
 		static $plugin;
 
@@ -209,6 +260,10 @@ class WC_Bom {
 		}
 		if ( $plugin === $plugin_file ) {
 			$settings = [
+				//edit.php?post_type=part
+				'parts' => '<a href="edit.php?post_type=part">' . __( 'Parts', 'wc-bom' ) . '</a>',
+				'assembly' => '<a href="edit.php?post_type=assembly">' . __( 'Assembly', 'wc-bom' ) . '</a>',
+
 				'settings' => '<a href="admin.php?page=wc-bill-materials">' . __( 'Settings', 'wc-bom' ) . '</a>',
 			];
 			$actions  = array_merge( $settings, $actions );

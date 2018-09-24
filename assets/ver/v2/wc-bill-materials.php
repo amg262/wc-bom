@@ -136,7 +136,7 @@ class wc_bill_materials {
 		$n = new WeDevs_Settings_API_Test();
 
 		//include_once __DIR__.'/classes/functions.php';
-		$set = WC_RP_Settings::getInstance();
+		$set = WC_Bom_Settings::getInstance();
 		//	add_action( 'admin_init', [ $this, 'create_options' ] );
 		//add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
 		//$this->zah();
@@ -186,10 +186,6 @@ class wc_bill_materials {
 		$wpdb->query( "DROP TABLE IF EXISTS " . $table_name . "" );
 		$wpdb->query( "DROP TABLE IF EXISTS " . 'wp_wcbm_part' . "" );
 		$wpdb->query( "DROP TABLE IF EXISTS " . 'wp_wcbm_assembly' . "" );
-
-		//delete_option( WCB_DATA );
-		//	delete_option( WCB_OPTIONS );
-		//update_option( 'wc_bom_settings', [ 'db_version' => null ] );
 	}
 
 	/**
