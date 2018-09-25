@@ -13,13 +13,10 @@ class WCB_Post {
 	 */
 	protected static $instance;
 
-	private $parts, $assemblies, $products;
-
 	/**
 	 * WC_Bom_Post_Type constructor.
 	 */
 	private function __construct() {
-
 		$this->init();
 	}
 
@@ -27,15 +24,9 @@ class WCB_Post {
 	 *
 	 */
 	public function init() {
-
 		add_action( 'init', [ $this, 'register_part' ] );
 		add_action( 'init', [ $this, 'register_assembly' ] );
-		//add_action( 'init', [ $this, 'register_part_cat' ] );
-		//add_action( 'init', [ $this, 'register_part_tags' ] );
-
 		add_action( 'init', [ $this, 'register_inventory' ] );
-
-		//add_action( 'admin_init', [ $this, 'get_parts' ] );
 	}
 
 	/**
@@ -167,33 +158,7 @@ class WCB_Post {
 
 	}
 
-	/**
-	 *
-	 */
-	public function register_part_tags() {
 
-		$labels = [
-			'name'          => __( 'Part Tags', 'wc-bom' ),
-			'singular_name' => __( 'Part Tag', 'wc-bom' ),
-			'menu_name'     => __( 'Tags', 'wc-bom' ),
-		];
-
-		$args = [
-			'label'              => __( 'Part Tags', 'wc-bom' ),
-			'labels'             => $labels,
-			'public'             => true,
-			'hierarchical'       => false,
-			//'label' => 'Inventory Types',
-			'show_ui'            => true,
-			'show_in_menu'       => true,
-			'show_in_nav_menus'  => true,
-			'query_var'          => true,
-			'show_admin_column'  => true,
-			'show_in_rest'       => true,
-			'show_in_quick_edit' => true,
-		];
-		register_taxonomy( 'part-tags', [ 'part', 'assembly' ], $args );
-	}
 
 	public function register_inventory() {
 

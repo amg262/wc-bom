@@ -149,10 +149,13 @@ class WC_Bom {
 	protected function init() {
 
 
-		require __DIR__ . '/includes/class-wcb-post.php';
-		require __DIR__ . '/includes/class.settings-api.php';
-		require __DIR__ . '/includes/oop-example.php';
 
+		require __DIR__ . '/includes/class-wcb-post.php';
+		require __DIR__.'/includes/class-wcb-groups.php';
+		require __DIR__ . '/includes/admin/class-wcb-settings-api.php';
+		require __DIR__ . '/includes/admin/class-wcb-settings.php';
+
+		$g = WCB_Field_Groups::getInstance();
 		$t = new WeDevs_Settings_API_Test();
 		$p = WCB_Post::getInstance();
 
