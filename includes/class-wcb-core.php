@@ -28,10 +28,10 @@ class WCB_Core {
 	 *
 	 */
 	protected function init() {
-		require __DIR__ . '/includes/class-wcb-post.php';
-		require __DIR__ . '/includes/class-wcb-groups.php';
-		require __DIR__ . '/includes/admin/class-wcb-settings-api.php';
-		require __DIR__ . '/includes/admin/class-wcb-settings.php';
+		require __DIR__ . '/class-wcb-post.php';
+		require __DIR__ . '/class-wcb-groups.php';
+		require __DIR__ . '/admin/class-wcb-settings-api.php';
+		require __DIR__ . '/admin/class-wcb-settings.php';
 
 		$g = WCB_Field_Groups::getInstance();
 		$t = new WeDevs_Settings_API_Test();
@@ -125,4 +125,4 @@ class WCB_Core {
 	}
 }
 
-$wcb = WC_Bom::getInstance();
+//$wcb = WC_Bom::getInstance();

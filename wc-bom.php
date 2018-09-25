@@ -27,21 +27,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die( 'No direct access allowed' );
 }
 
-
-/* Checks to see if the acf pro plugin is activated  */
-if ( ! is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
-	/* load the plugin and anything else you want to do */
+function check_woocommerce() {
+	if ( class_exists( 'Woocommerce' ) ) {
+        $text = '<div class="error"><p><strong>WooBOM</strong> needs WooCommerce installed and activated to work!</p></div> ';
+        echo $text;
+	 }
 }
 
-/* Checks to see if the acf pro plugin is activated  */
-if ( ! is_plugin_active( 'advanced-custom-fields-pro/acf.php' ) ) {
-	/* load the plugin and anything else you want to do */
-}
-
-/* Checks to see if the acf plugin is activated  */
-if ( ! is_plugin_active( 'advanced-custom-fields/acf.php' ) ) {
-
-}
+add_action( 'admin_notices', 'check_woocommerce' );
+//
+///* Checks to see if the acf pro plugin is activated  */
+//if ( ! is_plugin_active( 'advanced-custom-fields-pro/acf.php' ) ) {
+//	/* load the plugin and anything else you want to do */
+//}
+//
+///* Checks to see if the acf plugin is activated  */
+//if ( ! is_plugin_active( 'advanced-custom-fields/acf.php' ) ) {
+//
+//}
 /** Start: Detect ACF Pro plugin. Include if not present. */
 if ( ! class_exists( 'acf' ) ) { // if ACF Pro plugin does not currently exist
 	/** Start: Customize ACF path */
@@ -104,17 +107,6 @@ function cysp_acf_json_load_point( $paths ) {
 	$paths[] = plugin_dir_path( __FILE__ ) . 'acf-json-load';
 
 	return $paths;
-}
-
-if ( function_exists( 'acf_add_options_page' ) ) {
-
-	acf_add_options_page( [
-		'page_title' => 'BOM Fields',
-		'menu_title' => 'BOM Fields',
-		'menu_slug'  => 'wc-bom-fields',
-		'capability' => 'edit_posts',
-		'redirect'   => false,
-	] );
 }
 
 if ( ! class_exists( 'WCB_Core' ) ) {
