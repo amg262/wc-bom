@@ -19,8 +19,6 @@
 * Text Domain: wc-bom
 * License: license.txt
 *
-*
-*
 */
 
 //namespace WC_Bom;
@@ -28,29 +26,20 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'No direct access allowed' );
 }
-/* Checks to see if "is_plugin_active" function exists and if not load the php file that includes that function */
-if ( ! function_exists( 'is_plugin_active' ) ) {
-	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-}
+
 
 /* Checks to see if the acf pro plugin is activated  */
 if ( ! is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
 	/* load the plugin and anything else you want to do */
-
-	//echo '<h1>woo</h1>';
 }
 
 /* Checks to see if the acf pro plugin is activated  */
 if ( ! is_plugin_active( 'advanced-custom-fields-pro/acf.php' ) ) {
 	/* load the plugin and anything else you want to do */
-
-	//echo '<h1>Pro</h1>';
 }
 
 /* Checks to see if the acf plugin is activated  */
 if ( ! is_plugin_active( 'advanced-custom-fields/acf.php' ) ) {
-	/* load the plugin and anything else you want to do */
-	//echo '<h1>acf</h1>';
 
 }
 /** Start: Detect ACF Pro plugin. Include if not present. */
@@ -127,104 +116,8 @@ if ( function_exists( 'acf_add_options_page' ) ) {
 		'redirect'   => false,
 	] );
 }
-/** End: Function to create JSON load point */
-//if ( class_exists( 'WC_Bom' ) ) {
-//return;
-//}
 
-//define( 'WC_BOM_URL', plugins_url( '', __FILE__ ) );
-
-class WC_Bom {
-
-	protected static $instance = null;
-
-
-	private function __construct() {
-
-		$this->init();
-
-
-	}
-
-	protected function init() {
-
-
-
-		require __DIR__ . '/includes/class-wcb-post.php';
-		require __DIR__.'/includes/class-wcb-groups.php';
-		require __DIR__ . '/includes/admin/class-wcb-settings-api.php';
-		require __DIR__ . '/includes/admin/class-wcb-settings.php';
-
-		$g = WCB_Field_Groups::getInstance();
-		$t = new WeDevs_Settings_API_Test();
-		$p = WCB_Post::getInstance();
-
-		add_action( 'init', [ $this, 'load_assets' ] );
-
-		//add_action( 'init', [ $this, 'check_acf' ] );
-		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
-
-
-	}
-
-
-	public static function getInstance() {
-
-		if ( static::$instance === null ) {
-			static::$instance = new static;
-		}
-
-		return static::$instance;
-	}
-
-	/**
-	 *
-	 */
-	public function load_assets() {
-
-		wp_register_script( 'bom_adm_js', plugins_url( 'assets/wc-bom.js', __FILE__ ), [ 'jquery' ] );
-		//wp_register_script( 'bom_adm_min_js', plugins_url( $url . 'wc-bom-admin.min.js', __FILE__ ), [ 'jquery' ] );
-		//wp_register_script( 'bom_adm_a_js', plugins_url( 'assets/wc-bom-admin.js', __FILE__ ), [ 'jquery' ] );
-		//wp_register_script( 'bom_adm_min_js', plugins_url( $url . 'wc-bom-admin.min.js', __FILE__ ), [ 'jquery' ] );
-
-		wp_enqueue_script( 'bom_adm_js' );
-		//wp_enqueue_script( 'bom_adm_a_js' );
-
-		wp_enqueue_script( 'sweetalertjs', 'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js' );
-		wp_enqueue_style( 'sweetalert_css', 'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css' );
-
-		wp_register_script( 'chosen_js', 'https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.jquery.min.js', [ 'jquery' ] );
-		wp_register_style( 'chosen_css', 'https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.min.css' );
-		//wp_enqueue_script( 'bom_adm_js' );
-		wp_enqueue_script( 'chosen_js' );
-		wp_enqueue_style( 'chosen_css' );
-		//wp_enqueue_style( 'bom_css' );
-	}
-
-
-	public function plugin_links( $actions, $plugin_file ) {
-
-		static $plugin;
-
-		if ( $plugin === null ) {
-			$plugin = plugin_basename( __FILE__ );
-		}
-		if ( $plugin === $plugin_file ) {
-			$settings = [
-				//edit.php?post_type=part
-				'parts' => '<a href="edit.php?post_type=part">' . __( 'Parts', 'wc-bom' ) . '</a>',
-				'assembly' => '<a href="edit.php?post_type=assembly">' . __( 'Assembly', 'wc-bom' ) . '</a>',
-
-				'settings' => '<a href="admin.php?page=wc-bill-materials">' . __( 'Settings', 'wc-bom' ) . '</a>',
-			];
-			$actions  = array_merge( $settings, $actions );
-		}
-
-		return $actions;
-	}
+if ( ! class_exists( 'WCB_Core' ) ) {
+	require __DIR__ . '/includes/class-wcb-core.php';
+	$wcb_core = WCB_Core::getInstance();
 }
-
-$wcb = WC_Bom::getInstance();
-
-
-//if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
