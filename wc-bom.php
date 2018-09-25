@@ -37,14 +37,14 @@ if ( ! function_exists( 'is_plugin_active' ) ) {
 if ( ! is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
 	/* load the plugin and anything else you want to do */
 
-	echo '<h1>woo</h1>';
+	//echo '<h1>woo</h1>';
 }
 
 /* Checks to see if the acf pro plugin is activated  */
 if ( ! is_plugin_active( 'advanced-custom-fields-pro/acf.php' ) ) {
 	/* load the plugin and anything else you want to do */
 
-	echo '<h1>Pro</h1>';
+	//echo '<h1>Pro</h1>';
 }
 
 /* Checks to see if the acf plugin is activated  */
@@ -76,7 +76,7 @@ if ( ! class_exists( 'acf' ) ) { // if ACF Pro plugin does not currently exist
 
 	/** End: Customize ACF path */
 	/** Start: Hide ACF field group menu item */
-	add_filter( 'acf/settings/show_admin', '__return_false' );
+//	add_filter( 'acf/settings/show_admin', '__return_false' );
 	/** End: Hide ACF field group menu item */
 	/** Start: Include ACF */
 	include_once( plugin_dir_path( __FILE__ ) . 'acf/acf.php' );

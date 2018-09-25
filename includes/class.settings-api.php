@@ -28,7 +28,7 @@ if ( ! class_exists( 'WeDevs_Settings_API' ) ):
 
 		public function __construct() {
 
-			add_action( 'admin_enqueue_scripts', [ $this, 'wco_admin' ] );
+		//	add_action( 'admin_enqueue_scripts', [ $this, 'wco_admin' ] );
 			add_action( 'wp_ajax_wco_ajax', [ $this, 'wco_ajax' ] );
 
 			//add_action( 'wp_ajax_nopriv_wco_ajax', [ $this, 'wco_ajax' ] );
