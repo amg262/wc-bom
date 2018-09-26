@@ -9,7 +9,7 @@ jQuery(document).ready(function($) {
 
   $('.chosen-select').chosen();
 
-  //swal('hi');
+  swal('hi');
   //}
   //swal(a);
   /*console.log(evendort);
