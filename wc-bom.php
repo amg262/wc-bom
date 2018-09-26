@@ -127,27 +127,6 @@ class WCB_Core {
 	}
 
 	/**
-	 *
-	 */
-	protected function init() {
-		require __DIR__ . '/includes/class-wcb-post.php';
-		require __DIR__ . '/includes/class-wcb-groups.php';
-		require __DIR__ . '/includes/admin/class-wcb-settings-api.php';
-		require __DIR__ . '/includes/admin/class-wcb-settings.php';
-
-		$g = WCB_Field_Groups::getInstance();
-		$t = new WeDevs_Settings_API_Test();
-		$p = WCB_Post::getInstance();
-
-		add_action( 'init', [ $this, 'load_assets' ] );
-
-		//add_action( 'init', [ $this, 'check_acf' ] );
-		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
-		register_activation_hook( __FILE__, [ $this, 'activate' ] );
-		register_deactivation_hook( __FILE__, [ $this, 'deactivate' ] );
-	}
-
-	/**
 	 * @return null
 	 */
 	public static function getInstance() {
@@ -178,7 +157,7 @@ class WCB_Core {
 	 */
 	public function load_assets() {
 
-		wp_register_script( 'bom_adm_js', plugins_url( 'assets/wc-bom.js', ), [ 'jquery' ] );
+		wp_register_script( 'bom_adm_js', plugins_url( 'assets/wc-bom.js', __FILE__ ), [ 'jquery' ] );
 		//wp_register_script( 'bom_adm_min_js', plugins_url( $url . 'wc-bom-admin.min.js', __FILE__ ), [ 'jquery' ] );
 		//wp_register_script( 'bom_adm_a_js', plugins_url( 'assets/wc-bom-admin.js', __FILE__ ), [ 'jquery' ] );
 		//wp_register_script( 'bom_adm_min_js', plugins_url( $url . 'wc-bom-admin.min.js', __FILE__ ), [ 'jquery' ] );
@@ -196,7 +175,6 @@ class WCB_Core {
 		wp_enqueue_style( 'chosen_css' );
 		//wp_enqueue_style( 'bom_css' );
 	}
-
 
 	/**
 	 * @param $actions
@@ -224,9 +202,27 @@ class WCB_Core {
 
 		return $actions;
 	}
+
+	/**
+	 *
+	 */
+	public function init() {
+		require __DIR__ . '/includes/class-wcb-post.php';
+		require __DIR__ . '/includes/class-wcb-groups.php';
+		require __DIR__ . '/includes/admin/class-wcb-settings-api.php';
+		require __DIR__ . '/includes/admin/class-wcb-settings.php';
+
+		$g = WCB_Field_Groups::getInstance();
+		$t = new WeDevs_Settings_API_Test();
+		$p = WCB_Post::getInstance();
+
+		add_action( 'init', [ $this, 'load_assets' ] );
+
+		//add_action( 'init', [ $this, 'check_acf' ] );
+		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
+		register_activation_hook( __FILE__, [ $this, 'activate' ] );
+		register_deactivation_hook( __FILE__, [ $this, 'deactivate' ] );
+	}
 }
 
-
-if ( ! class_exists( 'WCB_Core' ) ) {
-	$wcb_core = WCB_Core::getInstance();
-}
+$wcb_core = WCB_Core::getInstance();
