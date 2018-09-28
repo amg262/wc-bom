@@ -207,3 +207,4 @@ class WCB_Post {
 
 
 }
+$p = WCB_Post::getInstance();

@@ -110,7 +110,6 @@ function cysp_acf_json_load_point( $paths ) {
 	return $paths;
 }
 
-const WC_BOM_TBL =
 
 class WCB_Core {
 
@@ -133,6 +132,13 @@ class WCB_Core {
 	 */
 	protected function init() {
 
+
+		if ( ! add_option( 'wc_bom_1', '' ) ) {
+			update_option( 'wc_bom_1', 'true' );
+		}
+
+		$opt = get_option( 'wc_bom_1' );
+		//echo json_encode( $opt );
 		require __DIR__ . '/includes/class-wcb-post.php';
 		require __DIR__ . '/includes/class-wcb-groups.php';
 		require __DIR__ . '/includes/admin/class-wcb-settings-api.php';
@@ -140,7 +146,7 @@ class WCB_Core {
 
 		$g = WCB_Field_Groups::getInstance();
 		$t = new WeDevs_Settings_API_Test();
-		$p = WCB_Post::getInstance();
+		//$p = WCB_Post::getInstance();
 
 		add_action( 'init', [ $this, 'load_assets' ] );
 
@@ -148,6 +154,8 @@ class WCB_Core {
 		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
 		register_activation_hook( __FILE__, [ $this, 'activate' ] );
 		register_deactivation_hook( __FILE__, [ $this, 'deactivate' ] );
+
+
 	}
 
 	/**
@@ -202,58 +210,6 @@ class WCB_Core {
 		//wp_enqueue_style( 'bom_css' );
 	}
 
-	/**
-	 *
-	 */
-	public function install() {
-
-		global $wpdb;
-		global $wc_bom_settings;
-		$wc_bom_settings = get_option( 'wc_bom_settings' );
-
-		$table_name = $wpdb->prefix . 'woocommerce_bom';
-
-		$charset_collate = $wpdb->get_charset_collate();
-
-		$sql = "CREATE TABLE IF NOT EXISTS $table_name (
-					id int(11) NOT NULL AUTO_INCREMENT,
-					time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-					name tinytext NOT NULL,
-					data text NOT NULL,
-					url varchar(255) DEFAULT '' NOT NULL,
-					PRIMARY KEY  (id)
-				);";
-
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-
-		if ( null === $wc_bom_settings['db_version'] ) {
-			update_option( 'wc_bom_settings', [ 'db_version' => WC_BOM_VERSION ] );
-		}
-		dbDelta( $sql );
-	}
-
-	/**
-	 *
-	 */
-	public function install_data() {
-
-		global $wpdb;
-
-		$welcome_name = 'Mr. WordPress';
-		$welcome_text = 'Congratulations, you just completed the installation!';
-
-		$table_name = $wpdb->prefix . WC_BOM_TABLE;
-
-		$wpdb->insert(
-			$table_name,
-			[
-				'time' => current_time( 'mysql' ),
-				'name' => $welcome_name,
-				'data' => $welcome_name . ' ' . $welcome_text,
-				'url'  => 'http://andrewgunn.org',
-			]
-		);
-	}
 
 	/**
 	 * @param $actions
@@ -284,6 +240,4 @@ class WCB_Core {
 }
 
 
-if ( ! class_exists( 'WCB_Core' ) ) {
-	$wcb_core = WCB_Core::getInstance();
-}
+$wcb_core = WCB_Core::getInstance();
