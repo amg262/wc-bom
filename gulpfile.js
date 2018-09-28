@@ -82,7 +82,7 @@ gulp.task('uglify', function() {
 gulp.task('serve', function() {
 
   browserSync.init({
-    proxy: 'http://localhost/webhost/wp-admin/',
+    proxy: 'http://localhost/wordpress/wp-admin/',
   });
 
 });
@@ -93,8 +93,6 @@ gulp.task('watch', function() {
   gulp.watch(paths.home).on('change', browserSync.reload);
   gulp.watch('gulpfile.js').on('change', browserSync.reload);
   gulp.watch(paths.assets + '*').on('change', browserSync.reload);
-  //gulp.watch(paths.assets).on("", browserSync.reload);
-  //gulp.watch(paths.classes).on('change', browserSync.reload);
   gulp.watch(paths.includes).on('change', browserSync.reload);
 });
 gulp.task('go',

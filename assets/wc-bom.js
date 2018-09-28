@@ -9,22 +9,11 @@ jQuery(document).ready(function($) {
 
   $('.chosen-select').chosen();
 
-  swal('hi');
+  //swal('hi');
   //}
   //swal(a);
   /*console.log(evendort);
   console.log(params);
-
-  // $('#prod_bom').attr('value', params['selected']);
-  //$('#wcb_prod_bom').attr('value', params['selected']);
-
-  //prod_bom = params['selected'];
-//
-
-  console.log(params);
-
-  console.log(this);*/
-  // alert(this);
 
 });
 

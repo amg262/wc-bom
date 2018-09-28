@@ -32,7 +32,6 @@ if ( ! class_exists( 'WeDevs_Settings_API_Test' ) ):
 
 		function admin_menu() {
 
-
 			echo '';
 			add_options_page( 'Settings API', 'Settings API', 'manage_options', 'settings_api_test', [
 				$this,
@@ -66,6 +65,26 @@ if ( ! class_exists( 'WeDevs_Settings_API_Test' ) ):
 		 * @return array settings fields
 		 */
 		function get_settings_fields() {
+
+			foreach ( get_post_types() as $type ) {
+
+				//echo json_encode( $type );
+			}
+
+			$args = [
+				'posts_per_page'   => - 1,
+				'post_type'        => 'part',
+				'post_status'      => 'publish',
+				'suppress_filters' => true,
+			];
+
+			$posts_array = get_posts( $args );
+
+			foreach ( $posts_array as $post ) {
+				$post  = new WP_Post( $post );
+				$arr[] = [ $post->post_title => $post->post_title ];
+			}
+
 
 			$settings_fields = [
 				'wedevs_basics'   => [
@@ -126,8 +145,9 @@ if ( ! class_exists( 'WeDevs_Settings_API_Test' ) ):
 						'type'    => 'select',
 						'default' => 'no',
 						'options' => [
-							'yes' => 'Yes',
-							'no'  => 'No',
+							//json_encode( $arr )
+							//'yes' => 'Yes',
+							//'no'  => 'No',
 						],
 					],
 					[

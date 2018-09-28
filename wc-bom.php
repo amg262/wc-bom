@@ -132,7 +132,6 @@ class WCB_Core {
 	 */
 	protected function init() {
 
-
 		if ( ! add_option( 'wc_bom_1', '' ) ) {
 			update_option( 'wc_bom_1', 'true' );
 		}
@@ -154,7 +153,6 @@ class WCB_Core {
 		add_filter( 'plugin_action_links', [ $this, 'plugin_links' ], 10, 5 );
 		register_activation_hook( __FILE__, [ $this, 'activate' ] );
 		register_deactivation_hook( __FILE__, [ $this, 'deactivate' ] );
-
 
 	}
 
@@ -192,9 +190,6 @@ class WCB_Core {
 	public function load_assets() {
 
 		wp_register_script( 'bom_adm_js', plugins_url( 'assets/wc-bom.js', __FILE__ ), [ 'jquery' ] );
-		//wp_register_script( 'bom_adm_min_js', plugins_url( $url . 'wc-bom-admin.min.js', __FILE__ ), [ 'jquery' ] );
-		//wp_register_script( 'bom_adm_a_js', plugins_url( 'assets/wc-bom-admin.js', __FILE__ ), [ 'jquery' ] );
-		//wp_register_script( 'bom_adm_min_js', plugins_url( $url . 'wc-bom-admin.min.js', __FILE__ ), [ 'jquery' ] );
 
 		wp_enqueue_script( 'bom_adm_js' );
 		//wp_enqueue_script( 'bom_adm_a_js' );
@@ -209,7 +204,6 @@ class WCB_Core {
 		wp_enqueue_style( 'chosen_css' );
 		//wp_enqueue_style( 'bom_css' );
 	}
-
 
 	/**
 	 * @param $actions

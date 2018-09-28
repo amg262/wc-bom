@@ -75,7 +75,7 @@ class WCB_Post {
 				'title',
 				'editor',
 				'thumbnail',
-				'revisions',
+				//'revisions',
 				'author',
 				'page-attributes',
 			],
