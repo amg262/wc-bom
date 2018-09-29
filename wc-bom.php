@@ -113,15 +113,26 @@ function cysp_acf_json_load_point( $paths ) {
 
 	return $paths;
 }
+//add_action( 'admin_init', 'create_options' );
 
+register_activation_hook( __FILE__, 'create_options' );
 /**
  *
  */
 function create_options() {
 
+	$wcb_options = [];
+	if (!  add_option( 'wcb_options', [ 'init' => true ] ) ) {
+		return 'bullshit';
+	} else {
+		return 'faggot';
+
+	}
 
 }
-
+var_dump(get_option('wcb_options'));
+//delete_option('wcb_options');
+echo create_options();
 /**
  *
  */
