@@ -15,40 +15,37 @@ const minimatch = require('minimatch');
 const mkdirp = require('mkdirp');
 
 var paths = {
-  assets: 'assets/',
-  home: 'wc-bom.php',
-  js: 'assets/',
-  css: 'assets/',
-  img: 'assets/images/*',
-  dist: 'dist/',
-  logs: 'logs/',
-  data: 'assets/data/',
-  archive: 'assets/archive/',
-  dist_js: 'dist/',
-  dist_css: 'dist/',
-  dist_img: 'dist/images/',
-  includes: 'includes/*',
-  classes: 'classes/*.php',
+    assets: 'assets/',
+    home: 'wc-bom.php',
+    js: 'assets/',
+    css: 'assets/',
+    img: 'assets/images/*',
+    dist: 'dist/',
+    logs: 'logs/',
+    data: 'assets/data/',
+    archive: 'assets/archive/',
+    dist_js: 'dist/',
+    dist_css: 'dist/',
+    dist_img: 'dist/images/',
+    includes: 'includes/*',
+    classes: 'classes/*.php',
 };
 
 // Not all tasks need to use streams
 // A gulpfile is just another node program and you can use any package available on npm
-gulp.task('purge', function() {
-  gulp.src(paths.dist_img + '*').pipe(clean());
-  gulp.src(paths.dist + '*.css').pipe(clean());
-  gulp.src(paths.dist + '*.js').pipe(clean());
+gulp.task('purge', function () {
+    gulp.src(paths.dist_img + '*').pipe(clean());
+    gulp.src(paths.dist + '*.css').pipe(clean());
+    gulp.src(paths.dist + '*.js').pipe(clean());
 });
 
 // Copy all static images
-gulp.task('imagemin', function() {
-  gulp.src(paths.img).pipe(imagemin()).pipe(gulp.dest(paths.dist_img));
+gulp.task('imagemin', function () {
+    gulp.src(paths.img).pipe(imagemin()).pipe(gulp.dest(paths.dist_img));
 });
 
-gulp.task('cssnano', function() {
-  gulp.src(paths.css + '*.css').
-      pipe(cssnano()).
-      pipe(rename({suffix: '.min'})).
-      pipe(gulp.dest(paths.dist_css));
+gulp.task('cssnano', function () {
+    gulp.src(paths.css + '*.css').pipe(cssnano()).pipe(rename({suffix: '.min'})).pipe(gulp.dest(paths.dist_css));
 });
 //
 //gulp.task('scripts', function() {
@@ -60,12 +57,9 @@ gulp.task('cssnano', function() {
  *
  * https://www.npmjs.com/package/gulp-uglify
  */
-gulp.task('uglify', function() {
+gulp.task('uglify', function () {
 
-  gulp.src(paths.js + '*.js').
-      pipe(uglify()).
-      pipe(rename({suffix: '.min'})).
-      pipe(gulp.dest(paths.dist_js));
+    gulp.src(paths.js + '*.js').pipe(uglify()).pipe(rename({suffix: '.min'})).pipe(gulp.dest(paths.dist_js));
 });
 //
 //gulp.task('zip', function() {
@@ -79,24 +73,24 @@ gulp.task('uglify', function() {
 //});
 
 // Static Server + watching scss/html files
-gulp.task('serve', function() {
+gulp.task('serve', function () {
 
-  browserSync.init({
-    proxy: 'http://localhost/wordpress/wp-admin/',
-  });
+    browserSync.init({
+        proxy: 'http://localhost/wordpress/wp-admin/',
+    });
 
 });
 
 // Rerun the task when a file changes
-gulp.task('watch', function() {
-  //gulp.watch(paths.scripts, ["scripts"]);
-  gulp.watch(paths.home).on('change', browserSync.reload);
-  gulp.watch('gulpfile.js').on('change', browserSync.reload);
-  gulp.watch(paths.assets + '*').on('change', browserSync.reload);
-  gulp.watch(paths.includes).on('change', browserSync.reload);
+gulp.task('watch', function () {
+    //gulp.watch(paths.scripts, ["scripts"]);
+    gulp.watch(paths.home).on('change', browserSync.reload);
+    gulp.watch('gulpfile.js').on('change', browserSync.reload);
+    gulp.watch(paths.assets + '*').on('change', browserSync.reload);
+    gulp.watch(paths.includes).on('change', browserSync.reload);
 });
 gulp.task('go',
-    ['purge','imagemin','cssnano','uglify','serve','watch']);
+    ['purge', 'imagemin', 'cssnano', 'uglify', 'serve', 'watch']);
 //gulp.task('go',
 //    ['purge', 'imagemin', 'cssnano', 'uglify', 'serve', 'watch']);
 gulp.task('clean', ['purge', 'imagemin', 'cssnano', 'uglify', 'zip']);

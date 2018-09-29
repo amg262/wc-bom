@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die( 'No direct access allowed' );
 }
 
-define( 'WC_BOM_TBL', 'wc_bom' );
+define( 'WCB_TBL', 'wc_bom' );
 
 
 add_action( 'admin_notices', 'check_woocommerce' );
@@ -72,7 +72,6 @@ if ( ! class_exists( 'acf' ) ) { // if ACF Pro plugin does not currently exist
 	}
 
 
-	
 	/** End: Customize ACF path */
 	/** Start: Hide ACF field group menu item */
 	//  add_filter( 'acf/settings/show_admin', '__return_false' );
@@ -115,6 +114,7 @@ function cysp_acf_json_load_point( $paths ) {
 
 	return $paths;
 }
+
 //add_action( 'admin_init', 'create_options' );
 
 register_activation_hook( __FILE__, 'create_options' );
@@ -124,7 +124,7 @@ register_activation_hook( __FILE__, 'create_options' );
 function create_options() {
 
 	$wcb_options = [];
-	if (!  add_option( 'wcb_options', [ 'init' => true ] ) ) {
+	if ( ! add_option( 'wcb_options', [ 'init' => true ] ) ) {
 		return 'bullshit';
 	} else {
 		return 'faggot';
@@ -132,25 +132,25 @@ function create_options() {
 	}
 
 }
-var_dump(get_option('wcb_options'));
+add_action('admin_init','upgrade_data');
+add_action('admin_init','install_data');
+//var_dump( get_option( 'wcb_options' ) );
 //delete_option('wcb_options');
 //echo create_options();
 /**
  *
  */
-function install_data() {
+function install_data(  ) {
 	global $wpdb;
-
-	$welcome_name = 'Mr. WordPress';
-	$welcome_text = 'Congratulations, you just completed the installation!';
 
 	$table_name = $wpdb->prefix . WCB_TBL;
 
 	$wpdb->insert( $table_name, [
-		'time' => current_time( 'mysql' ),
-		'name' => $welcome_name,
-		'data' => $welcome_text,
-		'url'  => 'http://cloudground.net/',
+		'post_id' => 3,
+		'type'    => 'part',
+		'data'    => 'yo',
+		'time'    => current_time( 'mysql' ),
+		'active'  => - 1,
 	] );
 }
 
@@ -172,30 +172,19 @@ function delete_db() {
  */
 function upgrade_data() {
 	global $wpdb;
-
-	global $wcb_data;
-
-
 	$table_name = $wpdb->prefix . WCB_TBL;
 
 	$sql = "CREATE TABLE IF NOT EXISTS $table_name (
 					id int(11) NOT NULL AUTO_INCREMENT,
-					title varchar(255),
 					post_id int(11),
 					type varchar(255),
-					sub_ids text,
 					data text ,
 					time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-					active tinyint(1) DEFAULT -1 NOT NULL,
+					active tinyint(1) DEFAULT -1,
 					PRIMARY KEY  (id)
 				);";
-
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-
-
 	dbDelta( $sql );
-
-
 }
 
 require __DIR__ . '/core.php';
