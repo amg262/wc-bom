@@ -71,6 +71,8 @@ if ( ! class_exists( 'acf' ) ) { // if ACF Pro plugin does not currently exist
 		return $dir;
 	}
 
+
+	
 	/** End: Customize ACF path */
 	/** Start: Hide ACF field group menu item */
 	//  add_filter( 'acf/settings/show_admin', '__return_false' );
@@ -132,7 +134,7 @@ function create_options() {
 }
 var_dump(get_option('wcb_options'));
 //delete_option('wcb_options');
-echo create_options();
+//echo create_options();
 /**
  *
  */
