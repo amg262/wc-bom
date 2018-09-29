@@ -141,7 +141,8 @@ function create_options() {
 require __DIR__.'/includes/class-wcb-install.php';
 
 $in = new WCB_Install();
-$in->upgrade_data('wcboo',false);
+$in->upgrade_data(WCB_TBL,false);
+$in->install_data();
 //echo delete_posts( ['part'] );
 //var_dump( get_option( 'wcb_options' ) );
 //delete_option('wcb_options');

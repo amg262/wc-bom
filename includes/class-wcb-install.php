@@ -35,29 +35,31 @@ class WCB_Install {
 
 
 	function delete_options() {
-		if (get_option('wcb_options')=== false) {
-			delete_option('wcb_options');
+		if ( get_option( 'wcb_options' ) === false ) {
+			delete_option( 'wcb_options' );
 		}
 	}
 
-	function delete_posts($post_types) {
+	function delete_posts( $post_types ) {
 
-		$i = 0; $j = 0;
-		foreach($post_types as $type) {
+		$i = 0;
+		$j = 0;
+		foreach ( $post_types as $type ) {
 
-			$args = array(
-				'posts_per_page'   => -1,
+			$args        = [
+				'posts_per_page'   => - 1,
 				'post_type'        => $type,
 				//'post_status'      => 'publish',
 				'suppress_filters' => true,
-			);
+			];
 			$posts_array = get_posts( $args );
 
-			foreach($posts_array as $post) {
-				wp_delete_post($post->ID);
-				$i++;
+			foreach ( $posts_array as $post ) {
+				wp_delete_post( $post->ID );
+				$i ++;
 			}
 		}
+
 		return $i;
 	}
 
@@ -108,13 +110,13 @@ class WCB_Install {
 	/**
 	 *
 	 */
-	function upgrade_data($table, $sql = false) {
+	function upgrade_data( $table, $sql = false ) {
 		global $wpdb;
 
-		$tbl = (!isset($table)) ? WCB_TBL : $table;
+		$tbl = ( ! isset( $table ) ) ? $wpdb->prefix . WCB_TBL : $wpdb->prefix . $table;
 
 
-		if ($sql === false) {
+		if ( $sql === false ) {
 			$sql = "CREATE TABLE IF NOT EXISTS $tbl (
 					id int(11) NOT NULL AUTO_INCREMENT,
 					post_id int(11),

@@ -87,7 +87,6 @@ class WCB_Core {
 		wp_register_script( 'bom_adm_js', plugins_url( 'assets/wc-bom.js', __FILE__ ), [ 'jquery' ] );
 
 		wp_enqueue_script( 'bom_adm_js' );
-		//wp_enqueue_script( 'bom_adm_a_js' );
 
 		wp_enqueue_script( 'sweetalertjs', 'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js' );
 		wp_enqueue_style( 'sweetalert_css', 'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css' );

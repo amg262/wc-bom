@@ -19,6 +19,7 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/amg262/wc-bom#readme",
   "dependencies": {
+    "bootstrap-tour": "^0.12.0",
     "browser-sync": "^2.18.8",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
@@ -35,6 +36,7 @@
     "gulp-watch": "^4.3.11",
     "gulp-zip": "^4.0.0",
     "node-gyp": "^3.6.1",
+    "sweetalert": "^2.1.0",
     "wpapi": "^1.0.2"
   }
 }
