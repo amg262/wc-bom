@@ -132,15 +132,49 @@ function create_options() {
 	}
 
 }
-add_action('admin_init','upgrade_data');
-add_action('admin_init','install_data');
+
+//add_action( 'admin_init', 'upgrade_data' );
+//add_action( 'admin_init', 'install_data' );
+//add_action( 'admin_init', 'delete_db' );
+
+
+require __DIR__.'/includes/class-wcb-install.php';
+
+$in = new WCB_Install();
+$in->upgrade_data('wcboo',false);
+//echo delete_posts( ['part'] );
 //var_dump( get_option( 'wcb_options' ) );
 //delete_option('wcb_options');
 //echo create_options();
+
+
+function delete_posts( $post_types ) {
+
+	$i = 0;
+	$j = 0;
+	foreach ( $post_types as $type ) {
+
+		$args        = [
+			'posts_per_page'   => - 1,
+			'post_type'        => $type,
+			//'post_status'      => 'publish',
+			'suppress_filters' => true,
+		];
+		$posts_array = get_posts( $args );
+
+		foreach ( $posts_array as $post ) {
+			wp_delete_post( $post->ID );
+			$i ++;
+		}
+	}
+
+	return $i;
+}
+
 /**
  *
  */
-function install_data(  ) {
+function install_data() {
 	global $wpdb;
 
 	$table_name = $wpdb->prefix . WCB_TBL;
@@ -164,7 +198,7 @@ function delete_db() {
 	$table_name = $wpdb->prefix . WCB_TBL;
 
 	//$q = "SELECT * FROM " . $table_name . " WHERE id > 0  ;";
-	$wpdb->query( "DROP TABLE IF EXISTS  . $table_name . " );
+	$wpdb->query( "DROP TABLE IF EXISTS $table_name ;" );
 }
 
 /**
